@@ -1,8 +1,15 @@
 package model.crypto;
 
-public class AES implements Cipher {
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.SecureRandom;
+
+public class AES implements CryptoCipher {
 
     private byte[] key;
+    private byte[] iv;
+    private int ivSize;
 
     /**
      * Construct an AES Object.
@@ -10,6 +17,7 @@ public class AES implements Cipher {
      */
     public AES(final byte[] key) {
         this.key = key;
+        this.ivSize = 16;
     }
 
     /**
@@ -29,7 +37,19 @@ public class AES implements Cipher {
     }
 
     @Override
-    public final String encrypt(final String plaintext) {
+    public final byte[] encrypt(final String plaintext) {
+        try {
+            this.iv = new byte[ivSize];
+            SecureRandom random = new SecureRandom();
+            random.nextBytes(this.iv);
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(this.key, "AES");
+            Cipher aes = Cipher.getInstance("AES/CBC/PKCS7Padding");
+            aes.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+            return aes.doFinal(plaintext.getBytes());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         // TODO Auto-generated method stub
         return null;
     }

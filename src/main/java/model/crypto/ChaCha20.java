@@ -1,6 +1,6 @@
 package model.crypto;
 
-public class ChaCha20 implements Cipher {
+public class ChaCha20 implements CryptoCipher {
 
     private byte[] key;
 
@@ -30,7 +30,7 @@ public class ChaCha20 implements Cipher {
 
 
     @Override
-    public final String encrypt(final String plaintext) {
+    public final byte[] encrypt(final String plaintext) {
         // TODO Auto-generated method stub
         return null;
     }

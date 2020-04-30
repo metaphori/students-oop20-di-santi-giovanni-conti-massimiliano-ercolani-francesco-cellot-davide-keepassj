@@ -8,7 +8,7 @@ public class CipherFactory {
      * @param key
      * @return Cipher Object
      */
-    public Cipher getCipher(final String cipherType, final byte[] key) {
+    public CryptoCipher getCipher(final String cipherType, final byte[] key) {
         if (cipherType == null) {
             return null;
         }

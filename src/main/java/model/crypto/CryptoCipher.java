@@ -5,13 +5,13 @@ package model.crypto;
  * Interface class that has the following methods.
  */
 
-public interface Cipher {
+public interface CryptoCipher {
     /**
      * Encrypt an arbitrary plaintext.
      * @param plaintext
      * @return ciphertext
      */
-    String encrypt(String plaintext);
+    byte[] encrypt(String plaintext);
 
     /**
      * Decrypt an arbitrary ciphertext.
