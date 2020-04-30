@@ -8,17 +8,16 @@ package model.crypto;
 public interface Cipher {
     /**
      * Encrypt an arbitrary plaintext.
-     * @param key
      * @param plaintext
      * @return ciphertext
      */
-    String encrypt(byte[] key, String plaintext);
+    String encrypt(String plaintext);
 
     /**
      * Decrypt an arbitrary ciphertext.
-     * @param key
      * @param ciphertext
      * @return plaintext
      */
-    String decrypt(byte[] key, String ciphertext);
+    String decrypt(String ciphertext);
+
 }
