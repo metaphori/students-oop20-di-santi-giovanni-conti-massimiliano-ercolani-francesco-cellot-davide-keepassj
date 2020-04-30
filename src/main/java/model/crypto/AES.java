@@ -14,6 +14,7 @@ public class AES implements CryptoCipher {
     private byte[] iv;
     private int ivSize;
     private Cipher aes;
+    private IvParameterSpec ivParameterSpec;
     /**
      * Construct an AES Object.
      * @param key
@@ -23,6 +24,7 @@ public class AES implements CryptoCipher {
     public AES(final byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException {
         this.key = key;
         this.ivSize = 16;
+        // Set no padding and implement PKCS7
         this.aes = Cipher.getInstance("AES/CBC/PKCS7Padding");
     }
 
@@ -48,9 +50,9 @@ public class AES implements CryptoCipher {
             this.iv = new byte[ivSize];
             SecureRandom random = new SecureRandom();
             random.nextBytes(this.iv);
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+            this.ivParameterSpec = new IvParameterSpec(iv);
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.key, "AES");
-            this.aes.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+            this.aes.init(Cipher.ENCRYPT_MODE, secretKeySpec, this.ivParameterSpec);
             return this.aes.doFinal(plaintext.getBytes());
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
@@ -63,7 +65,7 @@ public class AES implements CryptoCipher {
     public final byte[] decrypt(final byte[] ciphertext) {
         try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.key, "AES");
-            this.aes.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            this.aes.init(Cipher.DECRYPT_MODE, secretKeySpec, this.ivParameterSpec);
             return this.aes.doFinal(ciphertext);
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
