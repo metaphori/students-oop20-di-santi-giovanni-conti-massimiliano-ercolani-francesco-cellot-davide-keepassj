@@ -1,19 +1,19 @@
 package model.crypto;
 
-public class AES implements Cipher {
+public class ChaCha20 implements Cipher {
 
     private byte[] key;
 
     /**
-     * Construct an AES Object.
+     * Construct an ChaCha20 Object.
      * @param key
      */
-    public AES(final byte[] key) {
+    public ChaCha20(final byte[] key) {
         this.key = key;
     }
 
     /**
-     * Return the AES key.
+     * Return the ChaCha20 key.
      * @return key
      */
     public final byte[] getKey() {
@@ -21,12 +21,13 @@ public class AES implements Cipher {
     }
 
     /**
-     * Set AES key.
+     * Set ChaCha20 key.
      * @param key
      */
     public void setKey(final byte[] key) {
         this.key = key;
     }
+
 
     @Override
     public final String encrypt(final String plaintext) {
@@ -37,17 +38,6 @@ public class AES implements Cipher {
     @Override
     public final String decrypt(final String ciphertext) {
         // TODO Auto-generated method stub
-        return null;
-    }
-
-    /**
-     * Encrypt plaintext with AES 256 CBC.
-     * @param key
-     * @param plaintext
-     * @return ciphertext
-     */
-    public final String shit(final byte[] key, final String plaintext) {
-        //TODO
         return null;
     }
 
