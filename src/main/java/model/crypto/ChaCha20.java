@@ -36,7 +36,7 @@ public class ChaCha20 implements CryptoCipher {
     }
 
     @Override
-    public final String decrypt(final String ciphertext) {
+    public final byte[] decrypt(final byte[] ciphertext) {
         // TODO Auto-generated method stub
         return null;
     }

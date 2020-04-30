@@ -1,5 +1,9 @@
 package model.crypto;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.NoSuchPaddingException;
+
 public class CipherFactory {
 
     /**
@@ -7,8 +11,11 @@ public class CipherFactory {
      * @param cipherType
      * @param key
      * @return Cipher Object
+     * @throws NoSuchPaddingException 
+     * @throws NoSuchAlgorithmException 
      */
-    public CryptoCipher getCipher(final String cipherType, final byte[] key) {
+    public CryptoCipher getCipher(final String cipherType, final byte[] key) throws NoSuchAlgorithmException,
+        NoSuchPaddingException {
         if (cipherType == null) {
             return null;
         }

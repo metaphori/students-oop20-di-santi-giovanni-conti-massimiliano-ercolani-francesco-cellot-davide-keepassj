@@ -1,5 +1,8 @@
 package model.crypto;
 
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+
 /**
  * Crypto.java
  * Interface class that has the following methods.
@@ -10,14 +13,16 @@ public interface CryptoCipher {
      * Encrypt an arbitrary plaintext.
      * @param plaintext
      * @return ciphertext
+     * @throws InvalidAlgorithmParameterException 
+     * @throws InvalidKeyException 
      */
-    byte[] encrypt(String plaintext);
+    byte[] encrypt(String plaintext) throws InvalidKeyException, InvalidAlgorithmParameterException;
 
     /**
      * Decrypt an arbitrary ciphertext.
      * @param ciphertext
      * @return plaintext
      */
-    String decrypt(String ciphertext);
+    byte[] decrypt(byte[] ciphertext);
 
 }
