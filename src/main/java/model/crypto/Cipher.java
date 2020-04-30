@@ -5,7 +5,7 @@ package model.crypto;
  * Interface class that has the following methods.
  */
 
-public interface Crypto {
+public interface Cipher {
     /**
      * Encrypt an arbitrary plaintext.
      * @param key
