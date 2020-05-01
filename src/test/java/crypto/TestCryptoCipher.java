@@ -1,4 +1,4 @@
-package repo;
+package crypto;
 
 import org.junit.Assert;
 
