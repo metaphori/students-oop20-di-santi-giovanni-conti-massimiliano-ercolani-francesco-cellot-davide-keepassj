@@ -10,7 +10,11 @@ import java.security.SecureRandom;
 
 public class AES implements CryptoCipher {
 
-    private static final int BLOCKSIZE = 16;
+    /**
+     * BLOCKSIZE This is the Block Size of AES.
+     */
+    public static final int BLOCKSIZE = 16;
+
     private byte[] key;
     private byte[] iv;
     private int ivSize;
@@ -25,7 +29,7 @@ public class AES implements CryptoCipher {
      */
     public AES(final byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException {
         this.key = key;
-        this.ivSize = BLOCKSIZE;
+        this.ivSize = AES.BLOCKSIZE;
         this.aes = Cipher.getInstance("AES/CBC/NoPadding");
         this.iv = new byte[ivSize];
         SecureRandom random = new SecureRandom();
@@ -36,7 +40,7 @@ public class AES implements CryptoCipher {
 
     /**
      * Return the AES key.
-     * @return key
+     * @return key This is an AES key
      */
     public final byte[] getKey() {
         return key;
@@ -51,10 +55,11 @@ public class AES implements CryptoCipher {
     }
 
     @Override
-    public final byte[] encrypt(final String plaintext) {
+    public final byte[] encrypt(final byte[] plaintext) {
         try {
             this.aes.init(Cipher.ENCRYPT_MODE, secretKeySpec, this.ivParameterSpec);
-            byte[] encrypted = this.aes.doFinal(plaintext.getBytes());
+            byte[] plaintextPadded = Util.pad(plaintext, AES.BLOCKSIZE);
+            byte[] encrypted = this.aes.doFinal(plaintextPadded);
             byte[] ciphertext = new byte[ivSize + encrypted.length];
             System.arraycopy(this.iv, 0, ciphertext, 0, this.ivSize);
             System.arraycopy(encrypted, 0, ciphertext, this.ivSize, encrypted.length);
@@ -75,7 +80,7 @@ public class AES implements CryptoCipher {
             this.ivParameterSpec = new IvParameterSpec(this.iv);
             SecretKeySpec secretKeySpec = new SecretKeySpec(this.key, "AES");
             this.aes.init(Cipher.DECRYPT_MODE, secretKeySpec, this.ivParameterSpec);
-            return this.aes.doFinal(encrypted);
+            return Util.unpad(this.aes.doFinal(encrypted));
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
         }

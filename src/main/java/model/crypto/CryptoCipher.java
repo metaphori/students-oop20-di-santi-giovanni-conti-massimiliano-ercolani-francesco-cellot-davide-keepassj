@@ -16,7 +16,7 @@ public interface CryptoCipher {
      * @throws InvalidAlgorithmParameterException 
      * @throws InvalidKeyException 
      */
-    byte[] encrypt(String plaintext) throws InvalidKeyException, InvalidAlgorithmParameterException;
+    byte[] encrypt(byte[] plaintext) throws InvalidKeyException, InvalidAlgorithmParameterException;
 
     /**
      * Decrypt an arbitrary ciphertext.
