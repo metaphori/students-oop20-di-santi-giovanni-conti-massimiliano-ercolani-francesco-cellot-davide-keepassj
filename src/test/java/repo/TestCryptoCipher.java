@@ -1,6 +1,6 @@
 package repo;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -11,19 +11,23 @@ import javax.crypto.NoSuchPaddingException;
 import org.junit.Test;
 import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
+import java.util.Arrays;
 
 public class TestCryptoCipher {
 
     @Test
     public void testAES() {
-        String key = new String("YELLOW SUBMARINE");
-        String plaintext = new String("This is a plaintext");
+        String key = new String("YELLOW SUBMARINEYELLOW SUBMARINE");
+        byte[] plaintext = new byte[16];
+        Arrays.fill(plaintext, (byte) 'a');
+
         CipherFactory cipherFactory = new CipherFactory();
         try {
             CryptoCipher aes = cipherFactory.getCipher("AES", key.getBytes());
             try {
-                System.out.println(aes.decrypt(aes.encrypt(plaintext)));
-                assertEquals(plaintext, aes.decrypt(aes.encrypt(plaintext)));
+                byte[] result = aes.decrypt(aes.encrypt(new String(plaintext)));
+                Assert.assertArrayEquals(plaintext, result);
+                System.out.println("AES is working");
             } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -35,7 +39,6 @@ public class TestCryptoCipher {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        fail("Not yet implemented");
     }
 
 }
