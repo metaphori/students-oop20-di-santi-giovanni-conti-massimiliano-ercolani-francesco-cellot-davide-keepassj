@@ -4,6 +4,8 @@ package application;
  * keepassj main
  *
  */
-public static void main(final String[] args) {
-
+public class Main {
+    
+    public static void main(final String[] args) {
+    }
 }
