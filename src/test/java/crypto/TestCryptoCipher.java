@@ -18,15 +18,15 @@ import java.util.List;
 
 public class TestCryptoCipher {
 
+    private static final int MAXSIZE = 50;
     @Test
     public void testAES() {
         List<Integer> plaintextSize = new ArrayList<>();
-        plaintextSize.add(7);
-        plaintextSize.add(16);
-        plaintextSize.add(28);
-        plaintextSize.add(53);
+        for (int i = 0; i < MAXSIZE; i++) {
+            plaintextSize.add(i);
+        }
+        String key = new String("YELLOW SUBMARINEYELLOW SUBMARINE");
         for (final Integer s: plaintextSize) {
-            String key = new String("YELLOW SUBMARINEYELLOW SUBMARINE");
             byte[] plaintext = new byte[s];
             Arrays.fill(plaintext, (byte) 'a');
             CipherFactory cipherFactory = new CipherFactory();
