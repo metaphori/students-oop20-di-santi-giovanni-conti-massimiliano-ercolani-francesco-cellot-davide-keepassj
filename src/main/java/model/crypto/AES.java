@@ -17,10 +17,10 @@ public class AES implements CryptoCipher {
 
     private byte[] key;
     private byte[] iv;
-    private int ivSize;
-    private Cipher aes;
+    private final Cipher aes;
     private IvParameterSpec ivParameterSpec;
     private SecretKeySpec secretKeySpec;
+    private final SecureRandom random;
     /**
      * Construct an AES Object.
      * @param key
@@ -29,18 +29,31 @@ public class AES implements CryptoCipher {
      */
     public AES(final byte[] key) throws NoSuchAlgorithmException, NoSuchPaddingException {
         this.key = key;
-        this.ivSize = AES.BLOCKSIZE;
         this.aes = Cipher.getInstance("AES/CBC/NoPadding");
-        this.iv = new byte[ivSize];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(this.iv);
-        this.ivParameterSpec = new IvParameterSpec(iv);
+        this.iv = new byte[AES.BLOCKSIZE];
+        this.random = new SecureRandom();
+        this.random.nextBytes(this.iv);
+        initialize(key, iv);
+        /*
+        this.ivParameterSpec = new IvParameterSpec(this.iv);
+        this.secretKeySpec = new SecretKeySpec(this.key, "AES");
+        */
+    }
+
+    private void initialize(final byte[] key, final byte[] iv) {
+        this.key = key;
+        this.iv = iv;
+        this.ivParameterSpec = new IvParameterSpec(this.iv);
         this.secretKeySpec = new SecretKeySpec(this.key, "AES");
     }
 
+    private void initialize(final byte[] key) {
+        this.random.nextBytes(this.iv);
+        initialize(key, iv);
+    }
     /**
      * Return the AES key.
-     * @return key This is an AES key
+     * @return key This is an AES key.
      */
     public final byte[] getKey() {
         return key;
@@ -48,10 +61,10 @@ public class AES implements CryptoCipher {
 
     /**
      * Set AES key.
-     * @param key
+     * @param key 16/24/32 bytes key.
      */
     public void setKey(final byte[] key) {
-        this.key = key;
+        initialize(key);
     }
 
     @Override
@@ -60,9 +73,9 @@ public class AES implements CryptoCipher {
             this.aes.init(Cipher.ENCRYPT_MODE, secretKeySpec, this.ivParameterSpec);
             byte[] plaintextPadded = Util.pad(plaintext, AES.BLOCKSIZE);
             byte[] encrypted = this.aes.doFinal(plaintextPadded);
-            byte[] ciphertext = new byte[ivSize + encrypted.length];
-            System.arraycopy(this.iv, 0, ciphertext, 0, this.ivSize);
-            System.arraycopy(encrypted, 0, ciphertext, this.ivSize, encrypted.length);
+            byte[] ciphertext = new byte[AES.BLOCKSIZE + encrypted.length];
+            System.arraycopy(this.iv, 0, ciphertext, 0, AES.BLOCKSIZE);
+            System.arraycopy(encrypted, 0, ciphertext, AES.BLOCKSIZE, encrypted.length);
             return ciphertext;
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
@@ -73,13 +86,12 @@ public class AES implements CryptoCipher {
     @Override
     public final byte[] decrypt(final byte[] ciphertext) {
         try {
-            System.arraycopy(ciphertext, 0, this.iv, 0, this.iv.length);
-            int encryptedSize = ciphertext.length - this.ivSize;
-            byte[] encrypted = new byte[encryptedSize];
-            System.arraycopy(ciphertext, this.ivSize, encrypted, 0, encryptedSize);
+            System.arraycopy(ciphertext, 0, this.iv, 0, AES.BLOCKSIZE);
+            final int encryptedSize = ciphertext.length - AES.BLOCKSIZE;
+            final byte[] encrypted = new byte[encryptedSize];
+            System.arraycopy(ciphertext, AES.BLOCKSIZE, encrypted, 0, encryptedSize);
             this.ivParameterSpec = new IvParameterSpec(this.iv);
-            SecretKeySpec secretKeySpec = new SecretKeySpec(this.key, "AES");
-            this.aes.init(Cipher.DECRYPT_MODE, secretKeySpec, this.ivParameterSpec);
+            this.aes.init(Cipher.DECRYPT_MODE, this.secretKeySpec, this.ivParameterSpec);
             return Util.unpad(this.aes.doFinal(encrypted));
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
