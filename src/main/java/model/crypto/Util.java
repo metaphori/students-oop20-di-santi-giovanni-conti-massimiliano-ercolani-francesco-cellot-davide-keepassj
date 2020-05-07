@@ -1,6 +1,8 @@
 package model.crypto;
 
 import java.util.Arrays;
+
+import javax.crypto.BadPaddingException;
 /**
  * Class with frequent cryptography utilities.
  *
@@ -33,11 +35,11 @@ public class Util {
      * @param message The message to unpad.
      * @return unpadded The message PKCS7 unpadded.
      */
-    static byte[] unpad(final byte[] message) throws IllegalAccessException { 
+    static byte[] unpad(final byte[] message) throws BadPaddingException { 
         int padded = message[message.length - 1];
         for (int i = message.length - 1; i >= message.length - padded; i--) {
             if (message[i] != (byte) padded) {
-                throw new IllegalAccessException("PKCS7 Padding error");
+                throw new BadPaddingException("PKCS7 Padding error");
             }
         }
         byte[] unpadded = new byte[message.length - padded];
