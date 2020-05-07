@@ -9,10 +9,28 @@ import org.apache.commons.codec.binary.Hex;
 
 public class KDB4Header {
 
-    private final Map<String, Integer> fields;
-    private final Map<byte[], String> ciphers;
-    private final Map<Integer, String> protectedStreams;
+    private Map<String, Integer> fields;
+    private Map<byte[], String> ciphers;
+    private Map<Integer, String> protectedStreams;
 
+    public final Map<String, Integer> getFields() {
+        return fields;
+    }
+    public final void setFields(final Map<String, Integer> fields) {
+        this.fields = fields;
+    }
+    public final Map<byte[], String> getCiphers() {
+        return ciphers;
+    }
+    public final void setCiphers(final Map<byte[], String> ciphers) {
+        this.ciphers = ciphers;
+    }
+    public final Map<Integer, String> getProtectedStreams() {
+        return protectedStreams;
+    }
+    public final void setProtectedStreams(final Map<Integer, String> protectedStreams) {
+        this.protectedStreams = protectedStreams;
+    }
     KDB4Header() throws DecoderException {
         this.fields = Map.ofEntries(
                 entry("EndOfHeader", 0),
