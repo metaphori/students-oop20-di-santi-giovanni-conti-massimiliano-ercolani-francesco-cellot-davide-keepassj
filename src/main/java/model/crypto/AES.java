@@ -41,32 +41,6 @@ public class AES implements CryptoCipher {
     }
 
     /**
-     * Construct an AES Object.
-     * @param key This is a 16/24/32 bytes key.
-     * @param iv This is the IV to use for the encryption. If null than a random one is generated.
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchPaddingException
-    public AES(final byte[] key, final byte[] iv) {
-        this.cipher = null;
-        this.random = new SecureRandom();
-        this.iv = new byte[AES.BLOCKSIZE];
-        try {
-            this.random = new SecureRandom();
-            this.cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            if (iv == null) {
-                this.random.nextBytes(this.iv);
-            } else {
-                System.arraycopy(iv, 0, this.iv, 0, iv.length);
-            }
-            this.ivParameterSpec = new IvParameterSpec(this.iv);
-            this.aesKey = new SecretKeySpec(key, "AES");
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            System.out.println("Error building AES object: " + e.toString());
-        }
-    }
-    */
-
-    /**
      * Return the AES key.
      * @return key.
      */
@@ -85,7 +59,7 @@ public class AES implements CryptoCipher {
     /**
      * Encrypt arbitrary with AES CBC plaintext.
      * @param plaintext This is the plaintext to encrypt.
-     * @param iv This is the iv used in AES CBC to encrypt correctly the plaintext.
+     * @param iv This is the IV used in AES CBC to encrypt correctly the plaintext.
      * @return ciphertext.
      */
     @Override
@@ -102,8 +76,25 @@ public class AES implements CryptoCipher {
     }
 
     /**
+     * NOT READY TO USE, MUST EDIT ALSO THE INTERFACE
+     * AES CBC Encrypt arbitrary plaintext. This method create a random IV and prepend it to the ciphertext.
+     * @param plaintext This is the plaintext to encrypt.
+     * @return ciphertext.
+    public final byte[] encrypt(final byte[] plaintext) {
+        final byte[] iv = new byte[AES.BLOCKSIZE];
+        this.random.nextBytes(iv);
+        byte[] encrypted = this.encrypt(plaintext, iv);
+        byte[] ciphertext = new byte[AES.BLOCKSIZE + encrypted.length];
+        System.arraycopy(iv, 0, ciphertext, 0, AES.BLOCKSIZE);
+        System.arraycopy(encrypted, 0, ciphertext, AES.BLOCKSIZE, encrypted.length);
+        return ciphertext;
+    }
+    */
+
+    /**
+     * AES CBC Decrypt arbitrary ciphertext.
      * @param ciphertext This is the ciphertext to decrypt with AES CBC.
-     * @param iv This is the iv used in AES CBC to decrypt correctly the ciphertext.
+     * @param iv This is the IV used in AES CBC to decrypt correctly the ciphertext.
      * @return plaintext.
      */
     @Override
@@ -118,5 +109,19 @@ public class AES implements CryptoCipher {
         }
         return null;
     }
+
+    /**
+     * NOT READY TO USE, MUST EDIT ALSO THE INTERFACE
+     * AES CBC Decrypt arbitrary ciphertext. The first AES.BLOCKSIZE bytes are used as the IV
+     * @param ciphertext This is the ciphertext to decrypt.
+     * @return plaintext.
+    public final byte[] decrypt(final byte[] ciphertext) {
+        final byte[] iv = new byte[AES.BLOCKSIZE];
+        final byte[] encrypted = new byte[ciphertext.length - AES.BLOCKSIZE];
+        System.arraycopy(ciphertext, 0, iv, 0, AES.BLOCKSIZE);
+        System.arraycopy(ciphertext, AES.BLOCKSIZE, encrypted, 0, encrypted.length);
+        return this.decrypt(encrypted, iv);
+    }
+    */
 
 }
