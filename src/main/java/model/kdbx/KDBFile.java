@@ -45,14 +45,17 @@ public abstract class KDBFile {
         this.byteStream = byteStream;
     }
 
-    private ByteBuffer byteStream;
+    /**
+     * This is the ByteBuffer of the file.
+     */
+    public ByteBuffer byteStream;
     /**
      * Abstract class to define common operation between all KDB versions.
      * @param stream This it the stream of the database.
      */
     public KDBFile(final FileInputStream stream) {
         try {
-            byteStream = ByteBuffer.wrap(stream.readAllBytes());
+            this.byteStream = ByteBuffer.wrap(stream.readAllBytes());
         } catch (IOException e) {
             System.out.println("Error reading stream KDBFile: " + e.toString());
         }

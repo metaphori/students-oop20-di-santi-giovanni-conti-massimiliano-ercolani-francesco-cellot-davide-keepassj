@@ -30,6 +30,7 @@ public class TestCryptoCipher {
         byte[] iv = new byte[AES.BLOCKSIZE];
         byte[] key = new byte[AES.BLOCKSIZE * 2];
         byte[] expected;
+        // I used cyberchef and pycryptodome to confirm this output
         expected = hexToBytes("01d1c52d4aba05c503e38ec71ea11b7158f670041fc0ff7e549988924f2b7818");
         Arrays.fill(iv, (byte) 'b');
         Arrays.fill(key, (byte) 'a');

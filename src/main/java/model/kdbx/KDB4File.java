@@ -6,20 +6,25 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 
-public class KDB4File extends KDBFile {
+public class KDB4File {
 
-    private static final int SKIP = 12;
+    private static final int SIGNATURE_LENGTH = 12;
     private ByteBuffer currentStream;
     private KDB4Header header;
     public KDB4File(final FileInputStream stream) {
-        super(stream);
+        try {
+            this.currentStream = ByteBuffer.wrap(stream.readAllBytes());
+        } catch (IOException e) {
+            System.out.println("Error reading stream KDBFile: " + e.toString());
+        }
         try {
             header = new KDB4Header();
         } catch (DecoderException e) {
             e.printStackTrace();
         }
-        currentStream.order(ByteOrder.LITTLE_ENDIAN);
+        this.currentStream.order(ByteOrder.LITTLE_ENDIAN);
     }
 
     @SuppressWarnings("unused")
@@ -28,7 +33,9 @@ public class KDB4File extends KDBFile {
         int length = 0;
         byte[] data;
         try {
-            stream.skip(KDB4File.SKIP);
+            if (stream.skip(KDB4File.SIGNATURE_LENGTH) != KDB4File.SIGNATURE_LENGTH) {
+                throw new IOException("Error KDB4File skipping header");
+            }
             currentStream = ByteBuffer.wrap(stream.readAllBytes());
             while (true) {
                 fieldId = (int) currentStream.get();
@@ -37,15 +44,19 @@ public class KDB4File extends KDBFile {
                 if (length > 0) {
                     currentStream.get(data, 0, length);
                     // Add data to header
-                    // TODO
+                    this.header.setField(fieldId, data);
                 } else if (length == 0) {
+                    System.out.println(Hex.encodeHex(this.header.getField(Field.CIPHERID)));
                     this.setHeaderLength(currentStream.arrayOffset());
                 }
             }
         } catch (IOException e) {
             System.out.println("Error KDB4File reading header: " + e.toString());
-            e.printStackTrace();
         }
+    }
+
+    private void setHeaderLength(final int arrayOffset) {
+        // TODO Auto-generated method stub
     }
 
     private void decrypt(final FileInputStream stream) {

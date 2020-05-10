@@ -7,45 +7,45 @@ public enum Field {
     /**
      * Marks the End of the header.
      */
-    EndOfHeader,
+    END_OF_HEADER,
     /**
      * Comment of the database.
      */
-    Comment,
+    COMMENT,
     /**
      * ID of the cipher used to encrypt the database.
      */
-    CipherID,
+    CIPHERID,
     /**
      * Check if the database is compressed.
      */
-    CompressionFlags,
+    COMPRESSIONFLAGS,
     /**
      * MasterSeed.
      */
-    MasterSeed,
+    MASTER_SEED,
     /**
      * TransformSeed.
      */
-    TransformSeed,
+    TRANSFORM_SEED,
     /**
      * TransformRounds.
      */
-    TransformRounds,
+    TRANSFORM_ROUNDS,
     /**
      * IV used during encryption/decryption.
      */
-    EncryptionIV,
+    ENCRYPTION_IV,
     /**
      * Check if the password is encrypted with Salsa20.
      */
-    ProtectedStreamKey,
+    PROTECTED_STREAM_KEY,
     /**
      * Position of the start bytes.
      */
-    StreamStartBytes,
+    STREM_START_BYTES,
     /**
      * InnerRandomStreamID.
      */
-    InnerRandomStreamID
+    INNER_RANDOM_STREAM_ID
 }
