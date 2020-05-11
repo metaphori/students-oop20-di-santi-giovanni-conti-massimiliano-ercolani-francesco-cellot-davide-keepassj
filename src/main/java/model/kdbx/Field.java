@@ -47,5 +47,13 @@ public enum Field {
     /**
      * InnerRandomStreamID.
      */
-    INNER_RANDOM_STREAM_ID
+    INNER_RANDOM_STREAM_ID,
+    /**
+     * Key Derivation functions parameters.
+     */
+    KDF_PARAMETERS,
+    /**
+     * Public Custom Data
+     */
+    PUBLIC_CUSTOM_DATA
 }

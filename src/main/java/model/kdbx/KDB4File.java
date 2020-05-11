@@ -2,9 +2,6 @@ package model.kdbx;
 
 import java.io.InputStream;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-
 public class KDB4File extends KDBFile {
 
     private static final int SIGNATURE_LENGTH = 12;
@@ -16,11 +13,7 @@ public class KDB4File extends KDBFile {
 
     public KDB4File(final InputStream stream) {
         super(stream);
-        try {
-            header = new KDB4Header();
-        } catch (final DecoderException e) {
-            System.out.println("Error KDB4 Header: " + e.toString());
-        }
+        header = new KDB4Header();
         this.readHeader();
     }
 
