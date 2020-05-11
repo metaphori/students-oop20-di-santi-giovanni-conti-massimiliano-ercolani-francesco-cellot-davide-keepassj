@@ -10,6 +10,10 @@ public class KDB4File extends KDBFile {
     private static final int SIGNATURE_LENGTH = 12;
     private KDB4Header header;
 
+    public final KDB4Header getHeader() {
+        return header;
+    }
+
     public KDB4File(final InputStream stream) {
         super(stream);
         try {
@@ -17,10 +21,10 @@ public class KDB4File extends KDBFile {
         } catch (final DecoderException e) {
             System.out.println("Error KDB4 Header: " + e.toString());
         }
+        this.readHeader();
     }
 
-    @SuppressWarnings("unused")
-    public final void readHeader() {
+    private void readHeader() {
         int fieldId = 0;
         int length = 0;
         byte[] data;
@@ -34,7 +38,6 @@ public class KDB4File extends KDBFile {
                 // Add data to header
                 this.header.setField(fieldId, data);
             } else {
-                System.out.println(Hex.encodeHex(this.header.getField(Field.CIPHERID)));
                 this.setHeaderLength(this.inputByteBuffer.arrayOffset());
                 break;
             }

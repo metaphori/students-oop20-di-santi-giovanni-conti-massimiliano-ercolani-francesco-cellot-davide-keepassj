@@ -13,16 +13,13 @@ public class KDB4Header {
 
     private EnumMap<Field, Integer> headerFields;
     private Map<Integer, byte[]> fields;
-    private Map<byte[], String> ciphers;
+    private final Map<String, String> ciphers;
     private Map<Integer, String> protectedStreams;
     public final void setFields(final EnumMap<Field, Integer> headerFields) {
         this.headerFields = headerFields;
     }
-    public final Map<byte[], String> getCiphers() {
+    public final Map<String, String> getCiphers() {
         return ciphers;
-    }
-    public final void setCiphers(final Map<byte[], String> ciphers) {
-        this.ciphers = ciphers;
     }
     public final Map<Integer, String> getProtectedStreams() {
         return protectedStreams;
@@ -45,6 +42,10 @@ public class KDB4Header {
     public final Map<Integer, byte[]> getFields() {
         return this.fields;
     }
+    public final String getCipher() {
+        return this.ciphers.get(new String(Hex.encodeHex(this.getField(Field.CIPHERID))));
+    }
+
     KDB4Header() throws DecoderException {
         this.headerFields = new EnumMap<>(Field.class);
         this.headerFields.put(Field.END_OF_HEADER, 0);
@@ -60,9 +61,9 @@ public class KDB4Header {
         this.headerFields.put(Field.INNER_RANDOM_STREAM_ID, 10);
         this.fields = new HashMap<>();
         this.ciphers = Map.ofEntries(
-                entry(Hex.decodeHex("31c1f2e6bf714350be5805216afc5aff"), "AES"),
-                entry(Hex.decodeHex("31c1f2e6bf714350be5805216afc5aff"), "TwoFish"),
-                entry(Hex.decodeHex("31c1f2e6bf714350be5805216afc5aff"), "ChaCha20")
+                entry("31c1f2e6bf714350be5805216afc5aff", "AES"),
+                entry("ad68f29f576f4bb9a36ad47af965346c", "TwoFish"),
+                entry("d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20")
                 );
         this.protectedStreams = Map.ofEntries(
                 entry(1, "ArcFourVariant"),
