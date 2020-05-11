@@ -1,5 +1,7 @@
 package model.crypto;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
@@ -14,9 +16,14 @@ public class Util {
      * @param message This is the message to be hashed.
      * @return sha256 of message.
      */
-    byte[] sha256(final byte[] message) {
-        //TODO
-        return null;
+    public static final byte[] sha256(final byte[] message) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error SHA-256 Object: " + e.toString());
+        }
+        return digest.digest(message);
     }
 
     /**
