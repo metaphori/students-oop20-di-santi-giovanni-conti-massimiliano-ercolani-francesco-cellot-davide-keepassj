@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.List;
 import java.util.Map;
 
@@ -33,30 +34,31 @@ public abstract class KDBFile {
         return headerLength;
     }
 
-    public final void setHeaderLength(final int headerLength) {
+    protected void setHeaderLength(final int headerLength) {
         this.headerLength = headerLength;
     }
 
     public final ByteBuffer getByteStream() {
-        return byteStream;
+        return inputByteBuffer;
     }
 
     public final void setByteStream(final ByteBuffer byteStream) {
-        this.byteStream = byteStream;
+        this.inputByteBuffer = byteStream;
     }
 
     /**
      * This is the ByteBuffer of the file.
      */
-    public ByteBuffer byteStream;
+    protected ByteBuffer inputByteBuffer;
     /**
      * Abstract class to define common operation between all KDB versions.
      * @param stream This it the stream of the database.
      */
-    public KDBFile(final FileInputStream stream) {
+    public KDBFile(final InputStream stream) {
         try {
-            this.byteStream = ByteBuffer.wrap(stream.readAllBytes());
-        } catch (IOException e) {
+            this.inputByteBuffer = ByteBuffer.wrap(stream.readAllBytes());
+            this.inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        } catch (final IOException e) {
             System.out.println("Error reading stream KDBFile: " + e.toString());
         }
         this.keys = null;

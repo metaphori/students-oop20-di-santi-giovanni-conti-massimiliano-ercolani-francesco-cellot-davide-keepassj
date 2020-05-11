@@ -1,33 +1,22 @@
 package model.kdbx;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
-public class KDB4File {
+public class KDB4File extends KDBFile {
 
     private static final int SIGNATURE_LENGTH = 12;
-    private ByteBuffer inputByteBuffer;
     private KDB4Header header;
-    private InputStream inputStream;
+
     public KDB4File(final InputStream stream) {
-        this.inputStream = stream;
-        try {
-            this.inputByteBuffer = ByteBuffer.wrap(this.inputStream.readAllBytes());
-        } catch (IOException e) {
-            System.out.println("Error reading stream KDBFile: " + e.toString());
-        }
+        super(stream);
         try {
             header = new KDB4Header();
-        } catch (DecoderException e) {
-            e.printStackTrace();
+        } catch (final DecoderException e) {
+            System.out.println("Error KDB4 Header: " + e.toString());
         }
-        this.inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
     }
 
     @SuppressWarnings("unused")
@@ -37,27 +26,26 @@ public class KDB4File {
         byte[] data;
         this.inputByteBuffer.position(KDB4File.SIGNATURE_LENGTH);
         while (true) {
-            fieldId = (int) inputByteBuffer.get();
-            length = inputByteBuffer.getShort();
+            fieldId = (int) this.inputByteBuffer.get();
+            length = this.inputByteBuffer.getShort();
             data = new byte[length];
             if (length > 0 && fieldId >= 0 && fieldId <= 10) {
-                inputByteBuffer.get(data, 0, length);
-                System.out.println(new String(data));
+                this.inputByteBuffer.get(data, 0, length);
                 // Add data to header
                 this.header.setField(fieldId, data);
             } else {
                 System.out.println(Hex.encodeHex(this.header.getField(Field.CIPHERID)));
-                this.setHeaderLength(inputByteBuffer.arrayOffset());
+                this.setHeaderLength(this.inputByteBuffer.arrayOffset());
                 break;
             }
         }
     }
 
-    private void setHeaderLength(final int arrayOffset) {
+    public void setHeaderLength(final int arrayOffset) {
         // TODO Auto-generated method stub
     }
 
-    private void decrypt(final FileInputStream stream) {
+    private void decrypt(final InputStream stream) {
        // String cipherName = this.header.getCiphers().get("AES");
        // TODO take cipher from CipherID header and factory it
     }
