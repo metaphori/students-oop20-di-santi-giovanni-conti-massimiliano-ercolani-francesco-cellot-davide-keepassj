@@ -42,7 +42,7 @@ public class Util {
      * @param message The message to unpad.
      * @return unpadded The message PKCS7 unpadded.
      */
-    static byte[] unpad(final byte[] message) throws BadPaddingException { 
+    public static byte[] unpad(final byte[] message) throws BadPaddingException { 
         int padded = message[message.length - 1];
         for (int i = message.length - 1; i >= message.length - padded; i--) {
             if (message[i] != (byte) padded) {
@@ -57,9 +57,10 @@ public class Util {
     /**
      * PCKS7 pad.
      * @param message The message to pad.
+     * @param blockSize The block size of the message to pad.
      * @return padded The message PKCS7 padded. 
      */
-    static byte[] pad(final byte[] message, final int blockSize) {
+    public static byte[] pad(final byte[] message, final int blockSize) {
         int paddingLength = blockSize - (message.length % blockSize);
         byte[] paddedMessage = new byte[message.length + paddingLength];
         System.arraycopy(message, 0, paddedMessage, 0, message.length);

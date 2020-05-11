@@ -2,6 +2,9 @@ package crypto;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.crypto.BadPaddingException;
+
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
@@ -17,4 +20,18 @@ public class TestUtil {
         assertEquals(expected, res);
     }
 
+    @Test
+    public void testPKCS7Padding() {
+        final int blocksize = 16;
+        String expected = new String("616161610c0c0c0c0c0c0c0c0c0c0c0c");
+        String input = new String("aaaa");
+        String res = Hex.encodeHexString(Util.pad(input.getBytes(), blocksize));
+        assertEquals(expected, res);
+        try {
+            res = new String(Util.unpad(Hex.decodeHex(res)));
+            assertEquals(input, res);
+        } catch (BadPaddingException | DecoderException e) {
+            System.out.println("Bad Padding: " + e.toString());
+        }
+    }
 }
