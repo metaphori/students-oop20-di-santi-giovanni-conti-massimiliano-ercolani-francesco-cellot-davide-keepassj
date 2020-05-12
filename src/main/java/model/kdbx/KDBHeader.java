@@ -28,12 +28,15 @@ public abstract class KDBHeader {
         this.headerFields.put(Field.INNER_RANDOM_STREAM_ID, 10);
         this.headerFields.put(Field.KDF_PARAMETERS, 11);
         this.headerFields.put(Field.PUBLIC_CUSTOM_DATA, 12);
+
         this.fields = new HashMap<>();
+
         this.ciphers = Map.ofEntries(
                 entry("31c1f2e6bf714350be5805216afc5aff", "AES"),
                 entry("ad68f29f576f4bb9a36ad47af965346c", "TwoFish"),
                 entry("d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20")
                 );
+
         this.protectedStreams = Map.ofEntries(
                 entry(1, "ArcFourVariant"),
                 entry(2, "Salsa20"),
