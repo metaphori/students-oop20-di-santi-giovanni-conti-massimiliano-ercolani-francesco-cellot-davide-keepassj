@@ -23,7 +23,7 @@ public class KDB4Reader {
         KDB4Header header = db.getHeader();
         assertEquals(header.getCipher(), "AES");
         assertEquals(header.getTransformRounds(), transformRounds);
-        System.out.println(Hex.encodeHex(header.getTransformSeed()));
+        // System.out.println(Hex.encodeHex(header.getTransformSeed()));
     }
 
 }

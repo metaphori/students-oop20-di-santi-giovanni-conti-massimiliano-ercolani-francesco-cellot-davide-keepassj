@@ -99,7 +99,7 @@ public abstract class KDBFile {
         // TODO
     }
 
-    private void decrypt(final InputStream inputStream) {
+    protected void decrypt() {
         this.makeMasterKey();
         // TODO
     }

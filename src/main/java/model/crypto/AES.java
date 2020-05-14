@@ -103,6 +103,7 @@ public class AES implements CryptoCipher {
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             this.cipher.init(Cipher.DECRYPT_MODE, this.aesKey, ivParameterSpec);
             return Util.unpad(this.cipher.doFinal(ciphertext));
+            // return this.cipher.doFinal(ciphertext);
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException
                 | InvalidAlgorithmParameterException e) {
             System.out.println("Error AES decryption: " + e.toString());

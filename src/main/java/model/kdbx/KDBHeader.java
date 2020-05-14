@@ -120,6 +120,10 @@ public abstract class KDBHeader {
         return this.getField(Field.TRANSFORM_SEED);
     }
 
+    public final byte[] getStreamStartBytes() {
+        return this.getField(Field.STREM_START_BYTES);
+    }
+
     public final long getTransformRounds() {
         ByteBuffer transformRound = ByteBuffer.wrap(this.getField(Field.TRANSFORM_ROUNDS));
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
