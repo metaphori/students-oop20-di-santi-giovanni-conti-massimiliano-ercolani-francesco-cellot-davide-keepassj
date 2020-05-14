@@ -1,10 +1,15 @@
 package model.crypto;
 
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 /**
  * Class with frequent cryptography utilities.
  *
@@ -77,6 +82,33 @@ public class Util {
     byte[] xor(final byte[] firstMessage, final byte[] secondMessage) {
         // TODO
         return null;
+    }
+
+    public static byte[] transformKey(final byte[] composite, final byte[] transformSeed,
+            final long transformRounds) {
+        Cipher aes = null;
+        SecretKeySpec seed = null;
+        byte[] key = new byte[composite.length];
+        System.arraycopy(composite, 0, key, 0, composite.length);
+        try {
+            aes = Cipher.getInstance("AES/ECB/NoPadding");
+            seed = new SecretKeySpec(transformSeed, "AES");
+            aes.init(Cipher.ENCRYPT_MODE, seed);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Error: No AES ECB: " + e.toString());
+        } catch (NoSuchPaddingException e) {
+            System.out.println("Error: No AES ECB No Padding: " + e.toString());
+        } catch (InvalidKeyException e) {
+            System.out.println("AES ECB Invalid key: " + e.toString());
+        }
+        for (int i = 0; i < transformRounds; i++) {
+            try {
+                key = aes.doFinal(key);
+            } catch (IllegalBlockSizeException | BadPaddingException e) {
+                e.printStackTrace();
+            }
+        }
+        return Util.sha256(key);
     }
 
 }

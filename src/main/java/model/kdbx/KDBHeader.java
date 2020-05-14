@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.Map.entry;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import org.apache.commons.codec.binary.Hex;
 
 public abstract class KDBHeader {
@@ -103,12 +107,23 @@ public abstract class KDBHeader {
                                                     .getValue();
         return fieldId >= min && fieldId <= max;
     }
+
     public final byte[] getMasterSeed() {
         return this.getField(Field.MASTER_SEED);
     }
 
     public final byte[] getEncryptionIV() {
         return this.getField(Field.ENCRYPTION_IV);
+    }
+
+    public final byte[] getTransformSeed() {
+        return this.getField(Field.TRANSFORM_SEED);
+    }
+
+    public final long getTransformRounds() {
+        ByteBuffer transformRound = ByteBuffer.wrap(this.getField(Field.TRANSFORM_ROUNDS));
+        transformRound.order(ByteOrder.LITTLE_ENDIAN);
+        return transformRound.getLong();
     }
 
     public final void setCipher(final byte[] cipher) {

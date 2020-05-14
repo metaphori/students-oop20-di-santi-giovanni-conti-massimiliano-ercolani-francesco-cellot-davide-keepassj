@@ -53,7 +53,7 @@ public enum Field {
      */
     KDF_PARAMETERS,
     /**
-     * Public Custom Data
+     * Public Custom Data.
      */
     PUBLIC_CUSTOM_DATA
 }
