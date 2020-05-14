@@ -19,7 +19,7 @@ public enum Field {
     /**
      * Check if the database is compressed.
      */
-    COMPRESSIONFLAGS,
+    COMPRESSION_FLAGS,
     /**
      * MasterSeed.
      */

@@ -12,7 +12,7 @@ import org.junit.Test;
 public class KDB4Reader {
 
     @Test
-    public void test() {
+    public void testReadHeader() {
         final InputStream inputStream = ClassLoader.getSystemResourceAsStream("database.kdbx");
         KDB4File db = new KDB4File(inputStream);
         KDB4Header header = db.getHeader();

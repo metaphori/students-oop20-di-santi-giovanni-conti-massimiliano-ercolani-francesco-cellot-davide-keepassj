@@ -24,9 +24,12 @@ public class KDB4File extends KDBFile {
         this.inputByteBuffer.position(KDB4File.SIGNATURE_LENGTH);
         while (true) {
             fieldId = (int) this.inputByteBuffer.get();
+            if (!this.header.checkField(fieldId)) {
+                break;
+            }
             length = this.inputByteBuffer.getShort();
             data = new byte[length];
-            if (length > 0 && fieldId >= 0 && fieldId <= 12) {
+            if (length > 0) {
                 this.inputByteBuffer.get(data, 0, length);
                 // Add data to header
                 this.header.setField(fieldId, data);

@@ -3,6 +3,8 @@ package model.kdbx;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
+
 import static java.util.Map.entry;
 import org.apache.commons.codec.binary.Hex;
 
@@ -18,7 +20,7 @@ public abstract class KDBHeader {
         this.headerFields.put(Field.END_OF_HEADER, 0);
         this.headerFields.put(Field.COMMENT, 1);
         this.headerFields.put(Field.CIPHERID, 2);
-        this.headerFields.put(Field.COMPRESSIONFLAGS, 3);
+        this.headerFields.put(Field.COMPRESSION_FLAGS, 3);
         this.headerFields.put(Field.MASTER_SEED, 4);
         this.headerFields.put(Field.TRANSFORM_SEED, 5);
         this.headerFields.put(Field.TRANSFORM_ROUNDS, 6);
@@ -56,7 +58,7 @@ public abstract class KDBHeader {
         return fields;
     }
 
-    public void setFields(final Map<Integer, byte[]> fields) {
+    public final void setFields(final Map<Integer, byte[]> fields) {
         this.fields = fields;
     }
 
@@ -83,4 +85,46 @@ public abstract class KDBHeader {
     public final String getCipher() {
         return this.ciphers.get(new String(Hex.encodeHex(this.getField(Field.CIPHERID))));
     }
+
+    public final boolean getCompressionFlag() {
+        return this.getField(Field.COMPRESSION_FLAGS)[0] == 1;
+    }
+
+    public final boolean checkField(final int fieldId) {
+        final int max = this.headerFields.entrySet().stream()
+                                                    .max((entry1, entry2) -> 
+                                                    entry1.getValue() > entry2.getValue() ? 1 : -1)
+                                                    .get()
+                                                    .getValue();
+        final int min = this.headerFields.entrySet().stream()
+                                                    .min((entry1, entry2) ->
+                                                    entry2.getValue() < entry2.getValue() ? 1 : -1)
+                                                    .get()
+                                                    .getValue();
+        return fieldId >= min && fieldId <= max;
+    }
+    public final byte[] getMasterSeed() {
+        return this.getField(Field.MASTER_SEED);
+    }
+
+    public final byte[] getEncryptionIV() {
+        return this.getField(Field.ENCRYPTION_IV);
+    }
+
+    public final void setCipher(final byte[] cipher) {
+        this.setField(Field.CIPHERID, cipher);
+    }
+
+    public final void setCompressionFlag(final byte[] flag) {
+        this.setField(Field.COMPRESSION_FLAGS, flag);
+    }
+
+    public final void setMasterSeed(final byte[] masterSeed) {
+        this.setField(Field.MASTER_SEED, masterSeed);
+    }
+
+    public final void setEncryptionIV(final byte[] iv) {
+        this.setField(Field.ENCRYPTION_IV, iv);
+    }
+
 }
