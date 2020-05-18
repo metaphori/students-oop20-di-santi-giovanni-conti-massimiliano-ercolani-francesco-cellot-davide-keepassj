@@ -8,6 +8,7 @@ import java.util.Arrays;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 /**
@@ -84,6 +85,13 @@ public class Util {
         return null;
     }
 
+    /**
+     * TODO USE AES-KDF.
+     * @param composite
+     * @param transformSeed
+     * @param transformRounds
+     * @return key.
+     */
     public static byte[] transformKey(final byte[] composite, final byte[] transformSeed,
             final long transformRounds) {
         Cipher aes = null;
@@ -109,6 +117,28 @@ public class Util {
             }
         }
         return Util.sha256(key);
+    }
+
+    /**
+     * Compute HMAC256 of a message.
+     * @param key This is the key used to compute the MAC.
+     * @param message This is the message to be authenticated.
+     * @return tag.
+     */
+    public static byte[] hmac256(final byte[] key, final byte[] message) {
+        Mac sha256HMAC = null;
+        try {
+            sha256HMAC = Mac.getInstance("HmacSHA256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        SecretKeySpec secretKey = new SecretKeySpec(key, "HmacSHA256");
+        try {
+            sha256HMAC.init(secretKey);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
+        return sha256HMAC.doFinal(message);
     }
 
 }

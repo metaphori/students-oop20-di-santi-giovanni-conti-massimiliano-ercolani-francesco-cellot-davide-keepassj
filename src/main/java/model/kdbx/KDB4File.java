@@ -1,8 +1,10 @@
 package model.kdbx;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Hex;
@@ -24,7 +26,11 @@ public class KDB4File extends KDBFile {
         super(stream, credentials);
         header = new KDB4Header();
         this.readHeader();
-        this.decrypt();
+        try {
+            this.decrypt();
+        } catch (IOException e) {
+            System.out.println("Error decryption: " + e.toString());
+        }
     }
 
     private void readHeader() {
@@ -51,10 +57,8 @@ public class KDB4File extends KDBFile {
         }
     }
 
-    protected final void decrypt() {
-        this.makeMasterKey();
-        this.inputByteBuffer.position(this.getHeaderLength());
-        this.inputByteBuffer.order(ByteOrder.BIG_ENDIAN);
+    protected final void decrypt() throws IOException {
+        super.decrypt();
         CipherFactory cipherFactory = new CipherFactory();
         CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher(), this.masterKey);
         byte[] encrypted = new byte[this.inputByteBuffer.remaining()];
@@ -65,7 +69,15 @@ public class KDB4File extends KDBFile {
         System.out.println("Master key: " + Hex.encodeHexString(this.masterKey));
         */
         byte[] dec = cipher.decrypt(encrypted, this.header.getEncryptionIV());
-        System.out.println(new String(dec));
+        int lengthCheck = this.header.getStreamStartBytes().length;
+        if (Arrays.equals(this.header.getStreamStartBytes(), 0, lengthCheck, dec, 0, lengthCheck)) {
+            byte[] toHash = new byte[dec.length - lengthCheck];
+            System.arraycopy(dec, lengthCheck, toHash, 0, toHash.length);
+            HashedBlock hashedBlock = new HashedBlock(toHash);
+        } else {
+            throw new IOException("Corrupted data found during decryption");
+        }
+        // System.out.println(new String(dec));
     }
 
     protected final void makeMasterKey() {

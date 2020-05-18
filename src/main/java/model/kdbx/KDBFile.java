@@ -50,6 +50,9 @@ public abstract class KDBFile {
         this.inputByteBuffer = byteStream;
     }
 
+    /**
+     * This is the master Key.
+     */
     protected byte[] masterKey;
     /**
      * This is the ByteBuffer of the file.
@@ -99,9 +102,14 @@ public abstract class KDBFile {
         // TODO
     }
 
-    protected void decrypt() {
+    /**
+     * Decrypt the encrypted payload.
+     * @throws IOException 
+     */
+    protected void decrypt() throws IOException {
         this.makeMasterKey();
-        // TODO
+        this.inputByteBuffer.position(this.getHeaderLength());
+        this.inputByteBuffer.order(ByteOrder.BIG_ENDIAN);
     }
 
     public void addKeyHash(final Byte[] keyHash) {
