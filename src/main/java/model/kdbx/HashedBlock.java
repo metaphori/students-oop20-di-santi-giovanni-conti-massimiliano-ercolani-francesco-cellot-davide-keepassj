@@ -32,6 +32,7 @@ public class HashedBlock {
             }
         }
     }
+
     private byte[] nextBlock() throws IOException {
         int index = readInt();
         byte[] blockHash = new byte[HASH_SIZE];
