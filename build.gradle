@@ -35,8 +35,12 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
-    
+
+    // Binary encoder from apache
     compile 'commons-codec:commons-codec:1.14'
+
+    // Argon2 KDF
+    compile 'de.mkammerer:argon2-jvm-nolibs:2.7'
 }
 
 mainClassName = 'view.GUITest'

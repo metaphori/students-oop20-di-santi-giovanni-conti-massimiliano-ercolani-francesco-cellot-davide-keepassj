@@ -13,7 +13,7 @@ import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
 import model.crypto.Util;
 
-public class KDB4File extends KDBFile {
+public class KDBReader extends KDBFile {
 
     private static final int SIGNATURE_LENGTH = 12;
     private final KDB4Header header;
@@ -22,7 +22,7 @@ public class KDB4File extends KDBFile {
         return header;
     }
 
-    public KDB4File(final InputStream stream, final List<byte[]> credentials) {
+    public KDBReader(final InputStream stream, final List<byte[]> credentials) {
         super(stream, credentials);
         header = new KDB4Header();
         this.readHeader();
@@ -37,7 +37,7 @@ public class KDB4File extends KDBFile {
         int fieldId = 0;
         int length = 0;
         byte[] data;
-        this.inputByteBuffer.position(KDB4File.SIGNATURE_LENGTH);
+        this.inputByteBuffer.position(KDBReader.SIGNATURE_LENGTH);
         while (true) {
             fieldId = (int) this.inputByteBuffer.get();
             if (!this.header.checkField(fieldId)) {
