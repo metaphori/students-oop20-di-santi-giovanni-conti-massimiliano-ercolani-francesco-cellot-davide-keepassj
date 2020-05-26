@@ -147,16 +147,29 @@ public class KDBHeader {
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
      */
-    public final List<ByteBuffer> writeData() {
-        List<ByteBuffer> dataBuffer = this.headerFields.keySet().stream()
-                                                                .map(field -> getFieldData(field))
-                                                                .filter(data -> data != null)
-                                                                .map(entry -> headerInfo(dataToKey(entry), entry))
-                                                                .collect(Collectors.toList());
-        // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a.array())));
+    public final List<byte[]> writeData() {
+        List<byte[]> dataBuffer = this.fields.entrySet().stream()
+                                                        .map(value -> headerInfo(value.getKey(), value.getValue()))
+                                                        .map(buffer -> buffer.array())
+                                                        .collect(Collectors.toList());
+        dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
     }
 
+    private ByteBuffer headerInfo(final int key, final byte[] data) {
+        // Field ID + Length + Payload
+        ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) key);
+        buffer.putShort((short) data.length);
+        buffer.put(data);
+        System.out.println("length data: " + data.length);
+        buffer.rewind();
+        return buffer;
+    }
+
+    /*
+     * USELESS PROBABLY
     private int dataToKey(final byte[] data) {
         return this.fields.entrySet().stream()
                                      .filter(entry -> data.equals(entry.getValue()))
@@ -164,15 +177,6 @@ public class KDBHeader {
                                      .get()
                                      .getKey();
     }
-
-    private ByteBuffer headerInfo(final int value, final byte[] data) {
-        ByteBuffer buffer = ByteBuffer.allocate(value + 3 + data.length);
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.put((byte) value);
-        buffer.putShort((short) data.length);
-        buffer.put(data);
-        buffer.rewind();
-        return buffer;
-    }
+    */
 
 }
