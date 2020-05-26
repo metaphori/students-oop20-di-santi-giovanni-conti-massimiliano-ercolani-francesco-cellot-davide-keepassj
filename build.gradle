@@ -39,6 +39,8 @@ dependencies {
     // Binary encoder from apache
     compile 'commons-codec:commons-codec:1.14'
 
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+
     // Argon2 KDF
     compile 'de.mkammerer:argon2-jvm-nolibs:2.7'
 }

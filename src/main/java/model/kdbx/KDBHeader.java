@@ -2,12 +2,12 @@ package model.kdbx;
 
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -147,12 +147,22 @@ public class KDBHeader {
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
      */
-    public final List<byte[]> writeData() {
-        List<byte[]> dataBuffer = this.fields.entrySet().stream()
-                                                        .map(value -> headerInfo(value.getKey(), value.getValue()))
-                                                        .map(buffer -> buffer.array())
-                                                        .collect(Collectors.toList());
-        dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
+    public final byte[] writeData() {
+        byte[] dataBuffer = this.fields.entrySet().stream()
+                .map(value -> headerInfo(value.getKey(), value.getValue()))
+                .map(buffer -> buffer.array())
+                .collect(
+                        () -> new ByteArrayOutputStream(),
+                        (outputStream, value) -> {
+                            try {
+                                outputStream.write(value);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        },
+                        (a, b) -> { }).toByteArray();
+        System.out.println(Hex.encodeHex(dataBuffer));
+        // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
     }
 
