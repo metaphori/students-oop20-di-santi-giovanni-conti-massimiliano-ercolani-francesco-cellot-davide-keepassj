@@ -16,15 +16,15 @@ import model.crypto.Util;
 public class KDBReader extends KDBFile {
 
     private static final int SIGNATURE_LENGTH = 12;
-    private final KDB4Header header;
+    private final KDBHeader header;
 
-    public final KDB4Header getHeader() {
+    public final KDBHeader getHeader() {
         return header;
     }
 
     public KDBReader(final InputStream stream, final List<byte[]> credentials) {
         super(stream, credentials);
-        header = new KDB4Header();
+        header = new KDBHeader();
         this.readHeader();
         try {
             this.decrypt();

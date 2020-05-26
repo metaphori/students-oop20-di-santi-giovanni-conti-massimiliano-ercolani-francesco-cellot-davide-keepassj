@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import model.kdbx.KDBHeader;
 import model.kdbx.KDBReader;
-import model.kdbx.KDB4Header;
 
 import org.junit.Test;
 
@@ -19,7 +19,8 @@ public class TestKDBReader {
         final InputStream inputStream = ClassLoader.getSystemResourceAsStream("database.kdbx");
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
         KDBReader db = new KDBReader(inputStream, credentials);
-        KDB4Header header = db.getHeader();
+        KDBHeader header = db.getHeader();
+        header.writeData();
         assertEquals(header.getCipher(), "AES");
         assertEquals(header.getTransformRounds(), transformRounds);
         // System.out.println(Hex.encodeHex(header.getTransformSeed()));

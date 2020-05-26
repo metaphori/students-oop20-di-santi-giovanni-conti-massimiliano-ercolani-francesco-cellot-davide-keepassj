@@ -2,7 +2,9 @@ package model.kdbx;
 
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
@@ -11,7 +13,7 @@ import java.nio.ByteOrder;
 
 import org.apache.commons.codec.binary.Hex;
 
-public abstract class KDBHeader {
+public class KDBHeader {
 
     private EnumMap<Field, Integer> headerFields;
     private Map<Integer, byte[]> fields;
@@ -81,50 +83,46 @@ public abstract class KDBHeader {
         this.fields.put(field, value);
     }
 
-    public final byte[] getField(final Field field) {
+    public final byte[] getFieldData(final Field field) {
         return this.fields.get(this.headerFields.get(field));
     }
 
     public final String getCipher() {
-        return this.ciphers.get(new String(Hex.encodeHex(this.getField(Field.CIPHERID))));
+        return this.ciphers.get(new String(Hex.encodeHex(this.getFieldData(Field.CIPHERID))));
     }
 
     public final boolean getCompressionFlag() {
-        return this.getField(Field.COMPRESSION_FLAGS)[0] == 1;
+        return this.getFieldData(Field.COMPRESSION_FLAGS)[0] == 1;
     }
 
     public final boolean checkField(final int fieldId) {
-        final int max = this.headerFields.entrySet().stream()
-                                                    .max((entry1, entry2) -> 
-                                                    entry1.getValue() > entry2.getValue() ? 1 : -1)
-                                                    .get()
-                                                    .getValue();
-        final int min = this.headerFields.entrySet().stream()
-                                                    .min((entry1, entry2) ->
-                                                    entry2.getValue() < entry2.getValue() ? 1 : -1)
-                                                    .get()
-                                                    .getValue();
+        final int max = this.headerFields.values().stream()
+                                                    .max((entry1, entry2) -> entry1 > entry2 ? 1 : -1)
+                                                    .get();
+        final int min = this.headerFields.values().stream()
+                                                    .min((entry1, entry2) -> entry2 < entry2 ? 1 : -1)
+                                                    .get();
         return fieldId >= min && fieldId <= max;
     }
 
     public final byte[] getMasterSeed() {
-        return this.getField(Field.MASTER_SEED);
+        return this.getFieldData(Field.MASTER_SEED);
     }
 
     public final byte[] getEncryptionIV() {
-        return this.getField(Field.ENCRYPTION_IV);
+        return this.getFieldData(Field.ENCRYPTION_IV);
     }
 
     public final byte[] getTransformSeed() {
-        return this.getField(Field.TRANSFORM_SEED);
+        return this.getFieldData(Field.TRANSFORM_SEED);
     }
 
     public final byte[] getStreamStartBytes() {
-        return this.getField(Field.STREM_START_BYTES);
+        return this.getFieldData(Field.STREM_START_BYTES);
     }
 
     public final long getTransformRounds() {
-        ByteBuffer transformRound = ByteBuffer.wrap(this.getField(Field.TRANSFORM_ROUNDS));
+        ByteBuffer transformRound = ByteBuffer.wrap(this.getFieldData(Field.TRANSFORM_ROUNDS));
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
         return transformRound.getLong();
     }
@@ -143,6 +141,38 @@ public abstract class KDBHeader {
 
     public final void setEncryptionIV(final byte[] iv) {
         this.setField(Field.ENCRYPTION_IV, iv);
+    }
+
+    /**
+     * Write Header in ByteBuffer.
+     * @return List of ByteBuffer.
+     */
+    public final List<ByteBuffer> writeData() {
+        List<ByteBuffer> dataBuffer = this.headerFields.keySet().stream()
+                                                                .map(field -> getFieldData(field))
+                                                                .filter(data -> data != null)
+                                                                .map(entry -> headerInfo(dataToKey(entry), entry))
+                                                                .collect(Collectors.toList());
+        // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a.array())));
+        return dataBuffer;
+    }
+
+    private int dataToKey(final byte[] data) {
+        return this.fields.entrySet().stream()
+                                     .filter(entry -> data.equals(entry.getValue()))
+                                     .findFirst()
+                                     .get()
+                                     .getKey();
+    }
+
+    private ByteBuffer headerInfo(final int value, final byte[] data) {
+        ByteBuffer buffer = ByteBuffer.allocate(value + 3 + data.length);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) value);
+        buffer.putShort((short) data.length);
+        buffer.put(data);
+        buffer.rewind();
+        return buffer;
     }
 
 }
