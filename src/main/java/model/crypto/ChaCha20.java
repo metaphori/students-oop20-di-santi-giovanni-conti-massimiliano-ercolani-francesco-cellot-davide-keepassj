@@ -6,10 +6,9 @@ public class ChaCha20 implements CryptoCipher {
 
     /**
      * Construct an ChaCha20 Object.
-     * @param key
      */
-    public ChaCha20(final byte[] key) {
-        this.key = key;
+    public ChaCha20() {
+        ;
     }
 
     /**

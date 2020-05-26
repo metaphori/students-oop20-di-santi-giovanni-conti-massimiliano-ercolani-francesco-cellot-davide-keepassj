@@ -60,7 +60,8 @@ public class KDBReader extends KDBFile {
     protected final void decrypt() throws IOException {
         super.decrypt();
         CipherFactory cipherFactory = new CipherFactory();
-        CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher(), this.masterKey);
+        CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher());
+        cipher.setKey(this.masterKey);
         byte[] encrypted = new byte[this.inputByteBuffer.remaining()];
         this.inputByteBuffer.get(encrypted);
         /*

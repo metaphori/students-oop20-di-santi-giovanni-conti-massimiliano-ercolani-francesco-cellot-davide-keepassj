@@ -26,15 +26,12 @@ public class AES implements CryptoCipher {
 
     /**
      * Construct an AES Object.
-     * @param key This is 16/24/32 bytes key
-     * @throws NoSuchPaddingException 
-     * @throws NoSuchAlgorithmException 
      */
-    public AES(final byte[] key) {
+    public AES() {
         this.random = new SecureRandom();
         try {
             this.cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            this.aesKey = new SecretKeySpec(key, "AES");
+            // this.aesKey = new SecretKeySpec(key, "AES");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             System.out.println("Error building AES object: " + e.toString());
         }

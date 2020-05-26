@@ -10,14 +10,14 @@ public class CipherFactory {
      * @throws NoSuchPaddingException 
      * @throws NoSuchAlgorithmException 
      */
-    public CryptoCipher getCipher(final String cipherType, final byte[] key) {
+    public CryptoCipher getCipher(final String cipherType) {
         if (cipherType == null) {
             return null;
         }
         if (cipherType.equalsIgnoreCase("AES")) {
-            return new AES(key);
+            return new AES();
         } else if (cipherType.equalsIgnoreCase("ChaCha20")) {
-            return new ChaCha20(key);
+            return new ChaCha20();
         }
 
         return null;

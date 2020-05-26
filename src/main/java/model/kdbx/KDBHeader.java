@@ -76,10 +76,12 @@ public class KDBHeader {
     }
 
     public final void setField(final Field field, final byte[] value) {
-        this.fields.put(this.headerFields.get(field), value);
+        this.setField(this.headerFields.get(field), value);
+        // this.fields.put(this.headerFields.get(field), value);
     }
 
     public final void setField(final int field, final byte[] value) {
+        this.fields.remove(field);
         this.fields.put(field, value);
     }
 
@@ -147,7 +149,7 @@ public class KDBHeader {
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
      */
-    public final byte[] writeData() {
+    public final byte[] dataToBytes() {
         byte[] dataBuffer = this.fields.entrySet().stream()
                 .map(value -> headerInfo(value.getKey(), value.getValue()))
                 .map(buffer -> buffer.array())
@@ -161,7 +163,7 @@ public class KDBHeader {
                             }
                         },
                         (a, b) -> { }).toByteArray();
-        System.out.println(Hex.encodeHex(dataBuffer));
+        // System.out.println(Hex.encodeHex(dataBuffer));
         // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
     }
@@ -173,7 +175,6 @@ public class KDBHeader {
         buffer.put((byte) key);
         buffer.putShort((short) data.length);
         buffer.put(data);
-        System.out.println("length data: " + data.length);
         buffer.rewind();
         return buffer;
     }

@@ -29,7 +29,8 @@ public class TestCryptoCipher {
         Arrays.fill(iv, (byte) 'b');
         Arrays.fill(key, (byte) 'a');
         CipherFactory cipherFactory = new CipherFactory();
-        CryptoCipher cipher = cipherFactory.getCipher("AES", key);
+        CryptoCipher cipher = cipherFactory.getCipher("AES");
+        cipher.setKey(key);
         assertArrayEquals(expected, cipher.encrypt(plaintext.getBytes(), iv));
     }
 }

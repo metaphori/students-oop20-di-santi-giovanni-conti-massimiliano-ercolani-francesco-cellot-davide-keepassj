@@ -42,7 +42,7 @@ public class HashedBlock {
             byte[] data = new byte[length];
             this.inputBuffer.get(data);
             if (Arrays.equals(Util.sha256(data), blockHash)) {
-                System.out.println("Hash Block Authenticated");
+                // System.out.println("Hash Block Authenticated");
                 return data;
             } else {
                 throw new IOException("Hash Block corrupted");

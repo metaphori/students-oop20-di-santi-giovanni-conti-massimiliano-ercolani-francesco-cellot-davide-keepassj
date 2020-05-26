@@ -22,4 +22,9 @@ public interface CryptoCipher {
      */
     byte[] decrypt(byte[] ciphertext, byte[] iv);
 
+    /**
+     * Set Encryption key.
+     * @param key This is the key.
+     */
+    void setKey(byte[] key);
 }
