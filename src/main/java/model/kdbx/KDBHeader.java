@@ -7,21 +7,30 @@ import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Bytes;
 
 public class KDBHeader {
 
     private EnumMap<Field, Integer> headerFields;
     private Map<Integer, byte[]> fields;
-    private final Map<String, String> ciphers;
-    private final Map<Integer, String> protectedStreams;
+    // private final Map<String, String> ciphers;
+    private final Map<String, String> ciphers = ImmutableMap.of(
+            "31c1f2e6bf714350be5805216afc5aff", "AES",
+            "ad68f29f576f4bb9a36ad47af965346c", "TwoFish",
+            "d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20"
+            );
+    private final Map<Integer, String> protectedStreams = ImmutableMap.of(
+            1, "ArcFourVariant",
+            2, "Salsa20",
+            3, "ChaCha20"
+            );
 
     public KDBHeader() {
         this.headerFields = new EnumMap<>(Field.class);
@@ -40,34 +49,24 @@ public class KDBHeader {
         this.headerFields.put(Field.PUBLIC_CUSTOM_DATA, 12);
 
         this.fields = new HashMap<>();
+    }
 
-        this.ciphers = Map.ofEntries(
-                entry("31c1f2e6bf714350be5805216afc5aff", "AES"),
-                entry("ad68f29f576f4bb9a36ad47af965346c", "TwoFish"),
-                entry("d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20")
-                );
-
-        this.protectedStreams = Map.ofEntries(
-                entry(1, "ArcFourVariant"),
-                entry(2, "Salsa20"),
-                entry(3, "ChaCha20")
-                );
+    public final boolean checkField(final int fieldId) {
+        final int max = this.headerFields.values().stream()
+                .max((entry1, entry2) -> entry1 > entry2 ? 1 : -1)
+                .get();
+        final int min = this.headerFields.values().stream()
+                .min((entry1, entry2) -> entry2 < entry2 ? 1 : -1)
+                .get();
+        return fieldId >= min && fieldId <= max;
     }
 
     public final EnumMap<Field, Integer> getHeaderFields() {
         return headerFields;
     }
 
-    public final void setHeaderFields(final EnumMap<Field, Integer> headerFields) {
-        this.headerFields = headerFields;
-    }
-
     public final Map<Integer, byte[]> getFields() {
         return fields;
-    }
-
-    public final void setFields(final Map<Integer, byte[]> fields) {
-        this.fields = fields;
     }
 
     public final Map<String, String> getCiphers() {
@@ -76,16 +75,6 @@ public class KDBHeader {
 
     public final Map<Integer, String> getProtectedStreams() {
         return protectedStreams;
-    }
-
-    public final void setField(final Field field, final byte[] value) {
-        this.setField(this.headerFields.get(field), value);
-        // this.fields.put(this.headerFields.get(field), value);
-    }
-
-    public final void setField(final int field, final byte[] value) {
-        this.fields.remove(field);
-        this.fields.put(field, value);
     }
 
     public final byte[] getFieldData(final Field field) {
@@ -98,16 +87,6 @@ public class KDBHeader {
 
     public final boolean getCompressionFlag() {
         return this.getFieldData(Field.COMPRESSION_FLAGS)[0] == 1;
-    }
-
-    public final boolean checkField(final int fieldId) {
-        final int max = this.headerFields.values().stream()
-                                                    .max((entry1, entry2) -> entry1 > entry2 ? 1 : -1)
-                                                    .get();
-        final int min = this.headerFields.values().stream()
-                                                    .min((entry1, entry2) -> entry2 < entry2 ? 1 : -1)
-                                                    .get();
-        return fieldId >= min && fieldId <= max;
     }
 
     public final byte[] getMasterSeed() {
@@ -132,22 +111,6 @@ public class KDBHeader {
         return transformRound.getLong();
     }
 
-    public final void setCipher(final byte[] cipher) {
-        this.setField(Field.CIPHERID, cipher);
-    }
-
-    public final void setCompressionFlag(final byte[] flag) {
-        this.setField(Field.COMPRESSION_FLAGS, flag);
-    }
-
-    public final void setMasterSeed(final byte[] masterSeed) {
-        this.setField(Field.MASTER_SEED, masterSeed);
-    }
-
-    public final void setEncryptionIV(final byte[] iv) {
-        this.setField(Field.ENCRYPTION_IV, iv);
-    }
-
     /**
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
@@ -159,7 +122,7 @@ public class KDBHeader {
                 .map(byteArray -> Bytes.asList(byteArray))
                 .flatMap(listArray -> listArray.stream())
                 .collect(Collectors.toList()));
-                /*
+        /*
                 .collect(
                         () -> new ByteArrayOutputStream(),
                         (outputStream, value) -> {
@@ -170,7 +133,7 @@ public class KDBHeader {
                             }
                         },
                         (a, b) -> { }).toByteArray();
-                        */
+         */
         // System.out.println(Hex.encodeHex(dataBuffer));
         // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
@@ -187,15 +150,50 @@ public class KDBHeader {
         return buffer;
     }
 
-    /*
-     * USELESS PROBABLY
-    private int dataToKey(final byte[] data) {
-        return this.fields.entrySet().stream()
-                                     .filter(entry -> data.equals(entry.getValue()))
-                                     .findFirst()
-                                     .get()
-                                     .getKey();
+
+    public final void setField(final Field field, final byte[] value) {
+        this.setField(this.headerFields.get(field), value);
+        // return this;
+        // this.fields.put(this.headerFields.get(field), value);
     }
-    */
+
+    public final void setField(final int field, final byte[] value) {
+        this.fields.remove(field);
+        this.fields.put(field, value);
+        // return this;
+    }
+
+    public final void setHeaderFields(final EnumMap<Field, Integer> headerFields) {
+        this.headerFields = headerFields;
+    }
+
+    public final void setFields(final Map<Integer, byte[]> fields) {
+        this.fields = fields;
+    }
+
+    public final void setCipher(final String cipher) {
+        String key = ciphers.entrySet().stream()
+                .filter(c -> c.getValue().equals(cipher))
+                .findFirst()
+                .get()
+                .getKey();
+        try {
+            this.setField(Field.CIPHERID, Hex.decodeHex(key));
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public final void setCompressionFlag(final byte[] flag) {
+        this.setField(Field.COMPRESSION_FLAGS, flag);
+    }
+
+    public final void setMasterSeed(final byte[] masterSeed) {
+        setField(Field.MASTER_SEED, masterSeed);
+    }
+
+    public final void setEncryptionIV(final byte[] iv) {
+        this.setField(Field.ENCRYPTION_IV, iv);
+    }
 
 }
