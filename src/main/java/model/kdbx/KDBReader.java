@@ -2,28 +2,44 @@ package model.kdbx;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Hex;
+
+import com.google.common.primitives.Bytes;
 
 import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
 import model.crypto.Util;
 
-public class KDBReader extends KDBFile {
+public class KDBReader {
 
     private static final int SIGNATURE_LENGTH = 12;
     private final KDBHeader header;
+    private List<byte[]> keys;
+    private int headerLength;
+    private ByteBuffer inputByteBuffer;
+    private byte[] masterKey;
 
     public final KDBHeader getHeader() {
         return header;
     }
 
     public KDBReader(final InputStream stream, final List<byte[]> credentials) {
-        super(stream, credentials);
+        try {
+            this.inputByteBuffer = ByteBuffer.wrap(stream.readAllBytes());
+            this.inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        } catch (final IOException e) {
+            System.out.println("Error reading stream KDBFile: " + e.toString());
+        }
+        this.keys = new ArrayList<>();
+        this.headerLength = 0;
+        this.addKeys(credentials);
         header = new KDBHeader();
         this.readHeader();
         try {
@@ -51,30 +67,33 @@ public class KDBReader extends KDBFile {
                 this.header.setField(fieldId, data);
             }
             if (fieldId == 0) {
-                this.setHeaderLength(this.inputByteBuffer.position());
+                this.headerLength = this.inputByteBuffer.position();
                 break;
             }
         }
     }
 
     protected final void decrypt() throws IOException {
-        super.decrypt();
-        CipherFactory cipherFactory = new CipherFactory();
-        CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher());
+        this.makeMasterKey();
+        this.inputByteBuffer.position(this.headerLength);
+        this.inputByteBuffer.order(ByteOrder.BIG_ENDIAN);
+        final CipherFactory cipherFactory = new CipherFactory();
+        final CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher());
         cipher.setKey(this.masterKey);
-        byte[] encrypted = new byte[this.inputByteBuffer.remaining()];
+        final byte[] encrypted = new byte[this.inputByteBuffer.remaining()];
         this.inputByteBuffer.get(encrypted);
         /*
         System.out.println("Length encrypted: " + encrypted.length);
         System.out.println("IV: " + Hex.encodeHexString(this.header.getEncryptionIV()));
         System.out.println("Master key: " + Hex.encodeHexString(this.masterKey));
         */
-        byte[] dec = cipher.decrypt(encrypted, this.header.getEncryptionIV());
-        int lengthCheck = this.header.getStreamStartBytes().length;
+        final byte[] dec = cipher.decrypt(encrypted, this.header.getEncryptionIV());
+        final int lengthCheck = this.header.getStreamStartBytes().length;
         if (Arrays.equals(this.header.getStreamStartBytes(), 0, lengthCheck, dec, 0, lengthCheck)) {
-            byte[] toHash = new byte[dec.length - lengthCheck];
+            final byte[] toHash = new byte[dec.length - lengthCheck];
             System.arraycopy(dec, lengthCheck, toHash, 0, toHash.length);
-            HashedBlock hashedBlock = new HashedBlock(toHash);
+            System.out.println(new String(toHash));
+            // HashedBlock hashedBlock = new HashedBlock(toHash);
         } else {
             throw new IOException("Corrupted data found during decryption");
         }
@@ -82,28 +101,28 @@ public class KDBReader extends KDBFile {
     }
 
     protected final void makeMasterKey() {
+        if (this.keys.size() == 0) {
+            throw new NullPointerException("Credentials empty in makeMasterKey");
+        }
         try {
-            super.makeMasterKey();
-            List<Byte> hashedKeys = new ArrayList<>();
-            for (final byte[] k: this.keys) {
-                for (final byte b: k) {
-                    hashedKeys.add(b);
-                }
-            }
-            // Ugly way
-            byte[] composite = new byte[hashedKeys.size()];
-            for (int i = 0; i < hashedKeys.size(); i++) {
-                composite[i] = (byte) hashedKeys.toArray()[i];
-            }
+            byte[] composite = Bytes.toArray(this.keys.stream()
+                    .map(key -> Bytes.asList(key))
+                    .flatMap(x -> x.stream())
+                    .collect(Collectors.toList()));
             final byte[] temporaryKey = Util.transformKey(Util.sha256(composite), this.header.getTransformSeed(),
                     this.header.getTransformRounds());
             byte[] masterSeed = this.header.getMasterSeed();
-            byte[] masterKey = new byte[temporaryKey.length + masterSeed.length];
-            System.arraycopy(masterSeed, 0, masterKey, 0, masterSeed.length);
-            System.arraycopy(temporaryKey, 0, masterKey, masterSeed.length, temporaryKey.length);
-            this.masterKey = Util.sha256(masterKey);
+            this.masterKey = Util.sha256(Bytes.concat(masterSeed, temporaryKey));
         } catch (NullPointerException e) {
             System.out.println("Error no keys: " + e.toString());
         }
+    }
+
+    private void addKey(final byte[] key) {
+        this.keys.add(Util.sha256(key));
+    }
+
+    private void addKeys(final List<byte[]> keys) {
+        keys.stream().forEach(e -> this.addKey(e));
     }
 }

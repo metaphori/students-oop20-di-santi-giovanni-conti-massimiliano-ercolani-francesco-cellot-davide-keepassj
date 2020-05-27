@@ -9,6 +9,7 @@ import java.util.List;
 import model.kdbx.KDBHeader;
 import model.kdbx.KDBReader;
 
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 public class TestKDBReader {
@@ -20,7 +21,7 @@ public class TestKDBReader {
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
         KDBReader db = new KDBReader(inputStream, credentials);
         KDBHeader header = db.getHeader();
-        header.dataToBytes();
+        System.out.println(Hex.encodeHex(header.dataToBytes()));
         assertEquals(header.getCipher(), "AES");
         assertEquals(header.getTransformRounds(), transformRounds);
         // System.out.println(Hex.encodeHex(header.getTransformSeed()));

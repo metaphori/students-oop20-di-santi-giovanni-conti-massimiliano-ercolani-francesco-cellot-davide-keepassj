@@ -3,6 +3,7 @@ package model.kdbx;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
@@ -12,6 +13,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.apache.commons.codec.binary.Hex;
+
+import com.google.common.primitives.Bytes;
 
 public class KDBHeader {
 
@@ -150,9 +153,13 @@ public class KDBHeader {
      * @return List of ByteBuffer.
      */
     public final byte[] dataToBytes() {
-        byte[] dataBuffer = this.fields.entrySet().stream()
+        byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
                 .map(value -> headerInfo(value.getKey(), value.getValue()))
                 .map(buffer -> buffer.array())
+                .map(byteArray -> Bytes.asList(byteArray))
+                .flatMap(listArray -> listArray.stream())
+                .collect(Collectors.toList()));
+                /*
                 .collect(
                         () -> new ByteArrayOutputStream(),
                         (outputStream, value) -> {
@@ -163,6 +170,7 @@ public class KDBHeader {
                             }
                         },
                         (a, b) -> { }).toByteArray();
+                        */
         // System.out.println(Hex.encodeHex(dataBuffer));
         // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
