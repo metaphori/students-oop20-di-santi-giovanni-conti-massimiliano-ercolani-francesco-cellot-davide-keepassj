@@ -1,16 +1,15 @@
 package model.crypto;
 
-public class CipherFactory {
+public final class CipherFactory {
 
+    private CipherFactory() {
+    }
     /**
      * Create an instance of Cipher.
      * @param cipherType
-     * @param key
      * @return Cipher Object
-     * @throws NoSuchPaddingException 
-     * @throws NoSuchAlgorithmException 
      */
-    public CryptoCipher getCipher(final String cipherType) {
+    public static CryptoCipher create(final String cipherType) {
         if (cipherType == null) {
             return null;
         }
@@ -19,7 +18,6 @@ public class CipherFactory {
         } else if (cipherType.equalsIgnoreCase("ChaCha20")) {
             return new ChaCha20();
         }
-
         return null;
     }
 }

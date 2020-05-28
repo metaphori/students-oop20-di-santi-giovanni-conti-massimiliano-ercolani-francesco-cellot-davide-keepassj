@@ -10,8 +10,8 @@ public interface KDF {
      * Generate key.
      * @param password
      * @param rounds
-     * @param seed
+     * @param salt 
      * @return key.
      */
-    byte[] generateKey(byte[] password, byte[] seed, int rounds);
+    byte[] generateKey(byte[] password, byte[] salt, int rounds);
 }

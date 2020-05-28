@@ -9,9 +9,8 @@ public class KDBHeaderBuilder {
         return new KDBHeaderBuilder();
     }
 
-    public final KDBHeader setCipher(final String cipher) {
+    public final void setCipher(final String cipher) {
         this.header.setCipher(cipher);
-        return this.header;
     }
 
     public final KDBHeader setCompressionFlag(final byte[] flag) {
@@ -24,8 +23,16 @@ public class KDBHeaderBuilder {
         return this.header;
     }
 
+    public final void setKDF(final String kdf) {
+        this.header.setKDF(kdf);
+    }
+
     public final KDBHeader setEncryptionIV(final byte[] iv) {
         this.header.setEncryptionIV(iv);
+        return this.header;
+    }
+
+    public final KDBHeader build() {
         return this.header;
     }
 

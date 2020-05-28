@@ -13,8 +13,8 @@ public class PBKDF implements KDF {
     private static final int KEYLENGTH = 256;
 
     @Override
-    public final byte[] generateKey(final byte[] password, final byte[] seed, final int rounds) {
-        final PBEKeySpec spec = new PBEKeySpec(new String(password).toCharArray(), seed, rounds, KEYLENGTH);
+    public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
+        final PBEKeySpec spec = new PBEKeySpec(new String(password).toCharArray(), salt, rounds, KEYLENGTH);
         SecretKeyFactory skf = null;
         try {
             skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");

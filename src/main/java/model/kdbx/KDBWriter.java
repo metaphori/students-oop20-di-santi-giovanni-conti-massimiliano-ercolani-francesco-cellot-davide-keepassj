@@ -40,9 +40,8 @@ public class KDBWriter {
     }
 
     private byte[] encrypt() {
-        CipherFactory cipherFactory = new CipherFactory();
         String cipherType = this.header.getCipher();
-        CryptoCipher cipher = cipherFactory.getCipher(cipherType);
+        CryptoCipher cipher = CipherFactory.create(cipherType);
         byte [] newIV = new byte[16];
         this.random.nextBytes(newIV);
         this.header.setEncryptionIV(newIV);
