@@ -77,8 +77,7 @@ public class KDBReader {
         this.makeMasterKey();
         this.inputByteBuffer.position(this.headerLength);
         this.inputByteBuffer.order(ByteOrder.BIG_ENDIAN);
-        final CipherFactory cipherFactory = new CipherFactory();
-        final CryptoCipher cipher = cipherFactory.getCipher(this.header.getCipher());
+        final CryptoCipher cipher = CipherFactory.create(this.header.getCipher());
         cipher.setKey(this.masterKey);
         final byte[] encrypted = new byte[this.inputByteBuffer.remaining()];
         this.inputByteBuffer.get(encrypted);
@@ -101,21 +100,19 @@ public class KDBReader {
     }
 
     protected final void makeMasterKey() {
+        this.header.dataToBytes();
+        System.out.println(this.keys.size());
         if (this.keys.size() == 0) {
-            throw new NullPointerException("Credentials empty in makeMasterKey");
+            System.out.println("Error no keys: ");
         }
-        try {
-            byte[] composite = Bytes.toArray(this.keys.stream()
-                    .map(key -> Bytes.asList(key))
-                    .flatMap(x -> x.stream())
-                    .collect(Collectors.toList()));
-            final byte[] temporaryKey = Util.transformKey(Util.sha256(composite), this.header.getTransformSeed(),
-                    this.header.getTransformRounds());
-            byte[] masterSeed = this.header.getMasterSeed();
-            this.masterKey = Util.sha256(Bytes.concat(masterSeed, temporaryKey));
-        } catch (NullPointerException e) {
-            System.out.println("Error no keys: " + e.toString());
-        }
+        byte[] composite = Bytes.toArray(this.keys.stream()
+                .map(key -> Bytes.asList(key))
+                .flatMap(x -> x.stream())
+                .collect(Collectors.toList()));
+        final byte[] temporaryKey = Util.transformKey(Util.sha256(composite), this.header.getTransformSeed(),
+                this.header.getTransformRounds());
+        byte[] masterSeed = this.header.getMasterSeed();
+        this.masterKey = Util.sha256(Bytes.concat(masterSeed, temporaryKey));
     }
 
     private void addKey(final byte[] key) {

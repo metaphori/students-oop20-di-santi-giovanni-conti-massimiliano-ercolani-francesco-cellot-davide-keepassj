@@ -22,17 +22,13 @@ public class TestKDBWriter {
         final long transformRounds = 60000;
         final InputStream inputStream = ClassLoader.getSystemResourceAsStream("database.kdbx");
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
-        KDBReader db = new KDBReader(inputStream, credentials);
-        KDBHeader header = db.getHeader();
-        // header.dataToBytes();
-        assertEquals(header.getCipher(), "AES");
-        assertEquals(header.getTransformRounds(), transformRounds);
         OutputStream out = null;
         try {
             out = new FileOutputStream("write.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        KDBHeader header = new KDBHeader();
         KDBWriter dbWrite = new KDBWriter(header, out);
         dbWrite.write();
     }

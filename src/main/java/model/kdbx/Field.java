@@ -15,7 +15,7 @@ public enum Field {
     /**
      * ID of the cipher used to encrypt the database.
      */
-    CIPHERID,
+    CIPHER_ID,
     /**
      * Check if the database is compressed.
      */
@@ -55,5 +55,9 @@ public enum Field {
     /**
      * Public Custom Data.
      */
-    PUBLIC_CUSTOM_DATA
+    PUBLIC_CUSTOM_DATA,
+    /**
+     * KDF ID.
+     */
+    KDF_ID
 }

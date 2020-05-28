@@ -1,24 +1,27 @@
 package model.kdbx;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Map.entry;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.security.SecureRandom;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.primitives.Bytes;
 
 public class KDBHeader {
 
-    private EnumMap<Field, Integer> headerFields;
+    private static final int SIGNATURE = 0xDBDBDBDB;
+    private static final long DEFAULT_ROUNDS = 10000;
     private Map<Integer, byte[]> fields;
     // private final Map<String, String> ciphers;
     private final Map<String, String> ciphers = ImmutableMap.of(
@@ -32,11 +35,20 @@ public class KDBHeader {
             3, "ChaCha20"
             );
 
+    private final Map<String, String> kdfs = ImmutableMap.of(
+            "33d8bdb9f1bf67a7467bca59eccb18b0", "PBKDF2",
+            "ef636ddf8c29444b91f7a9a403e30a0c", "Argon2",
+            "9cacaaf3cce9c43908274ed3c3c6eb1c", "Scrypt"
+            );
+
+    private EnumMap<Field, Integer> headerFields;
+
     public KDBHeader() {
+
         this.headerFields = new EnumMap<>(Field.class);
         this.headerFields.put(Field.END_OF_HEADER, 0);
         this.headerFields.put(Field.COMMENT, 1);
-        this.headerFields.put(Field.CIPHERID, 2);
+        this.headerFields.put(Field.CIPHER_ID, 2);
         this.headerFields.put(Field.COMPRESSION_FLAGS, 3);
         this.headerFields.put(Field.MASTER_SEED, 4);
         this.headerFields.put(Field.TRANSFORM_SEED, 5);
@@ -47,8 +59,10 @@ public class KDBHeader {
         this.headerFields.put(Field.INNER_RANDOM_STREAM_ID, 10);
         this.headerFields.put(Field.KDF_PARAMETERS, 11);
         this.headerFields.put(Field.PUBLIC_CUSTOM_DATA, 12);
-
+        this.headerFields.put(Field.KDF_ID, 13);
         this.fields = new HashMap<>();
+
+        this.setDefaults();
     }
 
     public final boolean checkField(final int fieldId) {
@@ -82,7 +96,7 @@ public class KDBHeader {
     }
 
     public final String getCipher() {
-        return this.ciphers.get(new String(Hex.encodeHex(this.getFieldData(Field.CIPHERID))));
+        return this.ciphers.get(new String(Hex.encodeHex(this.getFieldData(Field.CIPHER_ID))));
     }
 
     public final boolean getCompressionFlag() {
@@ -122,26 +136,25 @@ public class KDBHeader {
                 .map(byteArray -> Bytes.asList(byteArray))
                 .flatMap(listArray -> listArray.stream())
                 .collect(Collectors.toList()));
-        /*
-                .collect(
-                        () -> new ByteArrayOutputStream(),
-                        (outputStream, value) -> {
-                            try {
-                                outputStream.write(value);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        },
-                        (a, b) -> { }).toByteArray();
-         */
         // System.out.println(Hex.encodeHex(dataBuffer));
         // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
         return dataBuffer;
     }
 
+    private void setDefaults() {
+        SecureRandom random = new SecureRandom();
+        final byte [] seed = new byte[16];
+        this.setCipher("AES");
+        this.setKDF("PBKDF2");
+        this.setTransformRounds(DEFAULT_ROUNDS);
+        random.nextBytes(seed);
+        this.setTransformSeed(seed);
+    }
+
     private ByteBuffer headerInfo(final int key, final byte[] data) {
         // Field ID + Length + Payload
         ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
+        System.out.println(key + ": " + Hex.encodeHexString(data));
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.put((byte) key);
         buffer.putShort((short) data.length);
@@ -150,6 +163,17 @@ public class KDBHeader {
         return buffer;
     }
 
+    private void setTransformRounds(final long rounds) {
+        ByteBuffer transformRound = ByteBuffer.allocate(8);
+        transformRound.order(ByteOrder.LITTLE_ENDIAN);
+        transformRound.putLong(rounds);
+        transformRound.rewind();
+        this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
+    }
+
+    private void setTransformSeed(final byte[] seed) {
+        this.setField(Field.TRANSFORM_SEED, seed);
+    }
 
     public final void setField(final Field field, final byte[] value) {
         this.setField(this.headerFields.get(field), value);
@@ -178,7 +202,20 @@ public class KDBHeader {
                 .get()
                 .getKey();
         try {
-            this.setField(Field.CIPHERID, Hex.decodeHex(key));
+            this.setField(Field.CIPHER_ID, Hex.decodeHex(key));
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public final void setKDF(final String kdf) {
+        String key = kdfs.entrySet().stream()
+                .filter(c -> c.getValue().equals(kdf))
+                .findFirst()
+                .get()
+                .getKey();
+        try {
+            this.setField(Field.KDF_ID, Hex.decodeHex(key));
         } catch (DecoderException e) {
             e.printStackTrace();
         }
