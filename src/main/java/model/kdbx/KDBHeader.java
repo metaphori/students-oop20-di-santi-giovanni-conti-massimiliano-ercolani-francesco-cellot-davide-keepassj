@@ -99,6 +99,10 @@ public class KDBHeader {
         return this.ciphers.get(new String(Hex.encodeHex(this.getFieldData(Field.CIPHER_ID))));
     }
 
+    public final String getKDF() {
+        return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
+    }
+
     public final boolean getCompressionFlag() {
         return this.getFieldData(Field.COMPRESSION_FLAGS)[0] == 1;
     }
