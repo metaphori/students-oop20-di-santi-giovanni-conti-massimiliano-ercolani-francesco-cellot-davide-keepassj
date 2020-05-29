@@ -105,7 +105,7 @@ public class KDB {
         final String kdfType = this.header.getKDF();
         final KDF kdf = KDFFactory.create(kdfType);
 
-        final byte [] newIV = new byte[16];
+        final byte [] newIV = new byte[cipher.getIVSize()];
         this.random.nextBytes(newIV);
         this.header.setEncryptionIV(newIV);
 

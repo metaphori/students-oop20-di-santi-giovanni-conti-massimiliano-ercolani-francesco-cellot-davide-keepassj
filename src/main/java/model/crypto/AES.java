@@ -17,7 +17,15 @@ public class AES implements CryptoCipher {
     /**
      * BLOCKSIZE This is the Block Size of AES.
      */
-    public static final int BLOCKSIZE = 16;
+    public static final int BLOCK_SIZE = 16;
+    /**
+     * IV_SIZE This is the IV Size of AES-CBC.
+     */
+    private static final int IV_SIZE = 16;
+    /**
+     * KEY_SIZE This is the key size of AES-CBC.
+     */
+    private static final int KEY_SIZE = 32;
 
     private Cipher cipher;
     private SecureRandom random;
@@ -64,7 +72,7 @@ public class AES implements CryptoCipher {
         try {
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             this.cipher.init(Cipher.ENCRYPT_MODE, aesKey, ivParameterSpec);
-            return this.cipher.doFinal(Util.pad(plaintext, AES.BLOCKSIZE));
+            return this.cipher.doFinal(Util.pad(plaintext, AES.BLOCK_SIZE));
         } catch (InvalidKeyException | BadPaddingException  | IllegalBlockSizeException 
                 | InvalidAlgorithmParameterException e) {
             System.out.println("Error AES encryption: " + e.toString());
@@ -106,6 +114,22 @@ public class AES implements CryptoCipher {
             System.out.println("Error AES decryption: " + e.toString());
         }
         return null;
+    }
+
+    /**
+     * Return IV Size.
+     */
+    @Override
+    public int getIVSize() {
+        return AES.IV_SIZE;
+    }
+
+    /**
+     * Return key size.
+     */
+    @Override
+    public int getKeySize() {
+        return AES.KEY_SIZE;
     }
 
     /**

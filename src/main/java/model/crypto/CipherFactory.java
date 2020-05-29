@@ -17,6 +17,8 @@ public final class CipherFactory {
             return new AES();
         } else if (cipherType.equalsIgnoreCase("ChaCha20")) {
             return new ChaCha20();
+        } else if (cipherType.equalsIgnoreCase("AESGCM")) {
+            return new AESGCM();
         }
         return null;
     }

@@ -18,7 +18,6 @@ public class TestKDB {
     public void testKDBReader() throws IOException {
         File database = new File("test-write.kdbx");
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
-        byte[] plaintext = "This is a test".getBytes();
         try {
             KDB kdbRead = new KDB(database, credentials);
             kdbRead.read();

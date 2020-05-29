@@ -27,4 +27,16 @@ public interface CryptoCipher {
      * @param key This is the key.
      */
     void setKey(byte[] key);
+
+    /**
+     * Get IV size.
+     * @return size.
+     */
+    int getIVSize();
+
+    /**
+     * get key size.
+     * @return size.
+     */
+    int getKeySize();
 }
