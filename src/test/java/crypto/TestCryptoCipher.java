@@ -47,4 +47,19 @@ public class TestCryptoCipher {
         // ciphertext[10] = 5;
         System.out.println(new String(aesGcm.decrypt(ciphertext, iv)));
     }
+
+    @Test
+    public void testChaCha20Poly1305() {
+        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
+        CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
+        final byte[] iv = new byte[chacha20poly1305.getIVSize()];
+        final byte[] key = new byte[chacha20poly1305.getKeySize()];
+        Arrays.fill(iv, (byte) 'b');
+        Arrays.fill(key, (byte) 'a');
+        chacha20poly1305.setKey(key);
+        final byte[] ciphertext = chacha20poly1305.encrypt(plaintext, iv);
+        // Tag mismatch
+        // ciphertext[10] = 5;
+        System.out.println(new String(chacha20poly1305.decrypt(ciphertext, iv)));
+    }
 }
