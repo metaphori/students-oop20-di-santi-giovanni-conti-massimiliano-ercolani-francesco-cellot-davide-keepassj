@@ -64,7 +64,7 @@ public class KDBWriter {
         final byte[] key = kdf.generateKey(this.compositeKey, this.header.getTransformSeed(), (int) this.header.getTransformRounds());
         cipher.setKey(key);
 
-        final byte[] headerData = this.header.dataToBytes();
+        final byte[] headerData = this.header.writeHeader();
         final byte[] ciphertext = cipher.encrypt(plaintext, newIV);
         return Bytes.concat(headerData, ciphertext);
     }

@@ -21,7 +21,7 @@ public class TestKDBReader {
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
         KDBReader db = new KDBReader(inputStream, credentials);
         KDBHeader header = db.getHeader();
-        System.out.println(Hex.encodeHex(header.dataToBytes()));
+        System.out.println(Hex.encodeHex(header.writeHeader()));
         assertEquals(header.getCipher(), "AES");
         assertEquals(header.getTransformRounds(), transformRounds);
         // System.out.println(Hex.encodeHex(header.getTransformSeed()));

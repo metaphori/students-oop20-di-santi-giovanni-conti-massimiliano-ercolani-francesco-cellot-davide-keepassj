@@ -57,6 +57,7 @@ public class KDBReader {
         byte[] data;
         this.inputByteBuffer.position(KDBReader.SIGNATURE_LENGTH);
         while (true) {
+            fieldId = -1;
             fieldId = (int) this.inputByteBuffer.get();
             if (!this.header.checkField(fieldId)) {
                 break;
@@ -102,7 +103,7 @@ public class KDBReader {
     }
 
     protected final void makeMasterKey() {
-        this.header.dataToBytes();
+        this.header.writeHeader();
         System.out.println(this.keys.size());
         if (this.keys.size() == 0) {
             System.out.println("Error no keys: ");

@@ -1,12 +1,11 @@
 package model.kdbx;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.SecureRandom;
@@ -15,15 +14,14 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.common.primitives.Bytes;
 
 public class KDBHeader {
 
-    private static final int SIGNATURE = 0xDBDBDBDB;
+    private static final byte[] SIGNATURE = {(byte) 0xdb, (byte) 0xdb, (byte) 0xdb, (byte) 0xdb};
+    private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
     private static final long DEFAULT_ROUNDS = 10000;
     private Map<Integer, byte[]> fields;
-    // private final Map<String, String> ciphers;
     private final Map<String, String> ciphers = ImmutableMap.of(
             "31c1f2e6bf714350be5805216afc5aff", "AES",
             "ad68f29f576f4bb9a36ad47af965346c", "TwoFish",
@@ -63,6 +61,34 @@ public class KDBHeader {
         this.fields = new HashMap<>();
 
         this.setDefaults();
+    }
+
+    public final int readHeader(final InputStream inStream) throws IOException {
+        // byte[] allBytes = inStream.readAllBytes();
+        ByteBuffer inputByteBuffer = ByteBuffer.wrap(inStream.readAllBytes());
+        inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        int fieldId = 0;
+        int length = 0;
+        byte[] data;
+        inputByteBuffer.position(KDBHeader.SIGNATURE.length);
+        while (true) {
+            fieldId = -1;
+            fieldId = (int) inputByteBuffer.get();
+            if (!this.checkField(fieldId)) {
+                break;
+            }
+            length = inputByteBuffer.getShort();
+            data = new byte[length];
+            if (length > 0) {
+                inputByteBuffer.get(data, 0, length);
+                // Add data to header
+                this.setField(fieldId, data);
+            }
+            if (fieldId == 0) {
+                return inputByteBuffer.position();
+            }
+        }
+        throw new IOException();
     }
 
     public final boolean checkField(final int fieldId) {
@@ -133,16 +159,28 @@ public class KDBHeader {
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
      */
-    public final byte[] dataToBytes() {
+    public final byte[] writeHeader() {
         byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
-                .map(value -> headerInfo(value.getKey(), value.getValue()))
+                .map(value -> fieldToBytes(value.getKey(), value.getValue()))
                 .map(buffer -> buffer.array())
                 .map(byteArray -> Bytes.asList(byteArray))
                 .flatMap(listArray -> listArray.stream())
                 .collect(Collectors.toList()));
         // System.out.println(Hex.encodeHex(dataBuffer));
         // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
-        return dataBuffer;
+        return Bytes.concat(KDBHeader.SIGNATURE, dataBuffer, KDBHeader.END_OF_HEADER);
+    }
+
+    private ByteBuffer fieldToBytes(final int key, final byte[] data) {
+        // Field ID + Length + Payload
+        ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
+        System.out.println(key + ": " + Hex.encodeHexString(data));
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) key);
+        buffer.putShort((short) data.length);
+        buffer.put(data);
+        buffer.rewind();
+        return buffer;
     }
 
     private void setDefaults() {
@@ -153,18 +191,6 @@ public class KDBHeader {
         this.setTransformRounds(DEFAULT_ROUNDS);
         random.nextBytes(seed);
         this.setTransformSeed(seed);
-    }
-
-    private ByteBuffer headerInfo(final int key, final byte[] data) {
-        // Field ID + Length + Payload
-        ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
-        System.out.println(key + ": " + Hex.encodeHexString(data));
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.put((byte) key);
-        buffer.putShort((short) data.length);
-        buffer.put(data);
-        buffer.rewind();
-        return buffer;
     }
 
     private void setTransformRounds(final long rounds) {

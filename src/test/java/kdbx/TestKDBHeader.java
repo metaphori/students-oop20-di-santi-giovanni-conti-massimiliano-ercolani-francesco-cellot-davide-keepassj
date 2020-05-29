@@ -12,7 +12,7 @@ public class TestKDBHeader {
     @Test
     public void test() {
         KDBHeader header = new KDBHeader();
-        System.out.println(Hex.encodeHex(header.dataToBytes()));
+        System.out.println(Hex.encodeHex(header.writeHeader()));
     }
 
 }
