@@ -32,7 +32,7 @@ public class TestKDB {
         File database = new File("test-write.kdbx");
         // database.createNewFile();
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
-        byte[] plaintext = "This is a test".getBytes();
+        byte[] plaintext = "This is a test 2".getBytes();
         KDBHeader header = new KDBHeader();
         try {
             KDB kdb = new KDB(database, credentials, header);

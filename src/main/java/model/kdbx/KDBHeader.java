@@ -63,9 +63,9 @@ public class KDBHeader {
         this.setDefaults();
     }
 
-    public final int readHeader(final InputStream inStream) throws IOException {
+    public final int readHeader(final byte[] fileData) throws IOException {
         // byte[] allBytes = inStream.readAllBytes();
-        ByteBuffer inputByteBuffer = ByteBuffer.wrap(inStream.readAllBytes());
+        ByteBuffer inputByteBuffer = ByteBuffer.wrap(fileData);
         inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         int fieldId = 0;
         int length = 0;

@@ -7,8 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,6 @@ public class KDB {
     private File database;
     private InputStream inStream;
     private OutputStream outStream;
-    private ByteBuffer inputByteBuffer;
     private SecureRandom random;
     private byte[] compositeKey;
 
@@ -49,40 +48,41 @@ public class KDB {
         this.header = header;
     }
 
-    public final void read() throws FileNotFoundException {
+    /**
+     * Decrypt the database.
+     * @return plaintext.
+     * @throws FileNotFoundException
+     */
+    public final byte[] read() throws FileNotFoundException {
         this.header = new KDBHeader();
         this.inStream = new FileInputStream(this.database);
         int offset = 0;
+        byte[] data = null;
         try {
-            offset = this.header.readHeader(this.inStream);
+            data = this.inStream.readAllBytes();
+            offset = this.header.readHeader(data);
         } catch (IOException e) {
             System.out.println("Error file has invalid header");
-            return;
+            return null;
         }
-        this.inStream = new FileInputStream(this.database);
-        try {
-            this.inStream.skip(offset);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        byte[] ciphertext = null;
-        try {
-            ciphertext = this.inStream.readAllBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
         final byte[] plaintext = decrypt(ciphertext);
         System.out.println(new String(plaintext));
+        return plaintext;
     }
 
+    /**
+     * Encrypt the plaintext inside the database.
+     * @param plaintext
+     * @throws FileNotFoundException
+     */
     public final void write(final byte[] plaintext) throws FileNotFoundException {
         this.outStream = new FileOutputStream(this.database);
         final byte[] ciphertext = encrypt(plaintext);
         try {
             this.outStream.write(Bytes.concat(this.header.writeHeader(), ciphertext));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Error writing to the file");
         }
     }
 
