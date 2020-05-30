@@ -1,5 +1,11 @@
 package model.crypto;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
+
 public class ChaCha20 implements CryptoCipher {
 
     /**
@@ -10,13 +16,18 @@ public class ChaCha20 implements CryptoCipher {
      * KEY_SIZE This is the key size of ChaCha20.
      */
     public static final int KEY_SIZE = 32;
-    private byte[] key;
+    private SecretKeySpec key;
+    private Cipher cipher;
 
     /**
      * Construct an ChaCha20 Object.
      */
     public ChaCha20() {
-        ;
+        try {
+            this.cipher = Cipher.getInstance("ChaCha20/None/NoPadding");
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            e.printStackTrace();
+        }
     }
 
     public final int getIVSize() {
@@ -40,9 +51,8 @@ public class ChaCha20 implements CryptoCipher {
     }
 
     @Override
-    public void setKey(byte[] key) {
-        // TODO Auto-generated method stub
-        
+    public void setKey(final byte[] key) {
+        this.key = new SecretKeySpec(key, "ChaCha20");
     }
 
 }

@@ -29,10 +29,10 @@ public class TestKDB {
     @Test
     public void testKDBWrite() {
         File database = new File("test-write.kdbx");
-        // database.createNewFile();
         final List<byte[]> credentials = Arrays.asList("ciao".getBytes());
         byte[] plaintext = "This is a test 2".getBytes();
         KDBHeader header = new KDBHeader();
+        header.setCipher("ChaCha20Poly1305");
         try {
             KDB kdb = new KDB(database, credentials, header);
             kdb.write(plaintext);

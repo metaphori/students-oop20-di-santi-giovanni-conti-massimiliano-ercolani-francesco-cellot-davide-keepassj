@@ -25,7 +25,9 @@ public class KDBHeader {
     private final Map<String, String> ciphers = ImmutableMap.of(
             "31c1f2e6bf714350be5805216afc5aff", "AES",
             "ad68f29f576f4bb9a36ad47af965346c", "TwoFish",
-            "d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20"
+            "d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20",
+            "4922bdc5a59a674fffb648a7b9e5b59c", "AESGCM",
+            "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305"
             );
     private final Map<Integer, String> protectedStreams = ImmutableMap.of(
             1, "ArcFourVariant",
