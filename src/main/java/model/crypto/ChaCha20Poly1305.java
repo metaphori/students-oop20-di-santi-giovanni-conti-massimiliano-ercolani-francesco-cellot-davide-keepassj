@@ -56,17 +56,17 @@ public class ChaCha20Poly1305 implements CryptoCipher {
     }
 
     @Override
-    public void setKey(final byte[] key) {
+    public final void setKey(final byte[] key) {
         this.chacha20poly1305key = new SecretKeySpec(key, "ChaCha20");
     }
 
     @Override
-    public int getIVSize() {
+    public final int getIVSize() {
         return ChaCha20Poly1305.IV_SIZE;
     }
 
     @Override
-    public int getKeySize() {
+    public final int getKeySize() {
         return ChaCha20Poly1305.KEY_SIZE;
     }
 

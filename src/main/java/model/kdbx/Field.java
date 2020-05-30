@@ -59,5 +59,13 @@ public enum Field {
     /**
      * KDF ID.
      */
-    KDF_ID
+    KDF_ID,
+    /**
+     * Thread used in KDF.
+     */
+    KDF_PARALLELISM,
+    /**
+     * Amount of memory used in KDF.
+     */
+    KDF_MEMORY
 }

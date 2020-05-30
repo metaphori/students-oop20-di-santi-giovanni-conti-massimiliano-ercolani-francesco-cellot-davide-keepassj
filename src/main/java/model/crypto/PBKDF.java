@@ -11,6 +11,7 @@ import org.apache.commons.codec.binary.Hex;
 public class PBKDF implements KDF {
 
     private static final int KEYLENGTH = 256;
+    private static final int ROUNDS = 10000;
 
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
@@ -29,6 +30,11 @@ public class PBKDF implements KDF {
         }
         System.out.println(Hex.encodeHex(key));
         return key;
+    }
+
+    @Override
+    public final int getDefaultRounds() {
+        return PBKDF.ROUNDS;
     }
 
 }

@@ -16,11 +16,14 @@ import org.apache.commons.codec.binary.Hex;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Bytes;
 
+import model.crypto.CipherFactory;
+import model.crypto.KDFFactory;
+
 public class KDBHeader {
 
     private static final byte[] SIGNATURE = {(byte) 0xdb, (byte) 0xdb, (byte) 0xdb, (byte) 0xdb};
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
-    private static final long DEFAULT_ROUNDS = 10000;
+    private static final long DEFAULT_ROUNDS = 15;
     private Map<Integer, byte[]> fields;
     private final Map<String, String> ciphers = ImmutableMap.of(
             "31c1f2e6bf714350be5805216afc5aff", "AES",
@@ -29,6 +32,7 @@ public class KDBHeader {
             "4922bdc5a59a674fffb648a7b9e5b59c", "AESGCM",
             "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305"
             );
+
     private final Map<Integer, String> protectedStreams = ImmutableMap.of(
             1, "ArcFourVariant",
             2, "Salsa20",
@@ -60,6 +64,8 @@ public class KDBHeader {
         this.headerFields.put(Field.KDF_PARAMETERS, 11);
         this.headerFields.put(Field.PUBLIC_CUSTOM_DATA, 12);
         this.headerFields.put(Field.KDF_ID, 13);
+        this.headerFields.put(Field.KDF_PARALLELISM, 14);
+        this.headerFields.put(Field.KDF_MEMORY, 15);
         this.fields = new HashMap<>();
 
         this.setDefaults();
@@ -157,6 +163,18 @@ public class KDBHeader {
         return transformRound.getLong();
     }
 
+    public final int getKDFParallelism() {
+        final ByteBuffer parallelismBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_PARALLELISM));
+        parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        return parallelismBuffer.getInt();
+    }
+
+    public final long getKDFMemory() {
+        final ByteBuffer memoryBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_MEMORY));
+        memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        return memoryBuffer.getLong();
+    }
+
     /**
      * Write Header in ByteBuffer.
      * @return List of ByteBuffer.
@@ -186,11 +204,15 @@ public class KDBHeader {
     }
 
     private void setDefaults() {
+        final String defaultCipher = "AESGCM";
+        final String defaultKDF = "Argon2";
         SecureRandom random = new SecureRandom();
-        final byte [] seed = new byte[16];
-        this.setCipher("AES");
-        this.setKDF("PBKDF2");
-        this.setTransformRounds(DEFAULT_ROUNDS);
+        final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
+        this.setCipher(defaultCipher);
+        this.setKDF(defaultKDF);
+        // final int rounds = KDFFactory.create(defaultKDF).getDefaultRounds();
+        // System.out.println(rounds);
+        this.setTransformRounds(KDBHeader.DEFAULT_ROUNDS);
         random.nextBytes(seed);
         this.setTransformSeed(seed);
     }
@@ -263,6 +285,22 @@ public class KDBHeader {
 
     public final void setEncryptionIV(final byte[] iv) {
         this.setField(Field.ENCRYPTION_IV, iv);
+    }
+
+    public final void setKDFParallelism(final int parallelism) {
+        final ByteBuffer parallelismBuffer = ByteBuffer.allocate(4);
+        parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        parallelismBuffer.putInt(parallelism);
+        parallelismBuffer.rewind();
+        this.setField(Field.KDF_PARALLELISM, parallelismBuffer.array());
+    }
+
+    public final void setKDFMemory(final long memory) {
+        final ByteBuffer memoryBuffer = ByteBuffer.allocate(8);
+        memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        memoryBuffer.putLong(memory);
+        memoryBuffer.rewind();
+        this.setField(Field.KDF_MEMORY, memoryBuffer.array());
     }
 
 }

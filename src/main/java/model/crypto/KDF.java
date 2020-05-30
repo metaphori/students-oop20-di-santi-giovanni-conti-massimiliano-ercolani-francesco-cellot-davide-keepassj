@@ -14,4 +14,6 @@ public interface KDF {
      * @return key.
      */
     byte[] generateKey(byte[] password, byte[] salt, int rounds);
+
+    int getDefaultRounds();
 }
