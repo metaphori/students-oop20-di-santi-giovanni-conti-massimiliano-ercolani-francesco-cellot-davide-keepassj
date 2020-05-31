@@ -16,4 +16,10 @@ public interface KDF {
     byte[] generateKey(byte[] password, byte[] salt, int rounds);
 
     int getDefaultRounds();
+
+    boolean isTweakable();
+
+    void setMemory(int memory);
+
+    void setParallelism(int parallelism);
 }

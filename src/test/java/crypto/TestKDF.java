@@ -13,7 +13,11 @@ public class TestKDF {
         KDF argon2 = KDFFactory.create("Argon2");
         byte[] password = Util.sha256("ciao".getBytes());
         byte[] salt = Util.sha256("test".getBytes());
-        int rounds = 10;
+        final int rounds = argon2.getDefaultRounds();
+        final int memory = 100000;
+        final int parallelism = 4;
+        argon2.setMemory(memory);
+        argon2.setParallelism(parallelism);
         argon2.generateKey(password, salt, rounds);
     }
 

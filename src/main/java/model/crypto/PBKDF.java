@@ -37,4 +37,19 @@ public class PBKDF implements KDF {
         return PBKDF.ROUNDS;
     }
 
+    @Override
+    public final boolean isTweakable() {
+        return false;
+    }
+
+    @Override
+    public final void setMemory(final int memory) {
+        return;
+    }
+
+    @Override
+    public final void setParallelism(final int parallelism) {
+        return;
+    }
+
 }
