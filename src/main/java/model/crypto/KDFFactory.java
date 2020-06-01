@@ -1,10 +1,18 @@
 package model.crypto;
 
+/**
+ * Factory Class to create object of KDF type.
+ */
 public final class KDFFactory {
 
     private KDFFactory() {
     }
 
+    /**
+     * Create object of KDF type.
+     * @param kdf
+     * @return KDF.
+     */
     public static KDF create(final String kdf) {
         if (kdf == null) {
             return null;

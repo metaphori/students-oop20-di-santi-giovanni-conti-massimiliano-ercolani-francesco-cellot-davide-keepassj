@@ -10,12 +10,9 @@ public class SCryptKDF extends KDFAdvanced {
 
     private static final int ROUNDS = 8;
 
-    /*
-    private int memory = DEFAULT_MEMORY;
-    private int parallelism = DEFAULT_PARALLELISM;
-    private int keySize = KEY_SIZE;
-    */
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
         byte[] key = null;
@@ -27,11 +24,17 @@ public class SCryptKDF extends KDFAdvanced {
         return key;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getDefaultRounds() {
         return ROUNDS; 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void setMemory(final int memory) throws Exception {
         if (isPowerOfTwo(memory)) {
@@ -39,12 +42,16 @@ public class SCryptKDF extends KDFAdvanced {
         }
     }
 
-    private boolean isPowerOfTwo(final int number) {
-        return (number != 0) && ((number & (number - 1)) == 0);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final boolean isTweakable() {
         return true;
     }
+
+    private boolean isPowerOfTwo(final int number) {
+        return (number != 0) && ((number & (number - 1)) == 0);
+    }
+
 }

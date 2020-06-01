@@ -1,6 +1,5 @@
 package crypto;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import javax.crypto.BadPaddingException;
@@ -36,17 +35,4 @@ public class TestUtil {
         }
     }
 
-    @Test
-    public void testHmac() {
-        byte[] expected = null;
-        try {
-            expected = Hex.decodeHex("f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8");
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        }
-        byte[] message = "The quick brown fox jumps over the lazy dog".getBytes();
-        byte[] key = "key".getBytes();
-        // values taken from wikipedia
-        assertArrayEquals(expected, Util.hmac256(key, message));
-    }
 }

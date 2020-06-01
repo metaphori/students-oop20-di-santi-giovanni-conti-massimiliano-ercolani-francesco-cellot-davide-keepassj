@@ -1,5 +1,8 @@
 package model.crypto;
 
+/**
+ * KDF Advanced features.
+ */
 public abstract class KDFAdvanced implements KDF {
 
     private static final int DEFAULT_KEY_SIZE = 32;
@@ -44,15 +47,23 @@ public abstract class KDFAdvanced implements KDF {
         }
     }
 
+    /**
+     * If is tweakable is true, then the setParallelism and setMemory are configurable.
+     * @return boolean.
+     */
     public final boolean isTweakble() {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final void setKeySize(final int keySize) {
         this.keySize = keySize;
     }
 
-    public final int getMemory() {
+    @SuppressWarnings("all")
+    private int getMemory() {
         return this.memory;
     }
 }
