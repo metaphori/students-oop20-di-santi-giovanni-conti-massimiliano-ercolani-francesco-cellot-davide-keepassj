@@ -10,12 +10,15 @@ import org.apache.commons.codec.binary.Hex;
 
 public class PBKDF implements KDF {
 
-    private static final int KEYLENGTH = 256;
+    private static final int MULTIPLIER = 8;
+    private static final int DEFAULT_KEY_SIZE = 32;
     private static final int ROUNDS = 10000;
+
+    private int keySize = DEFAULT_KEY_SIZE;
 
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
-        final PBEKeySpec spec = new PBEKeySpec(new String(password).toCharArray(), salt, rounds, KEYLENGTH);
+        final PBEKeySpec spec = new PBEKeySpec(new String(password).toCharArray(), salt, rounds, this.keySize * MULTIPLIER);
         SecretKeyFactory skf = null;
         try {
             skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
@@ -53,9 +56,8 @@ public class PBKDF implements KDF {
     }
 
     @Override
-    public void setKeySize(int keySize) {
-        // TODO Auto-generated method stub
-        
+    public void setKeySize(final int keySize) {
+        this.keySize = keySize;
     }
 
 }

@@ -32,6 +32,8 @@ public class TestKDF {
         final byte[] password = Util.sha256("ciao".getBytes());
         final byte[] salt = Util.sha256("test".getBytes());
         final int rounds = 10;
+        final int keySize = 64;
+        pbkdf2.setKeySize(keySize);
         pbkdf2.generateKey(password, salt, rounds);
     }
 

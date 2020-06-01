@@ -1,7 +1,5 @@
 package model.crypto;
 
-import javax.annotation.processing.SupportedAnnotationTypes;
-
 public abstract class KDFAdvanced implements KDF {
 
     private static final int DEFAULT_KEY_SIZE = 32;
