@@ -38,6 +38,7 @@ public class AESGCM extends CryptoCipherAEAD {
         GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.aesKey, ivParameterSpec);
+            this.updateAAD();
             return this.cipher.doFinal(plaintext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
                 | BadPaddingException e) {
@@ -76,16 +77,4 @@ public class AESGCM extends CryptoCipherAEAD {
         return AESGCM.KEY_SIZE;
     }
 
-    /*
-    @Override
-    public final void updateAssociatedData(final byte[] data) {
-        this.associatedData = Arrays.copyOf(data, data.length);
-    }
-
-    private void updateAAD() {
-        if (this.associatedData != null) {
-            this.cipher.updateAAD(this.associatedData);
-        }
-    }
-    */
 }
