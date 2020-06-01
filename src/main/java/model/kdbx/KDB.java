@@ -29,6 +29,8 @@ public class KDB {
     private InputStream inStream;
     private OutputStream outStream;
     private SecureRandom random;
+    private CryptoCipher cipher;
+    private KDF kdf;
     private byte[] compositeKey;
 
     /**
@@ -87,37 +89,34 @@ public class KDB {
     }
 
     private byte[] decrypt(final byte[] ciphertext) {
-        final String cipherType = this.header.getCipher();
-        final CryptoCipher cipher = CipherFactory.create(cipherType);
-        cipher.updateAssociatedData(this.header.writeHeader());
-
-        final String kdfType = this.header.getKDF();
-        final KDF kdf = KDFFactory.create(kdfType);
-        kdf.setKeySize(cipher.getKeySize());
-
-        final byte[] key = kdf.generateKey(this.compositeKey, this.header.getTransformSeed(), (int) this.header.getTransformRounds());
-        cipher.setKey(key);
+        this.initializeCryptoAlgorithms();
+        this.initializeCipher();
         return cipher.decrypt(ciphertext, this.header.getEncryptionIV());
     }
 
     private byte[] encrypt(final byte[] plaintext) {
-        final String cipherType = this.header.getCipher();
-        final CryptoCipher cipher = CipherFactory.create(cipherType);
-
-        final String kdfType = this.header.getKDF();
-        final KDF kdf = KDFFactory.create(kdfType);
-        kdf.setKeySize(cipher.getKeySize());
-
+        this.initializeCryptoAlgorithms();
         final byte [] newIV = new byte[cipher.getIVSize()];
         this.random.nextBytes(newIV);
         this.header.setEncryptionIV(newIV);
+        this.initializeCipher();
+        return this.cipher.encrypt(plaintext, newIV);
+    }
 
+    private void initializeCryptoAlgorithms() {
+        final String cipherType = this.header.getCipher();
+        final String kdfType = this.header.getKDF();
+
+        this.cipher = CipherFactory.create(cipherType);
+        this.kdf = KDFFactory.create(kdfType);
+        this.kdf.setKeySize(this.cipher.getKeySize());
+
+    }
+
+    private void initializeCipher() {
         final byte[] key = kdf.generateKey(this.compositeKey, this.header.getTransformSeed(), (int) this.header.getTransformRounds());
-        cipher.updateAssociatedData(this.header.writeHeader());
-        cipher.setKey(key);
-
-        final byte[] ciphertext = cipher.encrypt(plaintext, newIV);
-        return ciphertext;
+        this.cipher.setKey(key);
+        this.cipher.updateAssociatedData(this.header.writeHeader());
     }
 
     private void composeKey(final List<byte[]> credentials) {
