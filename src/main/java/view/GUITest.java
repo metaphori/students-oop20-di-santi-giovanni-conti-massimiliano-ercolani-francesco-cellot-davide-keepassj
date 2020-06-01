@@ -9,8 +9,8 @@ public class GUITest extends Application {
     public static void main(final String[] args) {
         launch(args);
     }
-    
-    public void start(Stage primaryStage) {
+
+    public final void start(final Stage primaryStage) {
         Label label = new Label("Hello World");
         Scene scene = new Scene(label);
         primaryStage.setScene(scene);

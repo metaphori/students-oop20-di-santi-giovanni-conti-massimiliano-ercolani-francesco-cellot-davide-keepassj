@@ -47,8 +47,8 @@ public class KDBHeader {
 
     private EnumMap<Field, Integer> headerFields;
 
+    @SuppressWarnings("MagicNumber")
     public KDBHeader() {
-
         this.headerFields = new EnumMap<>(Field.class);
         this.headerFields.put(Field.END_OF_HEADER, 0);
         this.headerFields.put(Field.COMMENT, 1);

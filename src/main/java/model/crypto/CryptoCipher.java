@@ -1,7 +1,6 @@
 package model.crypto;
 
 import javax.crypto.AEADBadTagException;
-import javax.crypto.BadPaddingException;
 
 /**
  * Crypto.java

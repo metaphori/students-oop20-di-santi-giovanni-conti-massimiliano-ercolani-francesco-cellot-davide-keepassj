@@ -15,9 +15,8 @@ public class Argon2KDF extends KDFAdvanced {
      */
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
-        Argon2Advanced argon2 = Argon2Factory.createAdvanced();
-        final byte[] key = argon2.pbkdf(rounds, this.memory, this.parallelism, password, salt, this.keySize);
-        return key;
+        final Argon2Advanced argon2 = Argon2Factory.createAdvanced();
+        return argon2.pbkdf(rounds, this.memory, this.parallelism, password, salt, this.keySize);
     }
 
     /**
@@ -25,9 +24,8 @@ public class Argon2KDF extends KDFAdvanced {
      */
     @Override
     public final int getDefaultRounds() {
-        Argon2 argon2 = Argon2Factory.create();
-        final int iterations = Argon2Helper.findIterations(argon2, 1000, this.memory, this.parallelism);
-        return iterations;
+        final Argon2 argon2 = Argon2Factory.create();
+        return Argon2Helper.findIterations(argon2, 1000, this.memory, this.parallelism);
     }
 
     /**

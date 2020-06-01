@@ -6,7 +6,13 @@ import javax.crypto.Cipher;
 
 public abstract class CryptoCipherAEAD implements CryptoCipher {
 
+    /**
+     * Bytes of associated data to be authenticated (not encrypted).
+     */
     protected byte[] associatedData;
+    /**
+     * Cipher used to encrypt/decrypt.
+     */
     protected Cipher cipher;
 
     public final void updateAssociatedData(final byte[] data) {

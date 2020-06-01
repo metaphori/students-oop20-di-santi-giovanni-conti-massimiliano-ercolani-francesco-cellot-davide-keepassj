@@ -70,7 +70,8 @@
 			<property name="offCommentFormat" value="CHECKSTYLE: ([\w\|]+) OFF" />
 			<property name="onCommentFormat" value="CHECKSTYLE: ([\w\|]+) ON" />
 			<property name="checkFormat" value="$1" />
-		</module>
+        </module>
+        <module name="SuppressWarningsHolder"/>
 		<!-- Checks for Javadoc comments. -->
 		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
 		<module name="JavadocMethod">
@@ -168,5 +169,6 @@
             <property name="severity" value="info" />
         </module>
 		<module name="UpperEll" />
-	</module>
+    </module>
+    <module name="SuppressWarningsFilter"/>
 </module>
