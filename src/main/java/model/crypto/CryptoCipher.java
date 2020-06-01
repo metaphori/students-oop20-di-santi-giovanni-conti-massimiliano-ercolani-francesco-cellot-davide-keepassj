@@ -3,8 +3,7 @@ package model.crypto;
 import javax.crypto.AEADBadTagException;
 
 /**
- * Crypto.java
- * Interface class that has the following methods.
+ * Interface to encrypt and decrypt data.
  */
 
 public interface CryptoCipher {
@@ -39,7 +38,7 @@ public interface CryptoCipher {
     int getIVSize();
 
     /**
-     * get key size.
+     * Get key size.
      * @return size.
      */
     int getKeySize();
