@@ -22,4 +22,6 @@ public interface KDF {
     void setMemory(int memory);
 
     void setParallelism(int parallelism);
+
+    void setKeySize(int keySize);
 }

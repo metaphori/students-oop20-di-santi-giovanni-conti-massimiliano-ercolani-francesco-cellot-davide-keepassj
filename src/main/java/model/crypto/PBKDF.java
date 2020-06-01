@@ -52,4 +52,10 @@ public class PBKDF implements KDF {
         return;
     }
 
+    @Override
+    public void setKeySize(int keySize) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

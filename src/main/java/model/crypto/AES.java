@@ -18,7 +18,6 @@ import java.nio.ByteOrder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Arrays;
 
 public class AES implements CryptoCipher {
@@ -38,8 +37,9 @@ public class AES implements CryptoCipher {
     /**
      * KEY_SIZE This is the key size of AES-CBC.
      */
-    private static final int KEY_SIZE = 32;
-
+    private static final int KEY_SIZE = 64;
+    private static final int ENC_SIZE = 32;
+    private static final int MAC_SIZE = 32;
     private static final int TAG_SIZE = 32;
     private Cipher cipher;
     private SecretKeySpec encKey;
@@ -73,8 +73,8 @@ public class AES implements CryptoCipher {
      * @param key 16/24/32 bytes key.
      */
     public void setKey(final byte[] key) {
-        final byte[] encKey = new byte[KEY_SIZE];
-        final byte[] macKey = new byte[KEY_SIZE];
+        final byte[] encKey = new byte[ENC_SIZE];
+        final byte[] macKey = new byte[MAC_SIZE];
         System.arraycopy(key, 0, macKey, 0, macKey.length);
         System.arraycopy(key, macKey.length, encKey, 0, encKey.length);
         this.encKey = new SecretKeySpec(encKey, "AES");
@@ -123,7 +123,7 @@ public class AES implements CryptoCipher {
             final byte[] tag = new byte[TAG_SIZE];
             System.arraycopy(ciphertext, encrypted.length, tag, 0, tag.length);
 
-            final byte[] tagComputed = this.computeHmac(hmac, (Bytes.concat(iv, encrypted)));
+            final byte[] tagComputed = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
             if (!Arrays.equals(tag, tagComputed)) {
                 throw new AEADBadTagException("Tag mismatch");
             }
@@ -152,8 +152,8 @@ public class AES implements CryptoCipher {
     }
 
     @Override
-    public void updateAssociatedData(final byte[] data) {
-        this.associatedData = data;
+    public final void updateAssociatedData(final byte[] data) {
+        this.associatedData = Arrays.copyOf(data, data.length);
         final ByteBuffer ad = ByteBuffer.allocate(8);
         ad.order(ByteOrder.BIG_ENDIAN);
         ad.putLong(data.length * 8);
