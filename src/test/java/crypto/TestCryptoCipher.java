@@ -97,8 +97,8 @@ public class TestCryptoCipher {
 
     @Test
     public void testChaCha20Poly1305() {
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
+        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final byte[] iv = new byte[chacha20poly1305.getIVSize()];
         final byte[] key = new byte[chacha20poly1305.getKeySize()];
         Arrays.fill(iv, (byte) 'b');
@@ -113,15 +113,18 @@ public class TestCryptoCipher {
 
     @Test(expected = AEADBadTagException.class)
     public void testChaCha20Poly1305Auth() throws AEADBadTagException {
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
+        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final byte[] iv = new byte[chacha20poly1305.getIVSize()];
         final byte[] key = new byte[chacha20poly1305.getKeySize()];
+        final byte[] ad = "associated data".getBytes();
         Arrays.fill(iv, (byte) 'b');
         Arrays.fill(key, (byte) 'a');
         chacha20poly1305.setKey(key);
+        chacha20poly1305.updateAssociatedData(ad);
         final byte[] ciphertext = chacha20poly1305.encrypt(plaintext, iv);
-        ciphertext[10] += 1;
+        ciphertext[0] += 1;
+        chacha20poly1305.updateAssociatedData(ad);
         chacha20poly1305.decrypt(ciphertext, iv);
     }
 

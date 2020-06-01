@@ -17,12 +17,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
 
-public class ChaCha20Poly1305 implements CryptoCipher {
+public class ChaCha20Poly1305 extends CryptoCipherAEAD {
 
     private static final int IV_SIZE = 12;
     private static final int KEY_SIZE = 32;
 
-    private Cipher cipher;
+    //private Cipher cipher;
     private SecretKey chacha20poly1305key;
 
     public ChaCha20Poly1305() {
@@ -33,6 +33,7 @@ public class ChaCha20Poly1305 implements CryptoCipher {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
+            this.updateAAD();
             return this.cipher.doFinal(plaintext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
                 | BadPaddingException e) {
@@ -47,6 +48,7 @@ public class ChaCha20Poly1305 implements CryptoCipher {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
+            this.updateAAD();
             return this.cipher.doFinal(ciphertext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
             System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
@@ -77,10 +79,6 @@ public class ChaCha20Poly1305 implements CryptoCipher {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             System.out.println("Erorr building ChaCha20-Poly1305 object: " + e.toString());
         }
-    }
-    @Override
-    public void updateAssociatedData(final byte[] data) {
-        // TODO Auto-generated method stub
     }
 
 }
