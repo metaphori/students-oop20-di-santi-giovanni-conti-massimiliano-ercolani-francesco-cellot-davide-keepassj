@@ -8,57 +8,43 @@ import com.lambdaworks.crypto.SCryptUtil;
 
 public class SCryptKDF extends KDFAdvanced {
 
-    private static final int ROUNDS = 10;
-    private static final int DEFAULT_MEMORY = 32768;
-    private static final int DEFAULT_PARALLELISM = 2;
-    private static final int BLOCK_SIZE = 8;
+    private static final int ROUNDS = 8;
+
+    /*
     private int memory = DEFAULT_MEMORY;
     private int parallelism = DEFAULT_PARALLELISM;
+    private int keySize = KEY_SIZE;
+    */
 
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
-        byte[] composite = Bytes.concat(password, salt);
-        String hash = SCryptUtil.scrypt(new String(composite), 10, this.memory, this.parallelism);
-        SCrypt script = new SCrypt();
+        byte[] key = null;
         try {
-            script.scrypt(password, salt, rounds, BLOCK_SIZE, this.parallelism, 32);
+            key = SCrypt.scrypt(password, salt, this.memory, rounds, this.parallelism, this.keySize);
         } catch (GeneralSecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Error generating key");
         }
-        return hash.getBytes();
+        return key;
     }
 
     @Override
     public final int getDefaultRounds() {
-        return SCryptKDF.ROUNDS; 
+        return ROUNDS; 
+    }
+
+    @Override
+    public final void setMemory(final int memory) throws Exception {
+        if (isPowerOfTwo(memory)) {
+            this.setMemory(memory);
+        }
+    }
+
+    private boolean isPowerOfTwo(final int number) {
+        return (number != 0) && ((number & (number - 1)) == 0);
     }
 
     @Override
     public final boolean isTweakable() {
-        return super.isTweakble();
+        return true;
     }
-
-    @Override
-    public final void setMemory(final int memory) {
-        try {
-            this.memory = checkMemory(memory);
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public final void setParallelism(final int parallelism) {
-        try {
-            this.parallelism = checkParallelism(parallelism);
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public void setKeySize(int keySize) {
-        // TODO Auto-generated method stub
-        
-    }
-
 }

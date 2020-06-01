@@ -19,9 +19,9 @@ public interface KDF {
 
     boolean isTweakable();
 
-    void setMemory(int memory);
+    void setMemory(int memory) throws Exception;
 
-    void setParallelism(int parallelism);
+    void setParallelism(int parallelism) throws Exception;
 
     void setKeySize(int keySize);
 }

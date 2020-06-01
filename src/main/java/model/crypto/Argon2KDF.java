@@ -10,14 +10,6 @@ import de.mkammerer.argon2.Argon2Helper;
 
 public class Argon2KDF extends KDFAdvanced {
 
-    private static final int MEMORY = 65536;
-    private static final int KEY_SIZE = 32;
-    private static final int PARALLELISM = 1;
-
-    private int memory = MEMORY;
-    private int parallelism = PARALLELISM;
-    private int keySize = KEY_SIZE;
-
     /**
      * Return generated key.
      * @param password
@@ -41,32 +33,7 @@ public class Argon2KDF extends KDFAdvanced {
 
     @Override
     public final boolean isTweakable() {
-        return super.isTweakble();
-    }
-
-    @Override
-    public final void setMemory(final int memory) {
-        try {
-            this.memory = checkMemory(memory);
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public final void setParallelism(final int parallelism) {
-        try {
-            this.parallelism = checkParallelism(parallelism);
-        } catch (Exception e) {
-        }
-    }
-
-    public final int getMemory() {
-        return this.memory;
-    }
-
-    @Override
-    public final void setKeySize(final int keySize) {
-        this.keySize = keySize;
+        return true;
     }
 
 }

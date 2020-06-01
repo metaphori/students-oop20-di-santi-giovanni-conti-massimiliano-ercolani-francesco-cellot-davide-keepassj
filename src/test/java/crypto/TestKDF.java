@@ -1,36 +1,50 @@
 package crypto;
 
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 import model.crypto.Argon2KDF;
 import model.crypto.KDF;
 import model.crypto.KDFFactory;
+import model.crypto.SCryptKDF;
 import model.crypto.Util;
 
 public class TestKDF {
 
     @Test
-    public void testArgon2() {
-        Argon2KDF argon2 = new Argon2KDF();
-        byte[] password = Util.sha256("ciao".getBytes());
-        byte[] salt = Util.sha256("test".getBytes());
-        // final int rounds = argon2.getDefaultRounds();
+    public void testArgon2() throws Exception {
+        final KDF argon2 = KDFFactory.create("Argon2");
+        final byte[] password = Util.sha256("ciao".getBytes());
+        final byte[] salt = Util.sha256("test".getBytes());
         final int rounds = 10;
-        final int memory = 100000;
+        final int memory = 10000;
         final int parallelism = 4;
         argon2.setMemory(memory);
-        System.out.println(argon2.getMemory());
+        argon2.setKeySize(64);
         argon2.setParallelism(parallelism);
-        argon2.generateKey(password, salt, rounds);
+        final byte[] key = argon2.generateKey(password, salt, rounds);
+        System.out.println(Hex.encodeHex(key));
     }
 
     @Test
     public final void testPBKDF2() {
-        KDF pbkdf2 = KDFFactory.create("PBKDF2");
-        byte[] password = Util.sha256("ciao".getBytes());
-        byte[] salt = Util.sha256("test".getBytes());
-        int rounds = 10;
+        final KDF pbkdf2 = KDFFactory.create("PBKDF2");
+        final byte[] password = Util.sha256("ciao".getBytes());
+        final byte[] salt = Util.sha256("test".getBytes());
+        final int rounds = 10;
         pbkdf2.generateKey(password, salt, rounds);
     }
 
+    @Test
+    public final void testScrypt() throws Exception {
+        final KDF scrypt = KDFFactory.create("SCrypt");
+        final byte[] password = Util.sha256("ciao".getBytes());
+        final byte[] salt = Util.sha256("test".getBytes());
+        final int rounds = 8;
+        final int parallelism = 4;
+        scrypt.setKeySize(64);
+        scrypt.setParallelism(parallelism);
+        final byte[] key = scrypt.generateKey(password, salt, rounds);
+        System.out.println(Hex.encodeHex(key));
+    }
 }

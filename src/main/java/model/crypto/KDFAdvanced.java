@@ -1,37 +1,60 @@
 package model.crypto;
 
+import javax.annotation.processing.SupportedAnnotationTypes;
+
 public abstract class KDFAdvanced implements KDF {
 
-    private int memory;
-    private int parallelism;
+    private static final int DEFAULT_KEY_SIZE = 32;
+    private static final int DEFAULT_MEMORY = 32768;
+    private static final int DEFAULT_PARALLELISM = 2;
+    /**
+     * Memory cost parameter.
+     */
+    protected int memory = DEFAULT_MEMORY;
+    /**
+     * Parallelism parameter.
+     */
+    protected int parallelism = DEFAULT_PARALLELISM;
+    /**
+     * This is the key size desired.
+     */
+    protected int keySize = DEFAULT_KEY_SIZE;
 
     /**
      * Check parallelism.
      * @param parallelism This is the number of threads.
-     * @return parallelism.
      * @throws Exception 
      */
-    public int checkParallelism(final int parallelism) throws Exception {
+    public void setParallelism(final int parallelism) throws Exception {
         if (parallelism <= Runtime.getRuntime().availableProcessors() * 2) {
-            return parallelism;
+            this.parallelism = parallelism;
+        } else {
+            throw new Exception("Parallelism too high");
         }
-        throw new Exception("Parallelism too high");
     }
 
     /**
      * Check that the memory requested is a correct parameter.
      * @param memory This is the memory requested.
-     * @return memory.
      * @throws Exception
      */
-    public int checkMemory(final int memory) throws Exception {
+    public void setMemory(final int memory) throws Exception {
         if (memory <= Runtime.getRuntime().maxMemory()) {
-            return memory;
+            this.memory = memory;
+        } else {
+            throw new Exception("Memory requested too high");
         }
-        throw new Exception("Memory requested too high");
     }
 
-    public boolean isTweakble() {
+    public final boolean isTweakble() {
         return true;
+    }
+
+    public final void setKeySize(final int keySize) {
+        this.keySize = keySize;
+    }
+
+    public final int getMemory() {
+        return this.memory;
     }
 }
