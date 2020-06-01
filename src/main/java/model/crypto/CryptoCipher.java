@@ -9,10 +9,11 @@ import javax.crypto.BadPaddingException;
  */
 
 public interface CryptoCipher {
+
     /**
      * Encrypt an arbitrary plaintext.
      * @param plaintext This is the plaintext to encrypt.
-     * @param iv This is the IV used in the encryption.
+     * @param iv This is the IV used in the encryption, must be different every time.
      * @return ciphertext.
      */
     byte[] encrypt(byte[] plaintext, byte[] iv);
@@ -22,8 +23,7 @@ public interface CryptoCipher {
      * @param ciphertext This is the ciphertext to decrypt.
      * @param iv This is the IV used in the decryption.
      * @return plaintext.
-     * @throws BadPaddingException 
-     * @throws AEADBadTagException.
+     * @throws AEADBadTagException When the data has not been authenticated.
      */
     byte[] decrypt(byte[] ciphertext, byte[] iv) throws AEADBadTagException;
 
@@ -46,8 +46,8 @@ public interface CryptoCipher {
     int getKeySize();
 
     /**
-     * Update data for AEAD.
-     * @param data.
+     * Update data for AEAD cipher.
+     * @param data This is the data that must be authenticated and not encrypted.
      */
     void updateAssociatedData(byte[] data);
 }

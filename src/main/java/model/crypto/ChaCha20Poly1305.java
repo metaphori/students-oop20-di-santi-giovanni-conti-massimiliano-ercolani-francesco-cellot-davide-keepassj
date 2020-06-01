@@ -22,12 +22,18 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
     private static final int IV_SIZE = 12;
     private static final int KEY_SIZE = 32;
 
-    //private Cipher cipher;
     private SecretKey chacha20poly1305key;
 
+    /**
+     * Consturct a ChaCha20Poly1305 Object.
+     */
     public ChaCha20Poly1305() {
         initCipher();
     }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final byte[] encrypt(final byte[] plaintext, final byte[] iv) {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
@@ -42,6 +48,9 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         this.initCipher();
@@ -58,16 +67,25 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void setKey(final byte[] key) {
         this.chacha20poly1305key = new SecretKeySpec(key, "ChaCha20");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getIVSize() {
         return ChaCha20Poly1305.IV_SIZE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getKeySize() {
         return ChaCha20Poly1305.KEY_SIZE;

@@ -26,17 +26,8 @@ public class AES implements CryptoCipher {
      * Only a draft, but requested as a standard in TLS.
      * https://tools.ietf.org/html/draft-mcgrew-aead-aes-cbc-hmac-sha2-05
      */
-    /**
-     * BLOCKSIZE This is the Block Size of AES.
-     */
-    public static final int BLOCK_SIZE = 16;
-    /**
-     * IV_SIZE This is the IV Size of AES-CBC.
-     */
+    private static final int BLOCK_SIZE = 16;
     private static final int IV_SIZE = 16;
-    /**
-     * KEY_SIZE This is the key size of AES-CBC.
-     */
     private static final int KEY_SIZE = 64;
     private static final int ENC_SIZE = 32;
     private static final int MAC_SIZE = 32;
@@ -53,8 +44,7 @@ public class AES implements CryptoCipher {
      */
     public AES() {
         try {
-            this.cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            this.hmac = Mac.getInstance("HmacSHA512");
+            this.cipher = Cipher.getInstance("AES/CBC/NoPadding"); this.hmac = Mac.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             System.out.println("Error building AES object: " + e.toString());
         }
@@ -70,7 +60,7 @@ public class AES implements CryptoCipher {
 
     /**
      * Set AES key.
-     * @param key 16/24/32 bytes key.
+     * @param key 32 bytes key.
      */
     public void setKey(final byte[] key) {
         final byte[] encKey = new byte[ENC_SIZE];
@@ -82,10 +72,7 @@ public class AES implements CryptoCipher {
     }
 
     /**
-     * Encrypt arbitrary with AES CBC plaintext.
-     * @param plaintext This is the plaintext to encrypt.
-     * @param iv This is the IV used in AES CBC to encrypt correctly the plaintext.
-     * @return ciphertext.
+     * {@inheritDoc}
      */
     @Override
     public final byte[] encrypt(final byte[] plaintext, final byte[] iv) {
@@ -94,7 +81,7 @@ public class AES implements CryptoCipher {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.encKey, ivParameterSpec);
             this.hmac.init(this.macKey);
 
-            final byte[] encrypted = this.cipher.doFinal(Util.pad(plaintext, AES.BLOCK_SIZE));
+            final byte[] encrypted = this.cipher.doFinal(Util.pad(plaintext, BLOCK_SIZE));
             // I set the iv only to test the correct tag using the parameters of the ietf draft.
             final byte[] tag = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
             return Bytes.concat(encrypted, tag);
@@ -106,11 +93,7 @@ public class AES implements CryptoCipher {
     }
 
     /**
-     * AES CBC Decrypt arbitrary ciphertext.
-     * @param ciphertext This is the ciphertext to decrypt with AES CBC.
-     * @param iv This is the IV used in AES CBC to decrypt correctly the ciphertext.
-     * @return plaintext.
-     * @throws BadPaddingException 
+     * {@inheritDoc}
      */
     @Override
     public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
@@ -141,7 +124,7 @@ public class AES implements CryptoCipher {
     }
 
     /**
-     * Return IV Size.
+     * {@inheritDoc}
      */
     @Override
     public final int getIVSize() {
@@ -149,13 +132,16 @@ public class AES implements CryptoCipher {
     }
 
     /**
-     * Return key size.
+     * {@inheritDoc}
      */
     @Override
     public int getKeySize() {
         return AES.KEY_SIZE;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final void updateAssociatedData(final byte[] data) {
         this.associatedData = Arrays.copyOf(data, data.length);
