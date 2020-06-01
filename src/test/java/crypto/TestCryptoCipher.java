@@ -1,8 +1,11 @@
 package crypto;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.google.common.primitives.Bytes;
 
 import model.crypto.AES;
 import model.crypto.CipherFactory;
@@ -16,21 +19,22 @@ public class TestCryptoCipher {
 
     @Test
     public void testAES() {
-        final String plaintext = new String("This is the input");
-        byte[] iv = new byte[AES.BLOCK_SIZE];
-        byte[] key = new byte[AES.BLOCK_SIZE * 2];
-        byte[] expected = null;
-        // I used cyberchef and pycryptodome to confirm this output
         try {
-            expected = Hex.decodeHex("01d1c52d4aba05c503e38ec71ea11b7158f670041fc0ff7e549988924f2b7818");
+            // Value taken from https://tools.ietf.org/html/draft-mcgrew-aead-aes-cbc-hmac-sha2-05, page20
+            final byte[] k = Hex.decodeHex("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f");
+            final byte[] p = Hex.decodeHex("41206369706865722073797374656d206d757374206e6f7420626520726571756972656420746f206265207365637265742c20616e64206974206d7573742062652061626c6520746f2066616c6c20696e746f207468652068616e6473206f662074686520656e656d7920776974686f757420696e636f6e76656e69656e6365");
+            final byte[] iv = Hex.decodeHex("1af38c2dc2b96ffdd86694092341bc04");
+            final byte[] a = Hex.decodeHex("546865207365636f6e64207072696e6369706c65206f662041756775737465204b6572636b686f666673");
+            final byte[] t = Hex.decodeHex("4dd3b4c088a7f45c216839645b2012bf2e6269a8c56a816dbc1b267761955bc5");
+            AES aes = new AES();
+            aes.setKey(k);
+            aes.updateAssociatedData(a);
+            final byte[] ct = aes.encrypt(p, iv);
+            assertTrue(Bytes.indexOf(ct, t) > 0);
+            assertArrayEquals(p, aes.decrypt(ct, iv));
         } catch (DecoderException e) {
-            System.out.println("Error decoding hex: " + e.toString());
+            e.printStackTrace();
         }
-        Arrays.fill(iv, (byte) 'b');
-        Arrays.fill(key, (byte) 'a');
-        CryptoCipher cipher = CipherFactory.create("AES");
-        cipher.setKey(key);
-        assertArrayEquals(expected, cipher.encrypt(plaintext.getBytes(), iv));
     }
 
     @Test

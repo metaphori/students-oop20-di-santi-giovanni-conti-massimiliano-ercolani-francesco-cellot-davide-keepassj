@@ -55,4 +55,10 @@ public class ChaCha20 implements CryptoCipher {
         this.key = new SecretKeySpec(key, "ChaCha20");
     }
 
+    @Override
+    public void updateAssociatedData(byte[] data) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

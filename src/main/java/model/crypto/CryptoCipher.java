@@ -39,4 +39,10 @@ public interface CryptoCipher {
      * @return size.
      */
     int getKeySize();
+
+    /**
+     * Update data for AEAD.
+     * @param data.
+     */
+    void updateAssociatedData(byte[] data);
 }

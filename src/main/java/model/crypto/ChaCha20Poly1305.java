@@ -77,4 +77,9 @@ public class ChaCha20Poly1305 implements CryptoCipher {
             System.out.println("Erorr building ChaCha20-Poly1305 object: " + e.toString());
         }
     }
+    @Override
+    public void updateAssociatedData(byte[] data) {
+        // TODO Auto-generated method stub
+        
+    }
 }

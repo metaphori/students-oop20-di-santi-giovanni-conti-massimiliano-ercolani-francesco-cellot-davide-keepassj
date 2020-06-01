@@ -71,4 +71,10 @@ public class AESGCM implements CryptoCipher {
         return AESGCM.KEY_SIZE;
     }
 
+    @Override
+    public void updateAssociatedData(byte[] data) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
