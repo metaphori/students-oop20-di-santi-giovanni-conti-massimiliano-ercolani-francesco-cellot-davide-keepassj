@@ -13,6 +13,7 @@ public final class Util {
 
     private Util() {
     }
+
     /**
      * Compute SHA256 of an arbitrary message.
      * @param message This is the message to be hashed.
