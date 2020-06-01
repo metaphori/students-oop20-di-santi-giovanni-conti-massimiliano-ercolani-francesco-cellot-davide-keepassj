@@ -2,9 +2,7 @@ package model.crypto;
 
 import java.security.GeneralSecurityException;
 
-import com.google.common.primitives.Bytes;
 import com.lambdaworks.crypto.SCrypt;
-import com.lambdaworks.crypto.SCryptUtil;
 
 public class SCryptKDF extends KDFAdvanced {
 

@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 
 import javax.crypto.AEADBadTagException;
 
-import org.apache.commons.codec.binary.Hex;
-
 import com.google.common.primitives.Bytes;
 
 import model.crypto.CipherFactory;

@@ -31,6 +31,7 @@ public class TestKDBHeader {
         assertEquals(kdfType, header.getKDF());
     }
 
+    @SuppressWarnings("MagicNumber")
     @Test
     public void testKDFParameters() {
         KDBHeader header = new KDBHeader();

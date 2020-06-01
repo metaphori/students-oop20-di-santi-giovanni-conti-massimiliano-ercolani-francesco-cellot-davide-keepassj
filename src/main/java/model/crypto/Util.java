@@ -36,13 +36,13 @@ public final class Util {
      * @throws BadPaddingException When the pad is not correct.
      */
     public static byte[] unpad(final byte[] message) throws BadPaddingException { 
-        int padded = message[message.length - 1];
+        final int padded = message[message.length - 1];
         for (int i = message.length - 1; i >= message.length - padded; i--) {
             if (message[i] != (byte) padded) {
                 throw new BadPaddingException("PKCS7 Padding error");
             }
         }
-        byte[] unpadded = new byte[message.length - padded];
+        final byte[] unpadded = new byte[message.length - padded];
         System.arraycopy(message, 0, unpadded, 0, unpadded.length);
         return unpadded;
     }

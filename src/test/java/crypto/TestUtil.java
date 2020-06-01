@@ -14,17 +14,17 @@ public class TestUtil {
 
     @Test
     public void testSHA256() {
-        String expected = new String("61be55a8e2f6b4e172338bddf184d6dbee29c98853e0a0485ecee7f27b9af0b4");
-        String input = new String("aaaa");
-        String res = Hex.encodeHexString(Util.sha256(input.getBytes()));
+        final String expected = "61be55a8e2f6b4e172338bddf184d6dbee29c98853e0a0485ecee7f27b9af0b4";
+        final String input = "aaaa";
+        final String res = Hex.encodeHexString(Util.sha256(input.getBytes()));
         assertEquals(expected, res);
     }
 
     @Test
     public void testPKCS7Padding() {
         final int blocksize = 16;
-        String expected = new String("616161610c0c0c0c0c0c0c0c0c0c0c0c");
-        String input = new String("aaaa");
+        final String expected = "616161610c0c0c0c0c0c0c0c0c0c0c0c";
+        final String input = "aaaa";
         String res = Hex.encodeHexString(Util.pad(input.getBytes(), blocksize));
         assertEquals(expected, res);
         try {

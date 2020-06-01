@@ -3,10 +3,8 @@ package crypto;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
-import model.crypto.Argon2KDF;
 import model.crypto.KDF;
 import model.crypto.KDFFactory;
-import model.crypto.SCryptKDF;
 import model.crypto.Util;
 
 public class TestKDF {
@@ -17,7 +15,7 @@ public class TestKDF {
         final byte[] password = Util.sha256("ciao".getBytes());
         final byte[] salt = Util.sha256("test".getBytes());
         final int rounds = 10;
-        final int memory = 10000;
+        final int memory = 10_000;
         final int parallelism = 4;
         argon2.setMemory(memory);
         argon2.setKeySize(64);

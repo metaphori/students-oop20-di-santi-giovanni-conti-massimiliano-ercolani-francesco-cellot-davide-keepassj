@@ -9,8 +9,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.codec.binary.Hex;
-
 import com.google.common.primitives.Bytes;
 
 import java.nio.ByteBuffer;
@@ -62,6 +60,7 @@ public class AES implements CryptoCipher {
      * Set AES key.
      * @param key 32 bytes key.
      */
+    @Override
     public void setKey(final byte[] key) {
         final byte[] encKey = new byte[ENC_SIZE];
         final byte[] macKey = new byte[MAC_SIZE];

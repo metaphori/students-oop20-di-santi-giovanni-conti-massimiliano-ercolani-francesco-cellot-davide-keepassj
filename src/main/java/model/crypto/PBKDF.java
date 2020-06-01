@@ -6,8 +6,6 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import org.apache.commons.codec.binary.Hex;
-
 public class PBKDF implements KDF {
 
     private static final int MULTIPLIER = 8;
@@ -22,17 +20,12 @@ public class PBKDF implements KDF {
         SecretKeyFactory skf = null;
         try {
             skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            final byte[] key = skf.generateSecret(spec).getEncoded();
+            return key;
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("This shouldn't happen");
         }
-        byte[] key = null;
-        try {
-            key = skf.generateSecret(spec).getEncoded();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        System.out.println(Hex.encodeHex(key));
-        return key;
+        return null;
     }
 
     @Override

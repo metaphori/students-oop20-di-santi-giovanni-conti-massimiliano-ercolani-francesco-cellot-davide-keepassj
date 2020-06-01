@@ -13,8 +13,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.codec.binary.Hex;
-
 public class ChaCha20Poly1305 extends CryptoCipherAEAD {
 
     private static final int IV_SIZE = 12;

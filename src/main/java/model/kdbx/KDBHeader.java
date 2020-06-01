@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.security.SecureRandom;
@@ -17,7 +16,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Bytes;
 
 import model.crypto.CipherFactory;
-import model.crypto.KDFFactory;
 
 public class KDBHeader {
 
@@ -25,6 +23,7 @@ public class KDBHeader {
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
     private static final long DEFAULT_ROUNDS = 15;
     private Map<Integer, byte[]> fields;
+
     private final Map<String, String> ciphers = ImmutableMap.of(
             "31c1f2e6bf714350be5805216afc5aff", "AES",
             "ad68f29f576f4bb9a36ad47af965346c", "TwoFish",
@@ -73,7 +72,7 @@ public class KDBHeader {
 
     public final int readHeader(final byte[] fileData) throws IOException {
         // byte[] allBytes = inStream.readAllBytes();
-        ByteBuffer inputByteBuffer = ByteBuffer.wrap(fileData);
+        final ByteBuffer inputByteBuffer = ByteBuffer.wrap(fileData);
         inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         int fieldId = 0;
         int length = 0;
@@ -137,7 +136,7 @@ public class KDBHeader {
         return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
     }
 
-    public final boolean getCompressionFlag() {
+    public final boolean isCompressed() {
         return this.getFieldData(Field.COMPRESSION_FLAGS)[0] == 1;
     }
 
@@ -158,7 +157,7 @@ public class KDBHeader {
     }
 
     public final long getTransformRounds() {
-        ByteBuffer transformRound = ByteBuffer.wrap(this.getFieldData(Field.TRANSFORM_ROUNDS));
+        final ByteBuffer transformRound = ByteBuffer.wrap(this.getFieldData(Field.TRANSFORM_ROUNDS));
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
         return transformRound.getLong();
     }
@@ -180,7 +179,7 @@ public class KDBHeader {
      * @return List of ByteBuffer.
      */
     public final byte[] writeHeader() {
-        byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
+        final byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
                 .map(value -> fieldToBytes(value.getKey(), value.getValue()))
                 .map(buffer -> buffer.array())
                 .map(byteArray -> Bytes.asList(byteArray))
@@ -193,7 +192,7 @@ public class KDBHeader {
 
     private ByteBuffer fieldToBytes(final int key, final byte[] data) {
         // Field ID + Length + Payload
-        ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
+        final ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
         System.out.println(key + ": " + Hex.encodeHexString(data));
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.put((byte) key);
@@ -206,7 +205,7 @@ public class KDBHeader {
     private void setDefaults() {
         final String defaultCipher = "AESGCM";
         final String defaultKDF = "Argon2";
-        SecureRandom random = new SecureRandom();
+        final SecureRandom random = new SecureRandom();
         final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
         this.setCipher(defaultCipher);
         this.setKDF(defaultKDF);
@@ -218,7 +217,7 @@ public class KDBHeader {
     }
 
     private void setTransformRounds(final long rounds) {
-        ByteBuffer transformRound = ByteBuffer.allocate(8);
+        final ByteBuffer transformRound = ByteBuffer.allocate(8);
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
         transformRound.putLong(rounds);
         transformRound.rewind();
@@ -250,7 +249,7 @@ public class KDBHeader {
     }
 
     public final void setCipher(final String cipher) {
-        String key = ciphers.entrySet().stream()
+        final String key = ciphers.entrySet().stream()
                 .filter(c -> c.getValue().equals(cipher))
                 .findFirst()
                 .get()
@@ -263,7 +262,7 @@ public class KDBHeader {
     }
 
     public final void setKDF(final String kdf) {
-        String key = kdfs.entrySet().stream()
+        final String key = kdfs.entrySet().stream()
                 .filter(c -> c.getValue().equals(kdf))
                 .findFirst()
                 .get()

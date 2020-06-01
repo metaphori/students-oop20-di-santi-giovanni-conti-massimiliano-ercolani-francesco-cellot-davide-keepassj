@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import com.google.common.primitives.Bytes;
 
-import model.crypto.AES;
 import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
 
