@@ -1,5 +1,8 @@
 package model.crypto;
 
+import javax.crypto.AEADBadTagException;
+import javax.crypto.BadPaddingException;
+
 /**
  * Crypto.java
  * Interface class that has the following methods.
@@ -19,8 +22,10 @@ public interface CryptoCipher {
      * @param ciphertext This is the ciphertext to decrypt.
      * @param iv This is the IV used in the decryption.
      * @return plaintext.
+     * @throws BadPaddingException 
+     * @throws AEADBadTagException.
      */
-    byte[] decrypt(byte[] ciphertext, byte[] iv);
+    byte[] decrypt(byte[] ciphertext, byte[] iv) throws AEADBadTagException;
 
     /**
      * Set Encryption key.

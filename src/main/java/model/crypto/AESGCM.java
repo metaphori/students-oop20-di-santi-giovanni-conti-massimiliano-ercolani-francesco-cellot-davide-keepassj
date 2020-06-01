@@ -3,7 +3,9 @@ package model.crypto;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
+import javax.crypto.AEADBadTagException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -21,6 +23,7 @@ public class AESGCM implements CryptoCipher {
 
     private Cipher cipher;
     private SecretKeySpec aesKey;
+    private byte[] associatedData;
 
     public AESGCM() {
         try {
@@ -35,6 +38,7 @@ public class AESGCM implements CryptoCipher {
         GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.aesKey, ivParameterSpec);
+            this.updateAAD();
             return this.cipher.doFinal(plaintext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
                 | BadPaddingException e) {
@@ -44,37 +48,43 @@ public class AESGCM implements CryptoCipher {
     }
 
     @Override
-    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) {
+    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.aesKey, ivParameterSpec);
+            this.updateAAD();
             return this.cipher.doFinal(ciphertext);
-        } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
-                | BadPaddingException e) {
-            System.out.println("Error AES-GCM decryption: " + e.toString());
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
+            System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
+            return null;
+        } catch (BadPaddingException e) {
+            throw new AEADBadTagException("Error " + this.getClass() + " tag mismatch");
         }
-        return null;
     }
 
     @Override
-    public void setKey(final byte[] key) {
+    public final void setKey(final byte[] key) {
         this.aesKey = new SecretKeySpec(key, "AES");
     }
 
     @Override
-    public int getIVSize() {
+    public final int getIVSize() {
         return AESGCM.IV_SIZE;
     }
 
     @Override
-    public int getKeySize() {
+    public final int getKeySize() {
         return AESGCM.KEY_SIZE;
     }
 
     @Override
-    public void updateAssociatedData(byte[] data) {
-        // TODO Auto-generated method stub
-        
+    public final void updateAssociatedData(final byte[] data) {
+        this.associatedData = Arrays.copyOf(data, data.length);
     }
 
+    private void updateAAD() {
+        if (this.associatedData != null) {
+            this.cipher.updateAAD(this.associatedData);
+        }
+    }
 }

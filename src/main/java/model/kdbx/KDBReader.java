@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.AEADBadTagException;
+
 import org.apache.commons.codec.binary.Hex;
 
 import com.google.common.primitives.Bytes;
@@ -32,7 +34,7 @@ public class KDBReader {
         return header;
     }
 
-    public KDBReader(final InputStream stream, final List<byte[]> credentials) {
+    public KDBReader(final InputStream stream, final List<byte[]> credentials) throws AEADBadTagException {
         try {
             this.inputByteBuffer = ByteBuffer.wrap(stream.readAllBytes());
             this.inputByteBuffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -76,7 +78,7 @@ public class KDBReader {
         }
     }
 
-    protected final void decrypt() throws IOException {
+    protected final void decrypt() throws IOException, AEADBadTagException {
         this.makeMasterKey();
         this.inputByteBuffer.position(this.headerLength);
         this.inputByteBuffer.order(ByteOrder.BIG_ENDIAN);

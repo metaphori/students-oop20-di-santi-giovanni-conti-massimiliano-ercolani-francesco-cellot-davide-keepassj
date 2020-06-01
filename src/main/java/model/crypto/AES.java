@@ -110,9 +110,10 @@ public class AES implements CryptoCipher {
      * @param ciphertext This is the ciphertext to decrypt with AES CBC.
      * @param iv This is the IV used in AES CBC to decrypt correctly the ciphertext.
      * @return plaintext.
+     * @throws BadPaddingException 
      */
     @Override
-    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) {
+    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         try {
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
             this.cipher.init(Cipher.DECRYPT_MODE, this.encKey, ivParameterSpec);
@@ -125,12 +126,16 @@ public class AES implements CryptoCipher {
 
             final byte[] tagComputed = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
             if (!Arrays.equals(tag, tagComputed)) {
-                throw new AEADBadTagException("Tag mismatch");
+                throw new AEADBadTagException();
             }
             return Util.unpad(this.cipher.doFinal(encrypted));
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException
-                | InvalidAlgorithmParameterException e) {
-            System.out.println("Error AES decryption: " + e.toString());
+        } catch (InvalidKeyException | IllegalBlockSizeException | InvalidAlgorithmParameterException 
+                | BadPaddingException e) {
+            if (e instanceof AEADBadTagException) {
+                throw new AEADBadTagException("Error " + this.getClass() + " tag mismatch");
+            } else {
+                System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
+            }
         }
         return null;
     }
@@ -139,7 +144,7 @@ public class AES implements CryptoCipher {
      * Return IV Size.
      */
     @Override
-    public int getIVSize() {
+    public final int getIVSize() {
         return AES.IV_SIZE;
     }
 

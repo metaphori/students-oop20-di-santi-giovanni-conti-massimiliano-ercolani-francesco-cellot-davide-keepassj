@@ -42,17 +42,18 @@ public class ChaCha20Poly1305 implements CryptoCipher {
     }
 
     @Override
-    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) {
+    public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         this.initCipher();
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
             return this.cipher.doFinal(ciphertext);
-        } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
-                | BadPaddingException e) {
-            System.out.println("Error ChaCha20-Poly1305 decryption: " + e.toString());
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
+            System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
+            return null;
+        } catch (BadPaddingException e) {
+            throw new AEADBadTagException("Error " + this.getClass() + " tag mismatch");
         }
-        return null;
     }
 
     @Override
@@ -78,8 +79,8 @@ public class ChaCha20Poly1305 implements CryptoCipher {
         }
     }
     @Override
-    public void updateAssociatedData(byte[] data) {
+    public void updateAssociatedData(final byte[] data) {
         // TODO Auto-generated method stub
-        
     }
+
 }

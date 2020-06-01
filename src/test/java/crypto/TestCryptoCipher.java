@@ -2,6 +2,7 @@ package crypto;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -12,6 +13,9 @@ import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
 
 import java.util.Arrays;
+
+import javax.crypto.AEADBadTagException;
+
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
@@ -32,10 +36,30 @@ public class TestCryptoCipher {
             aes.updateAssociatedData(a);
             final byte[] c = aes.encrypt(p, iv);
             assertTrue(Bytes.indexOf(c, t) == indexTag);
-            assertArrayEquals(p, aes.decrypt(c, iv));
+            try {
+                assertArrayEquals(p, aes.decrypt(c, iv));
+            } catch (AEADBadTagException e) {
+                fail();
+            }
         } catch (DecoderException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test(expected = AEADBadTagException.class)
+    public void testAESAuth() throws AEADBadTagException {
+        CryptoCipher aes = CipherFactory.create("AES");
+        final byte[] key = new byte[aes.getKeySize()];
+        final byte[] iv = new byte[aes.getIVSize()];
+        final byte[] plaintext = "this is an aes test".getBytes();
+        final byte[] ad = "associated data".getBytes();
+        Arrays.fill(iv, (byte) 'b');
+        Arrays.fill(key, (byte) 'a');
+        aes.setKey(key);
+        aes.updateAssociatedData(ad);
+        final byte[] ciphertext = aes.encrypt(plaintext, iv);
+        ciphertext[0] += 1;
+        aes.decrypt(ciphertext, iv);
     }
 
     @Test
@@ -47,9 +71,28 @@ public class TestCryptoCipher {
         Arrays.fill(iv, (byte) 'b');
         Arrays.fill(key, (byte) 'a');
         aesGcm.setKey(key);
-        assertArrayEquals(plaintext, aesGcm.decrypt(aesGcm.encrypt(plaintext, iv), iv));
-        // final byte[] ciphertext = aesGcm.encrypt(plaintext, iv);
-        // System.out.println(new String(aesGcm.decrypt(ciphertext, iv)));
+        try {
+            assertArrayEquals(plaintext, aesGcm.decrypt(aesGcm.encrypt(plaintext, iv), iv));
+        } catch (AEADBadTagException e) {
+            fail();
+        }
+    }
+
+    @Test(expected = AEADBadTagException.class)
+    public void testAESGCMAuth() throws AEADBadTagException {
+        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
+        final CryptoCipher aesGcm = CipherFactory.create("AESGCM");
+        final byte[] iv = new byte[aesGcm.getIVSize()];
+        final byte[] key = new byte[aesGcm.getKeySize()];
+        final byte[] ad = "associated data".getBytes();
+        Arrays.fill(iv, (byte) 'b');
+        Arrays.fill(key, (byte) 'a');
+        aesGcm.setKey(key);
+        aesGcm.updateAssociatedData(ad);
+        final byte[] ciphertext = aesGcm.encrypt(plaintext, iv);
+        ad[0] += 1;
+        aesGcm.updateAssociatedData(ad);
+        aesGcm.decrypt(ciphertext, iv);
     }
 
     @Test
@@ -61,12 +104,15 @@ public class TestCryptoCipher {
         Arrays.fill(iv, (byte) 'b');
         Arrays.fill(key, (byte) 'a');
         chacha20poly1305.setKey(key);
-        assertArrayEquals(plaintext, chacha20poly1305.decrypt(chacha20poly1305.encrypt(plaintext, iv), iv));
+        try {
+            assertArrayEquals(plaintext, chacha20poly1305.decrypt(chacha20poly1305.encrypt(plaintext, iv), iv));
+        } catch (AEADBadTagException e) {
+            fail();
+        }
     }
 
-    /*
-    @Test(expected = javax.crypto.AEADBadTagException.class)
-    public void testChaCha20Poly1305Auth() {
+    @Test(expected = AEADBadTagException.class)
+    public void testChaCha20Poly1305Auth() throws AEADBadTagException {
         final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
         final byte[] iv = new byte[chacha20poly1305.getIVSize()];
@@ -78,5 +124,5 @@ public class TestCryptoCipher {
         ciphertext[10] += 1;
         chacha20poly1305.decrypt(ciphertext, iv);
     }
-    */
+
 }

@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.crypto.AEADBadTagException;
+
 import org.apache.commons.codec.binary.Hex;
 
 import com.google.common.primitives.Bytes;
@@ -54,8 +56,9 @@ public class KDB {
      * Decrypt the database.
      * @return plaintext.
      * @throws FileNotFoundException
+     * @throws AEADBadTagException 
      */
-    public final byte[] read() throws FileNotFoundException {
+    public final byte[] read() throws FileNotFoundException, AEADBadTagException {
         this.header = new KDBHeader();
         this.inStream = new FileInputStream(this.database);
         int offset = 0;
@@ -88,7 +91,7 @@ public class KDB {
         }
     }
 
-    private byte[] decrypt(final byte[] ciphertext) {
+    private byte[] decrypt(final byte[] ciphertext) throws AEADBadTagException {
         this.initializeCryptoAlgorithms();
         this.initializeCipher();
         return cipher.decrypt(ciphertext, this.header.getEncryptionIV());

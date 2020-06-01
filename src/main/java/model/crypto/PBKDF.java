@@ -56,7 +56,7 @@ public class PBKDF implements KDF {
     }
 
     @Override
-    public void setKeySize(final int keySize) {
+    public final void setKeySize(final int keySize) {
         this.keySize = keySize;
     }
 
