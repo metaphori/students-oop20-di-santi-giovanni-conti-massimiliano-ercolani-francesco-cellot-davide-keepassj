@@ -6,7 +6,7 @@ public final class CipherFactory {
     }
     /**
      * Create an instance of Cipher.
-     * @param cipherType
+     * @param cipherType This is the string of the cipher to use.
      * @return Cipher Object
      */
     public static CryptoCipher create(final String cipherType) {

@@ -11,11 +11,7 @@ import de.mkammerer.argon2.Argon2Helper;
 public class Argon2KDF extends KDFAdvanced {
 
     /**
-     * Return generated key.
-     * @param password
-     * @param salt
-     * @param rounds
-     * @return key.
+     * {@inheritDoc}
      */
     @Override
     public final byte[] generateKey(final byte[] password, final byte[] salt, final int rounds) {
@@ -24,6 +20,9 @@ public class Argon2KDF extends KDFAdvanced {
         return key;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final int getDefaultRounds() {
         Argon2 argon2 = Argon2Factory.create();
@@ -31,6 +30,9 @@ public class Argon2KDF extends KDFAdvanced {
         return iterations;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public final boolean isTweakable() {
         return true;

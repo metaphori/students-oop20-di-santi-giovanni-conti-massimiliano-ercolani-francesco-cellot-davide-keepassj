@@ -10,7 +10,7 @@ public final class KDFFactory {
 
     /**
      * Create object of KDF type.
-     * @param kdf
+     * @param kdf This is the string of the KDF to use.
      * @return KDF.
      */
     public static KDF create(final String kdf) {

@@ -37,9 +37,9 @@ public class KDB {
 
     /**
      * Create KDB Object.
-     * @param database
-     * @param credentials
-     * @throws FileNotFoundException 
+     * @param database File of the database file.
+     * @param credentials List of the credentials.
+     * @throws FileNotFoundException When the database doesn't exist.
      */
     public KDB(final File database, final List<byte[]> credentials) throws FileNotFoundException {
         this.database = database;
@@ -47,6 +47,13 @@ public class KDB {
         this.composeKey(credentials);
     }
 
+    /**
+     * Create KDB Object and database file.
+     * @param database File where the database must be saved.
+     * @param credentials List of the credentials.
+     * @param header KDBHeader to use.
+     * @throws IOException When is not possible to write on the file.
+     */
     public KDB(final File database, final List<byte[]> credentials, final KDBHeader header) throws IOException {
         this(database, credentials);
         this.header = header;
@@ -55,8 +62,8 @@ public class KDB {
     /**
      * Decrypt the database.
      * @return plaintext.
-     * @throws FileNotFoundException
-     * @throws AEADBadTagException 
+     * @throws FileNotFoundException When the file doesn't exist.
+     * @throws AEADBadTagException When the decryption fails.
      */
     public final byte[] read() throws FileNotFoundException, AEADBadTagException {
         this.header = new KDBHeader();
@@ -78,8 +85,8 @@ public class KDB {
 
     /**
      * Encrypt the plaintext inside the database.
-     * @param plaintext
-     * @throws FileNotFoundException
+     * @param plaintext This is the XML data of the file to be encrypted.
+     * @throws FileNotFoundException When the file doesn't exist.
      */
     public final void write(final byte[] plaintext) throws FileNotFoundException {
         this.outStream = new FileOutputStream(this.database);
@@ -109,11 +116,9 @@ public class KDB {
     private void initializeCryptoAlgorithms() {
         final String cipherType = this.header.getCipher();
         final String kdfType = this.header.getKDF();
-
         this.cipher = CipherFactory.create(cipherType);
         this.kdf = KDFFactory.create(kdfType);
         this.kdf.setKeySize(this.cipher.getKeySize());
-
     }
 
     private void initializeCipher() {
