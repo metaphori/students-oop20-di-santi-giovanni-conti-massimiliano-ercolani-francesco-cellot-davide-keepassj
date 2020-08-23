@@ -6,6 +6,10 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
 
 	static Random rnd_method;
 
+	public GeneratePasswordRandomImpl() {
+		
+		
+	}
 	
 	public String generatePassword() {
 		String psw;
@@ -38,6 +42,5 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
 		
 		return a;
 	} 
-	
 	
 }
