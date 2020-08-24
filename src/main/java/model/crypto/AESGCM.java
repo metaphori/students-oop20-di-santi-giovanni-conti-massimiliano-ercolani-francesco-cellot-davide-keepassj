@@ -38,11 +38,10 @@ public class AESGCM extends CryptoCipherAEAD {
      */
     @Override
     public final byte[] encrypt(final byte[] plaintext, final byte[] iv) {
-        GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
+        final GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.aesKey, ivParameterSpec);
-            this.updateAAD();
-            return this.cipher.doFinal(plaintext);
+            return this.doFinal(plaintext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
                 | BadPaddingException e) {
             System.out.println("Error AES-GCM encryption: " + e.toString());
@@ -55,11 +54,10 @@ public class AESGCM extends CryptoCipherAEAD {
      */
     @Override
     public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
-        GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
+        final GCMParameterSpec ivParameterSpec = new GCMParameterSpec(IV_SIZE_BIT, iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.aesKey, ivParameterSpec);
-            this.updateAAD();
-            return this.cipher.doFinal(ciphertext);
+            return this.doFinal(ciphertext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
             System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
             return null;

@@ -35,8 +35,7 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
-            this.updateAAD();
-            return this.cipher.doFinal(plaintext);
+            return this.doFinal(plaintext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException
                 | BadPaddingException e) {
             System.out.println("Error ChaCha20-Poly1305 encryption: " + e.toString());
@@ -53,8 +52,7 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
-            this.updateAAD();
-            return this.cipher.doFinal(ciphertext);
+            return this.doFinal(ciphertext);
         } catch (InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException e) {
             System.out.println("Error " + this.getClass() + " this shouldn't happen: " + e.toString());
             return null;

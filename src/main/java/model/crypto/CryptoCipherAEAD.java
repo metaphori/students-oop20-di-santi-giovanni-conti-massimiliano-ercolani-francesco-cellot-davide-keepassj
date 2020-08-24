@@ -1,14 +1,10 @@
 package model.crypto;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
 import java.util.Arrays;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.Mac;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import javax.crypto.IllegalBlockSizeException;
 
 public abstract class CryptoCipherAEAD implements CryptoCipher {
 
@@ -20,9 +16,6 @@ public abstract class CryptoCipherAEAD implements CryptoCipher {
      * Cipher used to encrypt/decrypt.
      */
     protected Cipher cipher;
-    protected SecretKeySpec encKey;
-    protected SecretKeySpec macKey;
-    protected Mac hmac;
 
     @Override
     public final void updateAssociatedData(final byte[] data) {
@@ -35,9 +28,9 @@ public abstract class CryptoCipherAEAD implements CryptoCipher {
         }
     }
 
-    protected final void initCipher(final int mode, final byte[] iv) throws InvalidKeyException, InvalidAlgorithmParameterException {
-        final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-        this.cipher.init(mode, this.encKey, ivParameterSpec);
-        this.hmac.init(this.macKey);
+    protected final byte[] doFinal(final byte[] input) throws IllegalBlockSizeException, BadPaddingException {
+        this.updateAAD();
+        return this.cipher.doFinal(input);
     }
+
 }

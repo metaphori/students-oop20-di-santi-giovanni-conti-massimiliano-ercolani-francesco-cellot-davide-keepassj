@@ -30,7 +30,7 @@ public class TestCryptoCipher {
             final byte[] a = Hex.decodeHex("546865207365636f6e64207072696e6369706c65206f662041756775737465204b6572636b686f666673");
             final byte[] t = Hex.decodeHex("4dd3b4c088a7f45c216839645b2012bf2e6269a8c56a816dbc1b267761955bc5");
             final int indexTag = 144;
-            CryptoCipher aes = CipherFactory.create("AES");
+            final CryptoCipher aes = CipherFactory.create("AES");
             aes.setKey(k);
             aes.updateAssociatedData(a);
             final byte[] c = aes.encrypt(p, iv);
