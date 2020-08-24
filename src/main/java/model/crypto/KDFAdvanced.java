@@ -58,6 +58,7 @@ public abstract class KDFAdvanced implements KDF {
     /**
      * {@inheritDoc}
      */
+    @Override
     public final void setKeySize(final int keySize) {
         this.keySize = keySize;
     }

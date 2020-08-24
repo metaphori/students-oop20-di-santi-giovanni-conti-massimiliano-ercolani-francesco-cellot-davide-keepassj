@@ -20,8 +20,7 @@ public class PBKDF implements KDF {
         SecretKeyFactory skf = null;
         try {
             skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            final byte[] key = skf.generateSecret(spec).getEncoded();
-            return key;
+            return skf.generateSecret(spec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             System.out.println("This shouldn't happen");
         }
