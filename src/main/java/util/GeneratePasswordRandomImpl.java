@@ -14,10 +14,10 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
 	public String generatePassword() {
 		String psw;
 		
-		/*Genero password diverse casuali finchè non ne trovo una valida*/
+		/*Generate different random password until find a valid one*/
 		while(true) {
 			psw = randomPassword(8);
-			/*Uso la funzione isValid() della classe PasswordValidatorImpl*/
+			/*Use isValid() function of the class: "PasswordValidatoImpl"*/
 			if(isValid(psw))
 				return psw;
 		}
