@@ -32,12 +32,12 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
 		String symbols = "!@#$%^&*_=+-/.?";
 		String values = Capital_chars + Small_chars + numbers + symbols;
 		
-		/*Inserisco carattere scelto casualmente nel vettore*/
+		/*Insert randomly chosen character in the vector*/
 		for(int i=0; i<len; i++) {
 			password[i] = values.charAt(rnd_method.nextInt(values.length()));
 		}
 		
-		/*Converto il vettore di char in stringa*/
+		/*Convert the char vector to string*/
 		String a = new String(password);
 		
 		return a;
