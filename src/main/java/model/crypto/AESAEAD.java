@@ -12,7 +12,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public abstract class AEADAES implements CryptoCipher {
+public abstract class AESAEAD implements CryptoCipher {
 
     /**
      * cipher This is the cipher in use.

@@ -6,19 +6,15 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 import com.google.common.primitives.Bytes;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class AES extends AEADAES {
+public class AES extends AESAEAD {
 
     /*
      * Only a draft, but requested as a standard in TLS.
