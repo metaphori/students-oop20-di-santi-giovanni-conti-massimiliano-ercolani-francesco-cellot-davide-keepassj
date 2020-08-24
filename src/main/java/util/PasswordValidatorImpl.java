@@ -12,8 +12,8 @@ public class PasswordValidatorImpl implements PasswordValidator{
 	public boolean isValid(final String password) {
 		this.password = password;
 		
-		/*La password è valida solo se contiene una cifra
-		 * e la sua lunghezza è minimo di otto caratteri*/
+		/*Password is valid only if contains at least one digit
+		 * and its length is at least eight characters*/
 		if(password.matches("(?=.*[0-9]).*") && this.password.length() >= 8)
 			return true;
 		
