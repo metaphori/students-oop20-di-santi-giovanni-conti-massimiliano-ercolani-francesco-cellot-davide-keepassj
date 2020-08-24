@@ -18,7 +18,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-public class AES implements CryptoCipher {
+public class AES extends AEADAES {
 
     /*
      * Only a draft, but requested as a standard in TLS.
@@ -30,30 +30,17 @@ public class AES implements CryptoCipher {
     private static final int ENC_SIZE = 32;
     private static final int MAC_SIZE = 32;
     private static final int TAG_SIZE = 32;
-    private Cipher cipher;
-    private SecretKeySpec encKey;
-    private SecretKeySpec macKey;
-    private Mac hmac;
-    private byte[] associatedData;
-    private byte[] associatedDataLength; 
 
     /**
      * Construct an AES Object.
      */
     public AES() {
         try {
-            this.cipher = Cipher.getInstance("AES/CBC/NoPadding"); this.hmac = Mac.getInstance("HmacSHA512");
+            this.cipher = Cipher.getInstance("AES/CBC/NoPadding");
+            this.hmac = Mac.getInstance("HmacSHA512");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             System.out.println("Error building AES object: " + e.toString());
         }
-    }
-
-    /**
-     * Return the AES key.
-     * @return key.
-     */
-    public final SecretKeySpec getKey() {
-        return this.encKey;
     }
 
     /**
@@ -62,12 +49,7 @@ public class AES implements CryptoCipher {
      */
     @Override
     public void setKey(final byte[] key) {
-        final byte[] encKey = new byte[ENC_SIZE];
-        final byte[] macKey = new byte[MAC_SIZE];
-        System.arraycopy(key, 0, macKey, 0, macKey.length);
-        System.arraycopy(key, macKey.length, encKey, 0, encKey.length);
-        this.encKey = new SecretKeySpec(encKey, "AES");
-        this.macKey = new SecretKeySpec(macKey, "HmacSHA512");
+        this.setKey(key, ENC_SIZE, MAC_SIZE, "AES", "HmacSHA512");
     }
 
     /**
@@ -76,10 +58,7 @@ public class AES implements CryptoCipher {
     @Override
     public final byte[] encrypt(final byte[] plaintext, final byte[] iv) {
         try {
-            final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-            this.cipher.init(Cipher.ENCRYPT_MODE, this.encKey, ivParameterSpec);
-            this.hmac.init(this.macKey);
-
+            this.initCipher(Cipher.ENCRYPT_MODE, iv);
             final byte[] encrypted = this.cipher.doFinal(Util.pad(plaintext, BLOCK_SIZE));
             // I set the iv only to test the correct tag using the parameters of the ietf draft.
             final byte[] tag = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
@@ -97,10 +76,7 @@ public class AES implements CryptoCipher {
     @Override
     public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         try {
-            final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
-            this.cipher.init(Cipher.DECRYPT_MODE, this.encKey, ivParameterSpec);
-            this.hmac.init(this.macKey);
-
+            this.initCipher(Cipher.DECRYPT_MODE, iv);
             final byte[] encrypted = new byte[ciphertext.length - TAG_SIZE];
             System.arraycopy(ciphertext, 0, encrypted, 0, encrypted.length);
             final byte[] tag = new byte[TAG_SIZE];
@@ -136,19 +112,6 @@ public class AES implements CryptoCipher {
     @Override
     public int getKeySize() {
         return AES.KEY_SIZE;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void updateAssociatedData(final byte[] data) {
-        this.associatedData = Arrays.copyOf(data, data.length);
-        final ByteBuffer ad = ByteBuffer.allocate(8);
-        ad.order(ByteOrder.BIG_ENDIAN);
-        ad.putLong(data.length * 8);
-        ad.rewind();
-        this.associatedDataLength = ad.array();
     }
 
 
