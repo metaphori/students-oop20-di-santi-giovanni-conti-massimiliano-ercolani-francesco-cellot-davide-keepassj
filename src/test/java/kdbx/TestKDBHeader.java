@@ -40,4 +40,10 @@ public class TestKDBHeader {
         System.out.println(Hex.encodeHex(header.writeHeader()));
     }
 
+    @Test
+    public void testGetter() {
+        KDBHeader header = new KDBHeader();
+        header.getCipherDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
+        header.getKDFDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
+    }
 }

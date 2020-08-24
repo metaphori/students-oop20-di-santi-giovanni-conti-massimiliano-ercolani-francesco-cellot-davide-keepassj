@@ -25,23 +25,27 @@ public class KDBHeader {
     private Map<Integer, byte[]> fields;
 
     private final Map<String, String> ciphers = ImmutableMap.of(
-            "31c1f2e6bf714350be5805216afc5aff", "AES",
-            "ad68f29f576f4bb9a36ad47af965346c", "TwoFish",
-            "d6038a2b8b6f4cb5a524339a31dbb59a", "ChaCha20",
+            "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305",
             "4922bdc5a59a674fffb648a7b9e5b59c", "AESGCM",
-            "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305"
-            );
-
-    private final Map<Integer, String> protectedStreams = ImmutableMap.of(
-            1, "ArcFourVariant",
-            2, "Salsa20",
-            3, "ChaCha20"
+            "31c1f2e6bf714350be5805216afc5aff", "AES"
             );
 
     private final Map<String, String> kdfs = ImmutableMap.of(
             "33d8bdb9f1bf67a7467bca59eccb18b0", "PBKDF2",
             "ef636ddf8c29444b91f7a9a403e30a0c", "Argon2",
             "9cacaaf3cce9c43908274ed3c3c6eb1c", "Scrypt"
+            );
+
+    private final Map<String, String> cipherDescriptions = ImmutableMap.of(
+            "ChaCha20Poly1305", "ChaCha20-Poly1305 Is the most secure way to encrypt a message",
+            "AESGCM", "AES-GCM Is the way to go when you don't want to use modern technologies",
+            "AES", "AES-256-CBC-HMAC-SHA-512 Is one of the classical authenticated encryption scheme"
+            );
+
+    private final Map<String, String> kdfDescriptions = ImmutableMap.of(
+            "Argon2", "Is the most secure key derivation function",
+            "Scrypt", "Is one of the most secure key derivation functions",
+            "PBKDF2", "Is one of the classical password based key derivation functions"
             );
 
     private EnumMap<Field, Integer> headerFields;
@@ -52,14 +56,12 @@ public class KDBHeader {
         this.headerFields.put(Field.END_OF_HEADER, 0);
         this.headerFields.put(Field.COMMENT, 1);
         this.headerFields.put(Field.CIPHER_ID, 2);
-        this.headerFields.put(Field.COMPRESSION_FLAGS, 3);
         this.headerFields.put(Field.MASTER_SEED, 4);
         this.headerFields.put(Field.TRANSFORM_SEED, 5);
         this.headerFields.put(Field.TRANSFORM_ROUNDS, 6);
         this.headerFields.put(Field.ENCRYPTION_IV, 7);
         this.headerFields.put(Field.PROTECTED_STREAM_KEY, 8);
         this.headerFields.put(Field.STREM_START_BYTES, 9);
-        this.headerFields.put(Field.INNER_RANDOM_STREAM_ID, 10);
         this.headerFields.put(Field.KDF_PARAMETERS, 11);
         this.headerFields.put(Field.PUBLIC_CUSTOM_DATA, 12);
         this.headerFields.put(Field.KDF_ID, 13);
@@ -120,8 +122,12 @@ public class KDBHeader {
         return ciphers;
     }
 
-    public final Map<Integer, String> getProtectedStreams() {
-        return protectedStreams;
+    public final Map<String, String> getCipherDescriptions() {
+        return cipherDescriptions;
+    }
+
+    public final Map<String, String> getKDFDescriptions() {
+        return kdfDescriptions;
     }
 
     public final byte[] getFieldData(final Field field) {
@@ -134,10 +140,6 @@ public class KDBHeader {
 
     public final String getKDF() {
         return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
-    }
-
-    public final boolean isCompressed() {
-        return this.getFieldData(Field.COMPRESSION_FLAGS)[0] == 1;
     }
 
     public final byte[] getMasterSeed() {
@@ -209,8 +211,6 @@ public class KDBHeader {
         final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
         this.setCipher(defaultCipher);
         this.setKDF(defaultKDF);
-        // final int rounds = KDFFactory.create(defaultKDF).getDefaultRounds();
-        // System.out.println(rounds);
         this.setTransformRounds(KDBHeader.DEFAULT_ROUNDS);
         random.nextBytes(seed);
         this.setTransformSeed(seed);
@@ -272,10 +272,6 @@ public class KDBHeader {
         } catch (DecoderException e) {
             e.printStackTrace();
         }
-    }
-
-    public final void setCompressionFlag(final byte[] flag) {
-        this.setField(Field.COMPRESSION_FLAGS, flag);
     }
 
     public final void setMasterSeed(final byte[] masterSeed) {

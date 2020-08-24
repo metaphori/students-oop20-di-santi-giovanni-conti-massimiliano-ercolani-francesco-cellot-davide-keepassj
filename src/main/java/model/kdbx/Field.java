@@ -17,10 +17,6 @@ public enum Field {
      */
     CIPHER_ID,
     /**
-     * Check if the database is compressed.
-     */
-    COMPRESSION_FLAGS,
-    /**
      * MasterSeed.
      */
     MASTER_SEED,
@@ -46,10 +42,6 @@ public enum Field {
     STREM_START_BYTES,
     /**
      * InnerRandomStreamID.
-     */
-    INNER_RANDOM_STREAM_ID,
-    /**
-     * Key Derivation functions parameters.
      */
     KDF_PARAMETERS,
     /**
