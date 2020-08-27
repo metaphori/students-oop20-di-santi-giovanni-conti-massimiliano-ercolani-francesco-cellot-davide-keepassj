@@ -2,12 +2,15 @@ package util;
 
 public class PasswordStrengthImpl implements PasswordStrength{
 
-	/*Array of char*/
+	/*Array of char to contain the password*/
 	private char[] password;
 	
-	@Override
+	/*Variables useful to calculate password strength*/
+	private int sum;
+	private int sub;
+	
 	public int getStrength(String p) {
-		password = p.toCharArray();
+		password = p.toCharArray();	//convert string to char array
 		
 		return 0;
 	}
@@ -28,7 +31,15 @@ public class PasswordStrengthImpl implements PasswordStrength{
 	}
 	
 	/*Return the number of lowercase letters*/
-	private int getNLower();
+	private int getNLower() {
+		int count = 0;
+		
+		for(int i=0; i<password.length; i++) {
+			if(password[i] >= 'a' && password[i] <= 'z' )
+				count++;
+		}
+		return count;
+	}
 	
 	/*Return the number of digit*/
 	private int getNNumbers();
@@ -36,5 +47,6 @@ public class PasswordStrengthImpl implements PasswordStrength{
 	/*Return the number of special characters*/
 	private int getNSpecial();
 
+	
 	
 }
