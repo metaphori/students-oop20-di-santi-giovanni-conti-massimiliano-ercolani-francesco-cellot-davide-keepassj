@@ -1,7 +1,7 @@
 package util;
 
 public interface PasswordValidator {
-	
-	boolean isValid(String password);
+
+    boolean isValid(String password);
 
 }
