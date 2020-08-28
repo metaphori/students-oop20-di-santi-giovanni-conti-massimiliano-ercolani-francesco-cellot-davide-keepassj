@@ -2,8 +2,8 @@ package util;
 
 public class PasswordStrengthImpl implements PasswordStrength{
 
-	/*Array of char to contain the password*/
-	private char[] password;
+    /*Array of char to contain the password*/
+    private char[] password;
 	
 	/*Variables useful to calculate password strength*/
 	private int sum;
@@ -11,21 +11,22 @@ public class PasswordStrengthImpl implements PasswordStrength{
 	
 	public int getStrength(String p) {
 		password = p.toCharArray();	//convert string to char array
-		
+
 		return 0;
 	}
 	
-	public int getLength() {
-		return this.password.lenght;
+    public int getLength() {
+		return this.password.length;
 	}
 
 	/*Return the number of Uppercase letters*/
 	private int getNUpper() {
-		int count=0;
-		
-		for(int i=0; i<this.password.length; i++) {
-			if(password[i] >= 'A' && password[i] <= 'Z')
+		int count = 0;
+
+		for (int i = 0; i < this.password.length; i++) {
+			if (password[i] >= 'A' && password[i] <= 'Z') {
 				count++;
+			}
 		}
 		return count;
 	}
@@ -33,19 +34,24 @@ public class PasswordStrengthImpl implements PasswordStrength{
 	/*Return the number of lowercase letters*/
 	private int getNLower() {
 		int count = 0;
-		
-		for(int i=0; i<password.length; i++) {
-			if(password[i] >= 'a' && password[i] <= 'z' )
+
+		for (int i = 0; i < password.length; i++) {
+			if (password[i] >= 'a' && password[i] <= 'z') {
 				count++;
+			}
 		}
 		return count;
 	}
 	
 	/*Return the number of digit*/
-	private int getNNumbers();
+	private int getNNumbers() {
+        return 0;
+    }
 	
 	/*Return the number of special characters*/
-	private int getNSpecial();
+	private int getNSpecial() {
+        return 0;
+    }
 
 	
 	
