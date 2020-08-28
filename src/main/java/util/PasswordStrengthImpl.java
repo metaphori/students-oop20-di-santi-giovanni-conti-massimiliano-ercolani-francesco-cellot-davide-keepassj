@@ -1,15 +1,15 @@
 package util;
 
-public class PasswordStrengthImpl implements PasswordStrength{
+public class PasswordStrengthImpl implements PasswordStrength {
 
     /*Array of char to contain the password*/
-    private char[] password;
-	
+    private static char[] password;
+
 	/*Variables useful to calculate password strength*/
 	private int sum;
 	private int sub;
 	
-	public int getStrength(String p) {
+	public static int getStrength(final String p) {
 		password = p.toCharArray();	//convert string to char array
 
 		return 0;
