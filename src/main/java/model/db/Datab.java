@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Datab {
 
-    private ArrayList<ElementoDB> mydb;
+    private ArrayList<ElementDb> mydb;
 
     public Datab() {
         this.mydb = new ArrayList<>();
     }
 
-    public final boolean addEntry(final ElementoDB entry) {
+    public final boolean addEntry(final ElementDb entry) {
         if (nameAlreadyExist(entry.getNameAccount())) {
             return false;
         }
