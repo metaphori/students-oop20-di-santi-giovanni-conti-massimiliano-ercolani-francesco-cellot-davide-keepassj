@@ -1,6 +1,6 @@
 package util;
 
-public class PasswordStrengthImpl implements PasswordStrength {
+public class PasswordStrengthImpl {
 
     /*Array of char to contain the password*/
     private static char[] password;

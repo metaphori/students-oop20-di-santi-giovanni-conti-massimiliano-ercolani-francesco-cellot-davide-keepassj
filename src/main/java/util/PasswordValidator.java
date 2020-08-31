@@ -1,6 +1,6 @@
 package util;
 
-/** Interface to create the validator
+/** Interface to create the validator.
  * 
  * The isValid() method checks
  * the validity of the password
@@ -8,7 +8,7 @@ package util;
  */
 public interface PasswordValidator {
 
-    /**
+    /**.
      * Validator
      * @param password
      * @return boolean

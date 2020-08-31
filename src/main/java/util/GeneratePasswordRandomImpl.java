@@ -4,20 +4,20 @@ import java.util.Random;
 
 public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements GeneratePasswordRandom {
 
-    /**
+    /**.
      * password This is the string that contain the password to check
      */
     private String psw;
     private static Random random;
 
-    /**
+    /**.
      * Set the variable
      */
     public GeneratePasswordRandomImpl() {
         this.psw = "";
     }
 
-    /**
+    /**.
      * Create the random password and check the validity
      * with the method of PasswordValidatorImpl class
      * @return String
@@ -34,7 +34,7 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
         }
     }
 
-     /**
+     /**.
       * Private method to create the password
       * @param len
       * @return String

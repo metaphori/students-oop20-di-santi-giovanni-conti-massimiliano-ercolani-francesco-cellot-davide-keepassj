@@ -1,6 +1,6 @@
 package util;
 
-/** Interface to create the generator
+/** Interface to create the generator.
  * 
  * the generatePassword method 
  * generates a new password randomly
@@ -8,7 +8,7 @@ package util;
  */
 public interface GeneratePasswordRandom {
 
-    /**
+    /**.
      * Generator
      *@return String
      */

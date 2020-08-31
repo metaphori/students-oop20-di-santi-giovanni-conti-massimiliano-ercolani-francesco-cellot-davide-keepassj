@@ -2,19 +2,19 @@ package util;
 
 public class PasswordValidatorImpl implements PasswordValidator {
 
-    /**
+    /**.
      * password This is the string that contain the password to check
      */
     private String password;
 
-    /**
+    /**.
      * Set the variable
      */
     public PasswordValidatorImpl() {
         this.password = "";
     }
 
-    /**
+    /**.
      * Check the validity of the password
      * @param password
      */
