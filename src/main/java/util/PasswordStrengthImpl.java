@@ -1,6 +1,6 @@
 package util;
 
-public class PasswordStrengthImpl {
+public class PasswordStrengthImpl extends CheckCharacters{
 
     /*Array of char to contain the password*/
     private static char[] password;
