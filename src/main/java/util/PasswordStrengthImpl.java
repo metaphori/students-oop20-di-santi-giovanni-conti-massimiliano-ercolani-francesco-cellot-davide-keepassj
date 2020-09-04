@@ -1,58 +1,35 @@
 package util;
 
-public class PasswordStrengthImpl extends CheckCharacters{
+public class PasswordStrengthImpl extends CheckCharacters {
 
-    /*Array of char to contain the password*/
-    private static char[] password;
+private static char[] password;
 
-	/*Variables useful to calculate password strength*/
-	private int sum;
-	private int sub;
-	
-	public static int getStrength(final String p) {
-		password = p.toCharArray();	//convert string to char array
+    public static int getStrength(final String p) {
+        password = p.toCharArray();
 
-		return 0;
-	}
-	
-    public int getLength() {
-		return this.password.length;
-	}
-
-	/*Return the number of Uppercase letters*/
-	private int getNUpper() {
-		int count = 0;
-
-		for (int i = 0; i < this.password.length; i++) {
-			if (password[i] >= 'A' && password[i] <= 'Z') {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	/*Return the number of lowercase letters*/
-	private int getNLower() {
-		int count = 0;
-
-		for (int i = 0; i < password.length; i++) {
-			if (password[i] >= 'a' && password[i] <= 'z') {
-				count++;
-			}
-		}
-		return count;
-	}
-	
-	/*Return the number of digit*/
-	private int getNNumbers() {
-        return 0;
-    }
-	
-	/*Return the number of special characters*/
-	private int getNSpecial() {
-        return 0;
+        return getSommatoria() - getDifferenza();
     }
 
-	
-	
+    public static int getLength() {
+        return password.length;
+    }
+
+    private static int getSommatoria() {
+        int nCaratteri = getLength() * 6;
+        int nUpper = (getLength() - countUpper(password)) * 2;
+        int nLower = (getLength() - countLower(password)) * 2;
+        int nNumbers = countNumbers(password) * 4;
+        int nSpecial = countSpecial(password) * 6;
+        return  nCaratteri + nUpper + nLower + nNumbers + nSpecial;
+    }
+
+    private static int getDifferenza() {
+        int nConsUpper = getConsecutiveUpper(password) * 2;
+        int nConsLower = getConsecutiveLower(password) * 2;
+        int nConsNumber = getConsecutiveNumbers(password) * 2;
+        int nRepeatChar = getRepeatChar(password) * 2;
+
+        return nConsUpper + nConsLower + nConsNumber + nRepeatChar;
+    }
+
 }
