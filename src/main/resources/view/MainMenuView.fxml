@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.MainMenuController">
     <AnchorPane prefHeight="502.0" prefWidth="824.0">
       <children>
          <Button layoutX="272.0" layoutY="209.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="234.0" text="Create new database" />
