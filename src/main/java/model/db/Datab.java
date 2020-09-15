@@ -13,7 +13,7 @@ public class Datab {
     /**
      * Receive a new entry to insert.
      * @param entry
-     * @return the state of execution if true it's done
+     * @return true if it's done
      */
     public final boolean addEntry(final ElementDb entry) {
         if (nameAlreadyExist(entry.getNameAccount())) {
@@ -26,7 +26,7 @@ public class Datab {
     /**
      * Receive a new entry to insert.
      * @param nameToDelete
-     * @return the state of execution if true it's done
+     * @return true if it's done
      */
     public final boolean delEntry(final String nameToDelete) {
         ElementDb temp;
@@ -44,7 +44,7 @@ public class Datab {
      * control if the array already contains an entry
      * with the same name.
      * @param nameAccount
-     * @return result
+     * @return true/false
      */
     public boolean nameAlreadyExist(final String nameAccount) {
         for (int i = 0; i < mydb.size(); i++) {
@@ -58,7 +58,7 @@ public class Datab {
     /**
      * from the unique nameAccount return the entire Entry.
      * @param nameAccount
-     * @return Entry or null if not found
+     * @return the entry or null if not found
      */
     public ElementDb getEntry(final String nameAccount) {
         for (int i = 0; i < mydb.size(); i++) {
@@ -67,5 +67,16 @@ public class Datab {
             }
         }
         return null;
+    }
+
+    /**
+     * Return the statement of the arraylist.
+     * @return true/false
+     */
+    public Boolean isEmpty() {
+        if (mydb.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 }
