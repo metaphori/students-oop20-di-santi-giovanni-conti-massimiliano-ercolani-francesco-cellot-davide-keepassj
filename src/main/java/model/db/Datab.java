@@ -4,10 +4,17 @@ import java.util.ArrayList;
 
 public class Datab {
 
-    private ArrayList<ElementDb> mydb;
+    private String masterPassword;
+    private ArrayList<Entry> mydb;
 
     public Datab() {
         this.mydb = new ArrayList<>();
+        this.masterPassword = "";
+    }
+
+    public Datab(final String passw) {
+        this.mydb = new ArrayList<>();
+        this.masterPassword = passw;
     }
 
     /**
@@ -15,7 +22,7 @@ public class Datab {
      * @param entry
      * @return true if it's done
      */
-    public final boolean addEntry(final ElementDb entry) {
+    public final boolean addEntry(final Entry entry) {
         if (nameAlreadyExist(entry.getNameAccount())) {
             return false;
         }
@@ -29,7 +36,7 @@ public class Datab {
      * @return true if it's done
      */
     public final boolean delEntry(final String nameToDelete) {
-        ElementDb temp;
+        Entry temp;
         if (getEntry(nameToDelete) == null) {
             return false;
         } else {
@@ -60,7 +67,7 @@ public class Datab {
      * @param nameAccount
      * @return the entry or null if not found
      */
-    public ElementDb getEntry(final String nameAccount) {
+    public Entry getEntry(final String nameAccount) {
         for (int i = 0; i < mydb.size(); i++) {
             if (this.mydb.get(i).getNameAccount() == nameAccount) {
                 return mydb.get(i);

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import model.db.Datab;
-import model.db.ElementDb;
+import model.db.Entry;
 
 public class TestDatab {
 
@@ -19,10 +19,10 @@ private Datab gf = null;
 
     @org.junit.Test
     public void testAddEntry() {
-        final ElementDb g = new ElementDb("prova", "name", "mypass00", "www.prova.it", "");
+        final Entry g = new Entry("prova", "name", "mypass00", "www.prova.it", "");
         assertNotNull(gf);
         assertTrue(gf.isEmpty());
-        assertTrue(gf.addEntry(new ElementDb("prova", "name", "mypass00", "www.prova.it", "")));
+        assertTrue(gf.addEntry(new Entry("prova", "name", "mypass00", "www.prova.it", "")));
         assertFalse(gf.isEmpty());
         assertTrue(gf.nameAlreadyExist("prova"));
         assertEquals(g, gf.getEntry("prova"));

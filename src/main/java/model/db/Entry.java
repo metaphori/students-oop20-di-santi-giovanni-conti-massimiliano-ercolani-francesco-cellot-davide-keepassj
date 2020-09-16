@@ -1,6 +1,6 @@
 package model.db;
 
-public class ElementDb {
+public class Entry {
 
     private String nameAccount;
     private String username;
@@ -8,9 +8,9 @@ public class ElementDb {
     private String website;
     private String note;
 
-    public ElementDb() { }
+    public Entry() { }
 
-    public ElementDb(final String nameAcc, final String user, final String passw, final String webs, final String notes) {
+    public Entry(final String nameAcc, final String user, final String passw, final String webs, final String notes) {
         this.nameAccount = nameAcc;
         this.username = user;
         this.password = passw;
