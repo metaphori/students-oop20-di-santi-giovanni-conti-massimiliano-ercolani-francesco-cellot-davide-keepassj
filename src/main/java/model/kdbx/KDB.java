@@ -71,11 +71,12 @@ public class KDB {
         try {
             data = this.inStream.readAllBytes();
             offset = this.header.readHeader(data);
+            this.inStream.close();
         } catch (IOException e) {
             System.out.println("Error file has invalid header");
             return null;
         }
-        byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
+        final byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
         final byte[] plaintext = decrypt(ciphertext);
         System.out.println(new String(plaintext));
         return plaintext;
@@ -91,6 +92,7 @@ public class KDB {
         final byte[] ciphertext = encrypt(plaintext);
         try {
             this.outStream.write(Bytes.concat(this.header.writeHeader(), ciphertext));
+            this.outStream.close();
         } catch (IOException e) {
             System.out.println("Error writing to the file");
         }
