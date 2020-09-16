@@ -26,8 +26,6 @@ public class KDB {
 
     private KDBHeader header;
     private File database;
-    private InputStream inStream;
-    private OutputStream outStream;
     private SecureRandom random;
     private CryptoCipher cipher;
     private KDF kdf;
@@ -65,13 +63,13 @@ public class KDB {
      */
     public final byte[] read() throws FileNotFoundException, AEADBadTagException {
         this.header = new KDBHeader();
-        this.inStream = new FileInputStream(this.database);
+        final InputStream inStream = new FileInputStream(this.database);
         int offset = 0;
         byte[] data = null;
         try {
-            data = this.inStream.readAllBytes();
+            data = inStream.readAllBytes();
             offset = this.header.readHeader(data);
-            this.inStream.close();
+            inStream.close();
         } catch (IOException e) {
             System.out.println("Error file has invalid header");
             return null;
@@ -88,11 +86,11 @@ public class KDB {
      * @throws FileNotFoundException When the file doesn't exist.
      */
     public final void write(final byte[] plaintext) throws FileNotFoundException {
-        this.outStream = new FileOutputStream(this.database);
+        final OutputStream outStream = new FileOutputStream(this.database);
         final byte[] ciphertext = encrypt(plaintext);
         try {
-            this.outStream.write(Bytes.concat(this.header.writeHeader(), ciphertext));
-            this.outStream.close();
+            outStream.write(Bytes.concat(this.header.writeHeader(), ciphertext));
+            outStream.close();
         } catch (IOException e) {
             System.out.println("Error writing to the file");
         }
