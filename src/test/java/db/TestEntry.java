@@ -22,7 +22,7 @@ private Entry gf = null;
         String password = "1234abcde";
         String category = "other";
         String url = "www.try.it";
-        String note = "no note";
+        String note = "note";
         gf = new Entry();
         gf.setNameAccount(nameAccount);
         gf.setUsername(username);
