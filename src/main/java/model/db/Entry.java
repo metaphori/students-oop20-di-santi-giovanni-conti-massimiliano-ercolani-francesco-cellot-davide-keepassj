@@ -5,16 +5,18 @@ public class Entry {
     private String nameAccount;
     private String username;
     private String password;
-    private String website;
+    private String category;
+    private String url;
     private String note;
 
     public Entry() { }
 
-    public Entry(final String nameAcc, final String user, final String passw, final String webs, final String notes) {
-        this.nameAccount = nameAcc;
-        this.username = user;
-        this.password = passw;
-        this.website = webs;
+    public Entry(final String nameAccount, final String username, final String password, final String category, final String url, final String notes) {
+        this.nameAccount = nameAccount;
+        this.username = username;
+        this.password = password;
+        this.setCategory(category);
+        this.url = url;
         this.note = notes;
     }
 
@@ -33,14 +35,14 @@ public class Entry {
     }
 
     /**
-     * @return the username
+     * @return username of the entry
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * @param username the username to set
+     * @param username to set
      */
     public void setUsername(final String username) {
         this.username = username;
@@ -61,17 +63,31 @@ public class Entry {
     }
 
     /**
-     * @return the website
+     * @return the category of the entry
      */
-    public String getWebsite() {
-        return website;
+    public String getCategory() {
+        return category;
     }
 
     /**
-     * @param website the website to set
+     * @param category selected of the entry
      */
-    public void setWebsite(final String website) {
-        this.website = website;
+    public void setCategory(final String category) {
+        this.category = category;
+    }
+
+    /**
+     * @return the url where to use this entry
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url to set
+     */
+    public void setUrl(final String url) {
+        this.url = url;
     }
 
     /**
@@ -82,7 +98,7 @@ public class Entry {
     }
 
     /**
-     * @param note the note to set
+     * @param note to set
      */
     public void setNote(final String note) {
         this.note = note;
@@ -94,7 +110,7 @@ public class Entry {
         String nameA = "\"" + this.nameAccount + "\"";
         String usern = "\"" + this.username + "\"";
         String passw = "\"" + this.password + "\"";
-        String webs = "\"" + this.website + "\"";
+        String webs = "\"" + this.url + "\"";
         String notes = "\"" + this.note + "\"";
 
         return nameA + usern + passw + webs + notes;
