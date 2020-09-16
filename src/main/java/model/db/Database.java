@@ -2,12 +2,12 @@ package model.db;
 
 import java.util.ArrayList;
 
-public class Datab {
+public class Database {
 
     private ArrayList<Entry> entryList;
     private ArrayList<String> categoryList;
 
-    public Datab() {
+    public Database() {
         this.entryList = new ArrayList<>();
         this.categoryList = new ArrayList<>();
     }
@@ -74,8 +74,8 @@ public class Datab {
     }
 
     /**
-     * Return the statement of the arraylist.
-     * @return true/false
+     * Return the statement of entryList.
+     * @return true if it's empty, false if not
      */
     public Boolean isEmpty() {
         if (entryList.isEmpty()) {
