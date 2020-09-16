@@ -4,17 +4,12 @@ import java.util.ArrayList;
 
 public class Datab {
 
-    private String masterPassword;
-    private ArrayList<Entry> mydb;
+    private ArrayList<Entry> entryList;
+    private ArrayList<String> categoryList;
 
     public Datab() {
-        this.mydb = new ArrayList<>();
-        this.masterPassword = "";
-    }
-
-    public Datab(final String passw) {
-        this.mydb = new ArrayList<>();
-        this.masterPassword = passw;
+        this.entryList = new ArrayList<>();
+        this.categoryList = new ArrayList<>();
     }
 
     /**
@@ -26,7 +21,7 @@ public class Datab {
         if (nameAlreadyExist(entry.getNameAccount())) {
             return false;
         }
-        this.mydb.add(entry);
+        this.entryList.add(entry);
         return true;
     }
 
@@ -43,7 +38,7 @@ public class Datab {
             temp = getEntry(nameToDelete);
         }
 
-        this.mydb.remove(temp);
+        this.entryList.remove(temp);
         return true;
     }
 
@@ -54,12 +49,14 @@ public class Datab {
      * @return true/false
      */
     public boolean nameAlreadyExist(final String nameAccount) {
-        for (int i = 0; i < mydb.size(); i++) {
-            if (this.mydb.get(i).getNameAccount() == nameAccount) {
+        /*
+        for (int i = 0; i < entryList.size(); i++) {
+            if (this.entryList.get(i).getNameAccount() == nameAccount) {
                 return true;
             }
         }
-        return false;
+        */
+        return (entryList.stream().filter(e -> e.getNameAccount() == nameAccount).count() != 0) ? true : false;
     }
 
     /**
@@ -68,9 +65,9 @@ public class Datab {
      * @return the entry or null if not found
      */
     public Entry getEntry(final String nameAccount) {
-        for (int i = 0; i < mydb.size(); i++) {
-            if (this.mydb.get(i).getNameAccount() == nameAccount) {
-                return mydb.get(i);
+        for (int i = 0; i < entryList.size(); i++) {
+            if (this.entryList.get(i).getNameAccount() == nameAccount) {
+                return entryList.get(i);
             }
         }
         return null;
@@ -81,9 +78,37 @@ public class Datab {
      * @return true/false
      */
     public Boolean isEmpty() {
-        if (mydb.isEmpty()) {
+        if (entryList.isEmpty()) {
             return true;
         }
         return false;
+    }
+
+
+
+    /**
+     * Receive a new entry to insert.
+     * @param category
+     * @return true if it's done, false if already exist of something wrong
+     */
+    public final boolean addCategory(final String category) {
+        if (categoryList.contains(category)) {
+            return false;
+        }
+        this.categoryList.add(category);
+        return true;
+    }
+
+    /**
+     * Receive a new entry to insert.
+     * @param category
+     * @return true if it's done, false if don't contain it of something wrong
+     */
+    public final boolean delCategory(final String category) {
+        if (!categoryList.contains(category)) {
+            return false;
+        }
+        this.categoryList.remove(category);
+        return true;
     }
 }
