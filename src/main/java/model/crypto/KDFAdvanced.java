@@ -27,7 +27,7 @@ public abstract class KDFAdvanced implements KDF {
      * @throws Exception When the number of processes requested is higher than the computer capability.
      */
     public void setParallelism(final int parallelism) throws Exception {
-        if (parallelism <= Runtime.getRuntime().availableProcessors() * 2) {
+        if (parallelism <= Runtime.getRuntime().availableProcessors()) {
             this.parallelism = parallelism;
         } else {
             throw new Exception("Parallelism too high");

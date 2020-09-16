@@ -16,6 +16,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.primitives.Bytes;
 
 import model.crypto.CipherFactory;
+import model.crypto.KDFFactory;
+import model.crypto.KDF;
 
 public class KDBHeader {
 
@@ -142,6 +144,24 @@ public class KDBHeader {
         return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
     }
 
+	/**
+	* Get suggested KDF rounds for a given KDF.
+	* @param kdf
+	* @return rounds.
+	 */
+	public final int getKDFRounds(final String kdf) {
+		return KDFFactory.create(kdf).getDefaultRounds();
+	}
+
+	/**
+	* Check if a KDF is tweakable, if is tweakable then memory and parallelism could be set.
+	* @param kdf
+	* @return is tweakable.
+	 */
+	public final boolean isKDFTweakable(final String kdf) {
+		return KDFFactory.create(kdf).isTweakable();
+	}
+
     public final byte[] getMasterSeed() {
         return this.getFieldData(Field.MASTER_SEED);
     }
@@ -205,7 +225,7 @@ public class KDBHeader {
     }
 
     private void setDefaults() {
-        final String defaultCipher = "AESGCM";
+        final String defaultCipher = "ChaCha20Poly1305";
         final String defaultKDF = "Argon2";
         final SecureRandom random = new SecureRandom();
         final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
