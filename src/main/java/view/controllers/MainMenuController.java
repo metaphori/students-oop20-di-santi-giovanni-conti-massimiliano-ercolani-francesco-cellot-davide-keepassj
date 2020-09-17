@@ -7,12 +7,12 @@ import view.FxmlFilesLoader;
 
 public class MainMenuController {
     
-    String source = "src/main/resources/view/createnew/chooseNameDb.fxml";
+    final String source = "src/main/resources/view/createnew/chooseNameDb.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoader(this.source);
     
     @FXML
     public void createNewDatabase(ActionEvent event) throws Exception{
-        loader.setScene();
+        loader.getScene();
     }
     
     @FXML

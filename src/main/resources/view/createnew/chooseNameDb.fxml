@@ -50,6 +50,6 @@
                <Font size="17.0" />
             </font>
          </Label>
-         <TextField fx:id="dbName1" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
+         <TextField fx:id="dbDescription" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
       </children></AnchorPane>
 </Scene>
