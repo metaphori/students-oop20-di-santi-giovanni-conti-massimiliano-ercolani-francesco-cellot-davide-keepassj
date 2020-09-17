@@ -1,5 +1,7 @@
 package view.controllers;
 
+import java.awt.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import view.FxmlFilesLoader;
 
@@ -9,12 +11,12 @@ public class MainMenuController {
     FxmlFilesLoader loader = new FxmlFilesLoader(this.source);
     
     @FXML
-    public void createNewDatabase() throws Exception{
+    public void createNewDatabase(ActionEvent event) throws Exception{
         loader.setScene();
     }
     
     @FXML
-    public void openDatabase() {
+    public void openDatabase(ActionEvent event) {
         
     }
 }
