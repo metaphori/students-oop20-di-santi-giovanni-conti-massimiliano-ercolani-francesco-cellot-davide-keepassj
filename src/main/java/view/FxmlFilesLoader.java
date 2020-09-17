@@ -13,7 +13,7 @@ public class FxmlFilesLoader {
         this.source = source;
     }
     
-    public void setScene() {
+    public void getScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             Parent root1 = (Parent) fxmlLoader.load();
