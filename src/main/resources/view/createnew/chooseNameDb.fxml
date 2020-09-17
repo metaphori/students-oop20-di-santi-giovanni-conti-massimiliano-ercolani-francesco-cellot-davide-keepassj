@@ -32,19 +32,24 @@
              </Menu>
            </menus>
          </MenuBar>
-         <TextField layoutX="213.0" layoutY="214.0" prefHeight="26.0" prefWidth="416.0" />
-         <Label layoutX="51.0" layoutY="216.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
+         <TextField fx:id="dbName" layoutX="214.0" layoutY="184.0" prefHeight="26.0" prefWidth="416.0" />
+         <Label layoutX="52.0" layoutY="186.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
             <font>
                <Font size="17.0" />
             </font>
          </Label>
-         <Label layoutX="51.0" layoutY="104.0" prefHeight="58.0" prefWidth="499.0" text="Choose a name for your new database:">
+         <Label layoutX="52.0" layoutY="74.0" prefHeight="58.0" prefWidth="499.0" text="Choose a name for your new database:">
             <font>
                <Font name="System Bold" size="22.0" />
             </font>
          </Label>
-         <Button layoutX="341.0" layoutY="330.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="160.0" text="Continue" />
-         <Button layoutX="169.0" layoutY="330.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="160.0" text="Go back" />
-         <Button layoutX="550.0" layoutY="330.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
+         <Button layoutX="341.0" layoutY="330.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="32.0" prefWidth="160.0" text="Continue" />
+         <Button layoutX="550.0" layoutY="330.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
+         <Label layoutX="52.0" layoutY="242.0" prefHeight="22.0" prefWidth="149.0" text="Description: ">
+            <font>
+               <Font size="17.0" />
+            </font>
+         </Label>
+         <TextField fx:id="dbName1" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
       </children></AnchorPane>
 </Scene>
