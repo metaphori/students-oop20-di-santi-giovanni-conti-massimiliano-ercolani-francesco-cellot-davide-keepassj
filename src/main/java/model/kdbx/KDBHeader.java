@@ -310,6 +310,14 @@ public class KDBHeader {
         this.setField(Field.KDF_PARALLELISM, parallelismBuffer.array());
     }
 
+	public final void setComment(final byte[] comment) {
+		setField(Field.COMMENT, comment);
+	}
+
+	public final void setPublicCustomData(final byte[] data) {
+		setField(Field.PUBLIC_CUSTOM_DATA, data);
+	}
+
     public final void setKDFMemory(final long memory) {
         final ByteBuffer memoryBuffer = ByteBuffer.allocate(8);
         memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
