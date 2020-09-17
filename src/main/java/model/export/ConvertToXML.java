@@ -1,12 +1,11 @@
 package model.export;
 import model.db.Database;
-import model.kdbx.KDB;
 
 import java.io.File;
-/*
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;*/
+import javax.xml.bind.Unmarshaller;
 
 public class ConvertToXML {
 
@@ -30,8 +29,6 @@ public class ConvertToXML {
         marshaller.marshal(customer, System.out);
         return "";
     }
-}
-
 /*
         // Step 2 - Convert the Domain Model to XML
         JAXBContext jaxbContext = JAXBContext.newInstance(Customer.class);
@@ -49,3 +46,4 @@ public class ConvertToXML {
         Customer outCustomer = (Customer) unmarshaller.unmarshal(xmlReader);
         System.out.println(outCustomer);
 */
+}
