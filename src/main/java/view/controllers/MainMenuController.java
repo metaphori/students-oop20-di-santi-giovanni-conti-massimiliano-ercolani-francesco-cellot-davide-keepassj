@@ -1,11 +1,19 @@
 package view.controllers;
 
+import javafx.fxml.FXML;
+import view.FxmlFilesLoader;
+
 public class MainMenuController {
     
-    public void createNewDatabase() {
-        
+    String source = "src/main/resources/view/createnew/chooseNameDb.fxml";
+    FxmlFilesLoader loader = new FxmlFilesLoader(this.source);
+    
+    @FXML
+    public void createNewDatabase() throws Exception{
+        loader.setScene();
     }
     
+    @FXML
     public void openDatabase() {
         
     }
