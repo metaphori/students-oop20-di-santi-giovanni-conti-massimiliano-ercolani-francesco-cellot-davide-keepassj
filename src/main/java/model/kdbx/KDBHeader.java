@@ -25,6 +25,7 @@ public class KDBHeader {
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
     private static final long DEFAULT_ROUNDS = 15;
     private Map<Integer, byte[]> fields;
+    private EnumMap<Field, Integer> headerFields;
 
     private final Map<String, String> ciphers = ImmutableMap.of(
             "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305",
@@ -49,8 +50,6 @@ public class KDBHeader {
             "Scrypt", "Is one of the most secure key derivation functions",
             "PBKDF2", "Is one of the classical password based key derivation functions"
             );
-
-    private EnumMap<Field, Integer> headerFields;
 
     @SuppressWarnings("MagicNumber")
     public KDBHeader() {
@@ -102,26 +101,20 @@ public class KDBHeader {
         throw new IOException();
     }
 
-    public final boolean checkField(final int fieldId) {
-        final int max = this.headerFields.values().stream()
-                .max((entry1, entry2) -> entry1 > entry2 ? 1 : -1)
-                .get();
-        final int min = this.headerFields.values().stream()
-                .min((entry1, entry2) -> entry2 < entry2 ? 1 : -1)
-                .get();
-        return fieldId >= min && fieldId <= max;
-    }
-
-    public final EnumMap<Field, Integer> getHeaderFields() {
-        return headerFields;
-    }
-
-    public final Map<Integer, byte[]> getFields() {
-        return fields;
-    }
-
-    public final Map<String, String> getCiphers() {
-        return ciphers;
+    /**
+     * Write Header in ByteBuffer.
+     * @return List of ByteBuffer.
+     */
+    public final byte[] writeHeader() {
+        final byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
+                .map(value -> fieldToBytes(value.getKey(), value.getValue()))
+                .map(buffer -> buffer.array())
+                .map(byteArray -> Bytes.asList(byteArray))
+                .flatMap(listArray -> listArray.stream())
+                .collect(Collectors.toList()));
+        // System.out.println(Hex.encodeHex(dataBuffer));
+        // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
+        return Bytes.concat(KDBHeader.SIGNATURE, dataBuffer, KDBHeader.END_OF_HEADER);
     }
 
     public final Map<String, String> getCipherDescriptions() {
@@ -132,35 +125,40 @@ public class KDBHeader {
         return kdfDescriptions;
     }
 
-    public final byte[] getFieldData(final Field field) {
-        return this.fields.get(this.headerFields.get(field));
-    }
-
+    /**
+     * Get current cipher.
+     * @return cipher algorithm.
+     */
     public final String getCipher() {
         return this.ciphers.get(new String(Hex.encodeHex(this.getFieldData(Field.CIPHER_ID))));
     }
 
+    /**
+     * Get current KDF.
+     * @return KDF algorithm.
+     */
     public final String getKDF() {
         return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
     }
 
-	/**
-	* Get suggested KDF rounds for a given KDF.
-	* @param kdf
-	* @return rounds.
-	 */
-	public final int getKDFRounds(final String kdf) {
-		return KDFFactory.create(kdf).getDefaultRounds();
-	}
 
-	/**
-	* Check if a KDF is tweakable, if is tweakable then memory and parallelism could be set.
-	* @param kdf
-	* @return is tweakable.
-	 */
-	public final boolean isKDFTweakable(final String kdf) {
-		return KDFFactory.create(kdf).isTweakable();
-	}
+    /**
+     * Get suggested KDF rounds for a given KDF.
+     * @param kdf
+     * @return kdf rounds.
+     */
+    public final int getKDFRounds(final String kdf) {
+        return KDFFactory.create(kdf).getDefaultRounds();
+    }
+
+    /**
+     * Check if a KDF is tweakable, if is tweakable then memory and parallelism could be set.
+     * @param kdf
+     * @return is tweakable.
+     */
+    public final boolean isKDFTweakable(final String kdf) {
+        return KDFFactory.create(kdf).isTweakable();
+    }
 
     public final byte[] getMasterSeed() {
         return this.getFieldData(Field.MASTER_SEED);
@@ -194,78 +192,6 @@ public class KDBHeader {
         final ByteBuffer memoryBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_MEMORY));
         memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return memoryBuffer.getLong();
-    }
-
-    /**
-     * Write Header in ByteBuffer.
-     * @return List of ByteBuffer.
-     */
-    public final byte[] writeHeader() {
-        final byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
-                .map(value -> fieldToBytes(value.getKey(), value.getValue()))
-                .map(buffer -> buffer.array())
-                .map(byteArray -> Bytes.asList(byteArray))
-                .flatMap(listArray -> listArray.stream())
-                .collect(Collectors.toList()));
-        // System.out.println(Hex.encodeHex(dataBuffer));
-        // dataBuffer.forEach(a -> System.out.println(Hex.encodeHex(a)));
-        return Bytes.concat(KDBHeader.SIGNATURE, dataBuffer, KDBHeader.END_OF_HEADER);
-    }
-
-    private ByteBuffer fieldToBytes(final int key, final byte[] data) {
-        // Field ID + Length + Payload
-        final ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
-        System.out.println(key + ": " + Hex.encodeHexString(data));
-        buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.put((byte) key);
-        buffer.putShort((short) data.length);
-        buffer.put(data);
-        buffer.rewind();
-        return buffer;
-    }
-
-    private void setDefaults() {
-        final String defaultCipher = "ChaCha20Poly1305";
-        final String defaultKDF = "Argon2";
-        final SecureRandom random = new SecureRandom();
-        final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
-        this.setCipher(defaultCipher);
-        this.setKDF(defaultKDF);
-        this.setTransformRounds(KDBHeader.DEFAULT_ROUNDS);
-        random.nextBytes(seed);
-        this.setTransformSeed(seed);
-    }
-
-    private void setTransformRounds(final long rounds) {
-        final ByteBuffer transformRound = ByteBuffer.allocate(8);
-        transformRound.order(ByteOrder.LITTLE_ENDIAN);
-        transformRound.putLong(rounds);
-        transformRound.rewind();
-        this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
-    }
-
-    private void setTransformSeed(final byte[] seed) {
-        this.setField(Field.TRANSFORM_SEED, seed);
-    }
-
-    public final void setField(final Field field, final byte[] value) {
-        this.setField(this.headerFields.get(field), value);
-        // return this;
-        // this.fields.put(this.headerFields.get(field), value);
-    }
-
-    public final void setField(final int field, final byte[] value) {
-        this.fields.remove(field);
-        this.fields.put(field, value);
-        // return this;
-    }
-
-    public final void setHeaderFields(final EnumMap<Field, Integer> headerFields) {
-        this.headerFields = headerFields;
-    }
-
-    public final void setFields(final Map<Integer, byte[]> fields) {
-        this.fields = fields;
     }
 
     public final void setCipher(final String cipher) {
@@ -310,13 +236,13 @@ public class KDBHeader {
         this.setField(Field.KDF_PARALLELISM, parallelismBuffer.array());
     }
 
-	public final void setComment(final byte[] comment) {
-		setField(Field.COMMENT, comment);
-	}
+    public final void setComment(final byte[] comment) {
+        setField(Field.COMMENT, comment);
+    }
 
-	public final void setPublicCustomData(final byte[] data) {
-		setField(Field.PUBLIC_CUSTOM_DATA, data);
-	}
+    public final void setPublicCustomData(final byte[] data) {
+        setField(Field.PUBLIC_CUSTOM_DATA, data);
+    }
 
     public final void setKDFMemory(final long memory) {
         final ByteBuffer memoryBuffer = ByteBuffer.allocate(8);
@@ -324,6 +250,65 @@ public class KDBHeader {
         memoryBuffer.putLong(memory);
         memoryBuffer.rewind();
         this.setField(Field.KDF_MEMORY, memoryBuffer.array());
+    }
+
+    private boolean checkField(final int fieldId) {
+        final int max = this.headerFields.values().stream()
+                .max((entry1, entry2) -> entry1 > entry2 ? 1 : -1)
+                .get();
+        final int min = this.headerFields.values().stream()
+                .min((entry1, entry2) -> entry2 < entry2 ? 1 : -1)
+                .get();
+        return fieldId >= min && fieldId <= max;
+    }
+
+    private ByteBuffer fieldToBytes(final int key, final byte[] data) {
+        // Field ID + Length + Payload
+        final ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
+        System.out.println(key + ": " + Hex.encodeHexString(data));
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+        buffer.put((byte) key);
+        buffer.putShort((short) data.length);
+        buffer.put(data);
+        buffer.rewind();
+        return buffer;
+    }
+
+    private void setDefaults() {
+        final String defaultCipher = "ChaCha20Poly1305";
+        final String defaultKDF = "Argon2";
+        final SecureRandom random = new SecureRandom();
+        final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
+        this.setCipher(defaultCipher);
+        this.setKDF(defaultKDF);
+        this.setTransformRounds(KDBHeader.DEFAULT_ROUNDS);
+        random.nextBytes(seed);
+        this.setTransformSeed(seed);
+    }
+
+    private void setTransformRounds(final long rounds) {
+        final ByteBuffer transformRound = ByteBuffer.allocate(8);
+        transformRound.order(ByteOrder.LITTLE_ENDIAN);
+        transformRound.putLong(rounds);
+        transformRound.rewind();
+        this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
+    }
+
+    private void setTransformSeed(final byte[] seed) {
+        this.setField(Field.TRANSFORM_SEED, seed);
+    }
+
+    private void setField(final Field field, final byte[] value) {
+        this.setField(this.headerFields.get(field), value);
+    }
+
+    private void setField(final int field, final byte[] value) {
+        this.fields.remove(field);
+        this.fields.put(field, value);
+    }
+
+    private byte[] getFieldData(final Field field) {
+        return this.fields.get(this.headerFields.get(field));
     }
 
 }
