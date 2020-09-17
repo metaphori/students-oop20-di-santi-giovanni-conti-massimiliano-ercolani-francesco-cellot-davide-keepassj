@@ -1,15 +1,29 @@
 package model.db;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import model.export.ConvertToXML;
+import model.kdbx.KDB;
 
 public class Database {
 
     private ArrayList<Entry> entryList;
     private ArrayList<String> categoryList;
+    private KDB cryptoDb;
+    private String plaintext;
 
-    public Database() {
+    public Database(final KDB cryptoDb) throws FileNotFoundException {
         this.entryList = new ArrayList<>();
         this.categoryList = new ArrayList<>();
+        this.cryptoDb = cryptoDb;
+        plaintext = updateTextForXml();
+        cryptoDb.write(plaintext.getBytes());
+    }
+
+    private String updateTextForXml() {
+        String app = ConvertToXML.getXml(this);
+        return (app != null) ? app : "";
     }
 
     /**
