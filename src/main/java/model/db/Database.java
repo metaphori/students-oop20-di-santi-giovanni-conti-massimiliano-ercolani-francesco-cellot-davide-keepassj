@@ -3,27 +3,35 @@ package model.db;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import model.export.ConvertToXML;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import model.export.ConvertXml;
 import model.kdbx.KDB;
 
+@XmlRootElement(namespace = "model.db")
 public class Database {
 
+    @XmlElementWrapper(name = "entryList")
+    @XmlElement(name = "entry")
     private ArrayList<Entry> entryList;
+    @XmlElementWrapper(name = "categoryList")
     private ArrayList<String> categoryList;
     private KDB cryptoDb;
-    private String plaintext;
 
-    public Database(final KDB cryptoDb) throws FileNotFoundException {
+    public Database(final KDB cryptoDb) throws FileNotFoundException, JAXBException {
         this.entryList = new ArrayList<>();
         this.categoryList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
-        plaintext = updateTextForXml();
-        cryptoDb.write(plaintext.getBytes());
+        updateXml();
     }
 
-    private String updateTextForXml() {
-        String app = ConvertToXML.getXml(this);
-        return (app != null) ? app : "";
+    private void updateXml() throws JAXBException, FileNotFoundException {
+        String app = ConvertXml.getXml(this);
+        cryptoDb.write(app.getBytes());
+        return;
     }
 
     /**

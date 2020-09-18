@@ -1,5 +1,8 @@
 package model.db;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "entry")
 public class Entry {
 
     private String nameAccount;
