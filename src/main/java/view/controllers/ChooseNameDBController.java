@@ -1,15 +1,16 @@
 package view.controllers;
 
+import controller.FxmlFilesLoader;
+import controller.FxmlFilesLoaderImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import model.kdbx.KDBHeader;
-import view.FxmlFilesLoader;
 
 public class ChooseNameDBController {
     
     final String source = "src/main/resources/view/createnew/chooseEncryptionSet.fxml";
-    FxmlFilesLoader loader = new FxmlFilesLoader(source);
+    FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
     byte[] databaseName;
     byte[] databaseDescription;
     
