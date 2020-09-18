@@ -63,21 +63,19 @@ public class KDB {
      */
     public final byte[] read() throws FileNotFoundException, AEADBadTagException {
         this.header = new KDBHeader();
-        final InputStream inStream = new FileInputStream(this.database);
-        int offset = 0;
-        byte[] data = null;
-        try {
+        try (InputStream inStream = new FileInputStream(this.database)) {
+            int offset;
+            byte[] data;
             data = inStream.readAllBytes();
             offset = this.header.readHeader(data);
-            inStream.close();
+            final byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
+            final byte[] plaintext = decrypt(ciphertext);
+            System.out.println(new String(plaintext));
+            return plaintext;
         } catch (IOException e) {
             System.out.println("Error file has invalid header");
             return null;
         }
-        final byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
-        final byte[] plaintext = decrypt(ciphertext);
-        System.out.println(new String(plaintext));
-        return plaintext;
     }
 
     /**
@@ -86,11 +84,9 @@ public class KDB {
      * @throws FileNotFoundException When the file doesn't exist.
      */
     public final void write(final byte[] plaintext) throws FileNotFoundException {
-        final OutputStream outStream = new FileOutputStream(this.database);
-        final byte[] ciphertext = encrypt(plaintext);
-        try {
+        try (OutputStream outStream = new FileOutputStream(this.database)) {
+            final byte[] ciphertext = encrypt(plaintext);
             outStream.write(Bytes.concat(this.header.writeHeader(), ciphertext));
-            outStream.close();
         } catch (IOException e) {
             System.out.println("Error writing to the file");
         }
