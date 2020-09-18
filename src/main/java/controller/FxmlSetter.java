@@ -12,4 +12,5 @@ public interface FxmlSetter {
      * @param max is the maximum limit
      */
     void setSpinner(Spinner<Integer> spinner, Integer min, Integer max);
+    
 }

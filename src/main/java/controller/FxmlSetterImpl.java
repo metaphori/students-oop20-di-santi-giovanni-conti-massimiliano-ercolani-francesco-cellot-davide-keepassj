@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.TextArea;
+
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
@@ -11,5 +13,4 @@ public class FxmlSetterImpl implements FxmlSetter {
         spinner.setValueFactory(values);
         spinner.setEditable(true);
     }
-
 }
