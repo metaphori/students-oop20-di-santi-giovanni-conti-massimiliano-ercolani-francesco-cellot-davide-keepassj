@@ -188,10 +188,18 @@ public class KDBHeader {
         return parallelismBuffer.getInt();
     }
 
-    public final long getKDFMemory() {
+    public final int getKDFMaxParallelism(final String kdf) {
+        return KDFFactory.create(kdf).getMaxParallelism();
+    }
+
+    public final int getKDFMemory() {
         final ByteBuffer memoryBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_MEMORY));
         memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        return memoryBuffer.getLong();
+        return memoryBuffer.getInt();
+    }
+
+    public final int getKDFMaxMemory(final String kdf) {
+        return KDFFactory.create(kdf).getMaxMemory();
     }
 
     public final void setCipher(final String cipher) {
@@ -229,7 +237,7 @@ public class KDBHeader {
     }
 
     public final void setKDFParallelism(final int parallelism) {
-        final ByteBuffer parallelismBuffer = ByteBuffer.allocate(4);
+        final ByteBuffer parallelismBuffer = ByteBuffer.allocate(Integer.BYTES);
         parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
         parallelismBuffer.putInt(parallelism);
         parallelismBuffer.rewind();
@@ -244,10 +252,10 @@ public class KDBHeader {
         setField(Field.PUBLIC_CUSTOM_DATA, data);
     }
 
-    public final void setKDFMemory(final long memory) {
-        final ByteBuffer memoryBuffer = ByteBuffer.allocate(8);
+    public final void setKDFMemory(final int memory) {
+        final ByteBuffer memoryBuffer = ByteBuffer.allocate(Integer.BYTES);
         memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        memoryBuffer.putLong(memory);
+        memoryBuffer.putInt(memory);
         memoryBuffer.rewind();
         this.setField(Field.KDF_MEMORY, memoryBuffer.array());
     }

@@ -12,7 +12,7 @@ public class TestKDBHeader {
     @Test
     public void testCipher() {
         String cipherType = "ChaCha20Poly1305";
-        KDBHeader header = new KDBHeader();
+        final KDBHeader header = new KDBHeader();
         header.setCipher(cipherType);
         assertEquals(cipherType, header.getCipher());
         cipherType = "AESGCM";
@@ -23,7 +23,7 @@ public class TestKDBHeader {
     @Test
     public void testKDF() {
         String kdfType = "Argon2";
-        KDBHeader header = new KDBHeader();
+        final KDBHeader header = new KDBHeader();
         header.setKDF(kdfType);
         assertEquals(kdfType, header.getKDF());
         kdfType = "PBKDF2";
@@ -34,7 +34,7 @@ public class TestKDBHeader {
     @SuppressWarnings("MagicNumber")
     @Test
     public void testKDFParameters() {
-        KDBHeader header = new KDBHeader();
+        final KDBHeader header = new KDBHeader();
         header.setKDFParallelism(4);
         header.setKDFMemory(6500);
         System.out.println(Hex.encodeHex(header.writeHeader()));
@@ -42,7 +42,7 @@ public class TestKDBHeader {
 
     @Test
     public void testGetter() {
-        KDBHeader header = new KDBHeader();
+        final KDBHeader header = new KDBHeader();
         header.getCipherDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
         header.getKDFDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
     }
