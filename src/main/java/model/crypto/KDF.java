@@ -31,14 +31,14 @@ public interface KDF {
      * @param memory This is the memory cost.
      * @throws Exception When the memory requested is too high.
      */
-    void setMemory(int memory) throws Exception;
+    void setMemory(int memory) throws KDFBadParameter;
 
     /**
      * Set the number of threads to generate the key.
      * @param parallelism This is the number of threads.
      * @throws Exception When the parallelism is too high.
      */
-    void setParallelism(int parallelism) throws Exception;
+    void setParallelism(int parallelism) throws KDFBadParameter;
 
     /**
      * Set the key size desired as return from generateKey.

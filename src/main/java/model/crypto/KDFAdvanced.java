@@ -24,26 +24,28 @@ public abstract class KDFAdvanced implements KDF {
     /**
      * Check parallelism.
      * @param parallelism This is the number of processes.
-     * @throws Exception When the number of processes requested is higher than the computer capability.
+     * @throws KDFBadParameter When the number of processes requested is higher than the computer capability.
      */
-    public void setParallelism(final int parallelism) throws Exception {
+    @Override
+    public void setParallelism(final int parallelism) throws KDFBadParameter {
         if (parallelism <= Runtime.getRuntime().availableProcessors()) {
             this.parallelism = parallelism;
         } else {
-            throw new Exception("Parallelism too high");
+            throw new KDFBadParameter("Parallelism too high");
         }
     }
 
     /**
      * Check that the memory requested is a correct parameter.
      * @param memory This is the memory requested.
-     * @throws Exception When the memory requested is higher than the computer capability.
+     * @throws KDFBadParameter When the memory requested is higher than the computer capability.
      */
-    public void setMemory(final int memory) throws Exception {
+    @Override
+    public void setMemory(final int memory) throws KDFBadParameter {
         if (memory <= Runtime.getRuntime().maxMemory()) {
             this.memory = memory;
         } else {
-            throw new Exception("Memory requested too high");
+            throw new KDFBadParameter("Memory requested too high");
         }
     }
 

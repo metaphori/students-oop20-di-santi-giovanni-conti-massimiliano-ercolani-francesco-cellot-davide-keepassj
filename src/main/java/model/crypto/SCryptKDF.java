@@ -34,9 +34,12 @@ public class SCryptKDF extends KDFAdvanced {
      * {@inheritDoc}
      */
     @Override
-    public final void setMemory(final int memory) throws Exception {
+    public final void setMemory(final int memory) throws KDFBadParameter {
+        super.setMemory(memory);
         if (isPowerOfTwo(memory)) {
             this.setMemory(memory);
+        } else {
+            throw new KDFBadParameter("Memory must be a power of two");
         }
     }
 
@@ -49,7 +52,7 @@ public class SCryptKDF extends KDFAdvanced {
     }
 
     private boolean isPowerOfTwo(final int number) {
-        return (number != 0) && ((number & (number - 1)) == 0);
+        return number != 0 && (number & (number - 1)) == 0;
     }
 
 }
