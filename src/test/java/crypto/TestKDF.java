@@ -44,6 +44,8 @@ public class TestKDF {
         final int parallelism = 4;
         scrypt.setKeySize(64);
         scrypt.setParallelism(parallelism);
+        System.out.println(scrypt.getMaxMemory());
+        System.out.println(scrypt.getMaxParallelism());
         final byte[] key = scrypt.generateKey(password, salt, rounds);
         System.out.println(Hex.encodeHex(key));
     }

@@ -28,7 +28,7 @@ public abstract class KDFAdvanced implements KDF {
      */
     @Override
     public void setParallelism(final int parallelism) throws KDFBadParameter {
-        if (parallelism <= Runtime.getRuntime().availableProcessors()) {
+        if (parallelism <= getMaxParallelism()) {
             this.parallelism = parallelism;
         } else {
             throw new KDFBadParameter("Parallelism too high");
@@ -42,7 +42,7 @@ public abstract class KDFAdvanced implements KDF {
      */
     @Override
     public void setMemory(final int memory) throws KDFBadParameter {
-        if (memory <= Runtime.getRuntime().maxMemory()) {
+        if (memory <= getMaxMemory()) {
             this.memory = memory;
         } else {
             throw new KDFBadParameter("Memory requested too high");
@@ -68,5 +68,19 @@ public abstract class KDFAdvanced implements KDF {
     @SuppressWarnings("all")
     private int getMemory() {
         return this.memory;
+    }
+
+    @Override
+    public final int getMaxMemory() {
+        try {
+            return Math.toIntExact(Runtime.getRuntime().maxMemory());
+        } catch (Exception e) {
+            return Integer.MAX_VALUE;
+        }
+    }
+
+    @Override
+    public final int getMaxParallelism() {
+        return Runtime.getRuntime().availableProcessors();
     }
 }

@@ -45,4 +45,17 @@ public interface KDF {
      * @param keySize This is the key size.
      */
     void setKeySize(int keySize);
+
+    /**
+     * Get the max memory that can be set.
+     * @return max memory.
+     */
+    int getMaxMemory();
+
+    /**
+     * Get the max number of parallelism that can be set.
+     * @return max parallelism.
+     */
+    int getMaxParallelism();
+
 }

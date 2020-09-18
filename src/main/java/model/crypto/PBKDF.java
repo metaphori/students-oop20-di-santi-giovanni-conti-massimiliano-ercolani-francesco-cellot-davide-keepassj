@@ -52,4 +52,14 @@ public class PBKDF implements KDF {
         this.keySize = keySize;
     }
 
+    @Override
+    public final int getMaxMemory() {
+        return 0;
+    }
+
+    @Override
+    public final int getMaxParallelism() {
+        return 0;
+    }
+
 }
