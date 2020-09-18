@@ -1,15 +1,15 @@
-package view;
+package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class FxmlFilesLoader {
+public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
     
     final String source;
     
-    public FxmlFilesLoader(String source) {
+    public FxmlFilesLoaderImpl(String source) {
         this.source = source;
     }
     
