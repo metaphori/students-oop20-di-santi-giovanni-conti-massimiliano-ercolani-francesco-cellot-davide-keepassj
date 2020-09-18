@@ -57,7 +57,7 @@ public class AES extends AESAEAD {
             this.initCipher(Cipher.ENCRYPT_MODE, iv);
             final byte[] encrypted = this.cipher.doFinal(Util.pad(plaintext, BLOCK_SIZE));
             // I set the iv only to test the correct tag using the parameters of the ietf draft.
-            final byte[] tag = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
+            final byte[] tag = this.computeHmac(hmac, Bytes.concat(iv, encrypted), TAG_SIZE);
             return Bytes.concat(encrypted, tag);
         } catch (InvalidKeyException | BadPaddingException  | IllegalBlockSizeException 
                 | InvalidAlgorithmParameterException e) {
@@ -78,7 +78,7 @@ public class AES extends AESAEAD {
             final byte[] tag = new byte[TAG_SIZE];
             System.arraycopy(ciphertext, encrypted.length, tag, 0, tag.length);
 
-            final byte[] tagComputed = this.computeHmac(hmac, Bytes.concat(iv, encrypted));
+            final byte[] tagComputed = this.computeHmac(hmac, Bytes.concat(iv, encrypted), TAG_SIZE);
             if (!Arrays.equals(tag, tagComputed)) {
                 throw new AEADBadTagException();
             }
@@ -110,9 +110,4 @@ public class AES extends AESAEAD {
         return AES.KEY_SIZE;
     }
 
-
-    private byte[] computeHmac(final Mac hmac, final byte[] encrypted) {
-        final byte[] data = Bytes.concat(this.associatedData, encrypted, this.associatedDataLength);
-        return Arrays.copyOfRange(hmac.doFinal(data), 0, TAG_SIZE);
-    }
 }

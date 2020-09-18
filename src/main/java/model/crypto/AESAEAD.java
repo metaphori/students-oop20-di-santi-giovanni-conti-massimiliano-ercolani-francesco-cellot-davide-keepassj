@@ -12,6 +12,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.common.primitives.Bytes;
+
 public abstract class AESAEAD implements CryptoCipher {
 
     /**
@@ -42,6 +44,7 @@ public abstract class AESAEAD implements CryptoCipher {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void updateAssociatedData(final byte[] data) {
         this.associatedData = Arrays.copyOf(data, data.length);
         final ByteBuffer ad = ByteBuffer.allocate(8);
@@ -65,6 +68,11 @@ public abstract class AESAEAD implements CryptoCipher {
         System.arraycopy(key, macKey.length, encKey, 0, encKey.length);
         this.encKey = new SecretKeySpec(encKey, cipherName);
         this.macKey = new SecretKeySpec(macKey, macName);
+    }
+
+    protected final byte[] computeHmac(final Mac hmac, final byte[] encrypted, final int tagSize) {
+        final byte[] data = Bytes.concat(this.associatedData, encrypted, this.associatedDataLength);
+        return Arrays.copyOfRange(hmac.doFinal(data), 0, tagSize);
     }
 
     protected final SecretKeySpec getKey() {
