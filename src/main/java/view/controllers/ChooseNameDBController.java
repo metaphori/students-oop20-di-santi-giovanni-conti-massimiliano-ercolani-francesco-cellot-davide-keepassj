@@ -1,5 +1,7 @@
 package view.controllers;
 
+import controller.DBDataSaver;
+import controller.DBDataSaverImpl;
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import javafx.event.ActionEvent;
@@ -11,9 +13,7 @@ public class ChooseNameDBController {
     
     final String source = "src/main/resources/view/createnew/chooseEncryptionSet.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
-    byte[] databaseName;
-    byte[] databaseDescription;
-    
+    DBDataSaver data = new DBDataSaverImpl();
     @FXML
     private TextField dbName;
     
@@ -27,18 +27,9 @@ public class ChooseNameDBController {
 
     @FXML
     void continueCreation(ActionEvent event) {
-        this.databaseName = this.dbName.getText().getBytes();
-        this.databaseDescription = this.dbDescription.getText().getBytes();
+        data.takeDBName(this.dbName.getText().getBytes());
+        data.takeDBDesc(this.dbDescription.getText().getBytes());
         
-        loader.getScene();
+        loader.getSceneData(data, ChooseNameDBController.class);
     }
-    
-    public byte[] getInsertedDBName() {
-        return this.databaseName;
-    }
-    
-    public byte[] getInsertedDBDescription() {
-        return this.databaseDescription;
-    }
-
 }
