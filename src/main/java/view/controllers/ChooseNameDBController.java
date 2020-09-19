@@ -14,6 +14,7 @@ public class ChooseNameDBController {
     final String source = "src/main/resources/view/createnew/chooseEncryptionSet.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
     DBDataSaver data = new DBDataSaverImpl();
+    
     @FXML
     private TextField dbName;
     
