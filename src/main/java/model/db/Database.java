@@ -2,6 +2,8 @@ package model.db;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
@@ -90,7 +92,7 @@ public class Database {
                 return true;
             }
         }
-        */
+         */
         return (entryList.stream()
                 .filter(e -> e.getNameAccount() == nameAccount)
                 .count() != 0) ? true : false;
@@ -110,8 +112,8 @@ public class Database {
         }
         return null;
 
-                  //Entry app = (Entry) this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount);
-                  //return app;
+        //Entry app = (Entry) this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount);
+        //return app;
     }
 
     /**
@@ -147,10 +149,25 @@ public class Database {
      */
     public final boolean delCategory(final Group group) {
         if (groupList.contains(group)) {
-        if (entryList.stream().filter(e -> e.getGroup() == group).count() == 0) {
-        this.groupList.remove(group);
-        return true;
-        }}
+            if (entryList.stream().filter(e -> e.getGroup() == group).count() == 0) {
+                this.groupList.remove(group);
+                return true;
+            }
+        }
         return false;
+    }
+
+    /*
+     * Return a list on Entry all under the same group.
+     * @param group
+     * @return ArrayList<Entry>
+     */
+    public final ArrayList<Entry> getAllEntryOfSpecifiedGroup(final Group group) {
+        ArrayList<Entry> app = new ArrayList<Entry>(
+                                this.entryList.stream()
+                                .filter(e -> e.getCategory() == group.getName())
+                                .collect(Collectors.toList()));
+                                //.collect(Collectors.toCollection(ArrayList::new));
+        return app;
     }
 }
