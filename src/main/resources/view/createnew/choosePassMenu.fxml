@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChoosePassController">
     <AnchorPane prefHeight="470.0" prefWidth="807.0">
       <children>
          <MenuBar prefHeight="29.0" prefWidth="807.0">
@@ -46,15 +46,15 @@
                <Font size="17.0" />
             </font>
          </Label>
-         <PasswordField layoutX="213.0" layoutY="218.0" prefHeight="26.0" prefWidth="555.0" />
+         <PasswordField fx:id="password" layoutX="213.0" layoutY="218.0" prefHeight="26.0" prefWidth="555.0" promptText="password" />
          <Label layoutX="38.0" layoutY="260.0" text="Repeat password:">
             <font>
                <Font size="17.0" />
             </font>
          </Label>
-         <PasswordField layoutX="213.0" layoutY="258.0" prefHeight="26.0" prefWidth="556.0" />
-         <Button layoutX="254.0" layoutY="403.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="160.0" text="Go back" />
-         <Button layoutX="423.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="160.0" text="Confirm" />
-         <Button layoutX="637.0" layoutY="404.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
+         <PasswordField fx:id="passwordRepeat" layoutX="213.0" layoutY="258.0" prefHeight="26.0" prefWidth="556.0" promptText="repeat password" />
+         <Button layoutX="254.0" layoutY="403.0" mnemonicParsing="false" onAction="#goBack" prefHeight="33.0" prefWidth="160.0" text="Go back" />
+         <Button layoutX="423.0" layoutY="404.0" mnemonicParsing="false" onAction="#confirmCreation" prefHeight="32.0" prefWidth="160.0" text="Confirm" />
+         <Button layoutX="637.0" layoutY="404.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
       </children></AnchorPane>
 </Scene>
