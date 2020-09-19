@@ -86,6 +86,12 @@ public class ChooseEncrSetController implements Initializable {
         if(header.isKDFTweakable(selection) == false) {
             this.muSpinner.setDisable(true);
             this.pSpinner.setDisable(true);
+            this.data.isTweakable(false);
+            
+        } else {
+            this.muSpinner.setDisable(false);
+            this.pSpinner.setDisable(false);
+            this.data.isTweakable(true);
         }
     }
     
