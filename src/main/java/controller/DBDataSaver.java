@@ -35,7 +35,7 @@ public interface DBDataSaver {
      * Save the database transform rounds
      * @param rounds
      */
-    void takeRounds(long rounds);
+    void takeRounds(Integer rounds);
     
     /**
      * Save the database memory usage
@@ -83,7 +83,7 @@ public interface DBDataSaver {
      * Get database key transform rounds
      * @return kdf
      */
-    long getRounds();
+    Integer getRounds();
     
     /**
      * Get database memory usage

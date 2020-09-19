@@ -14,7 +14,7 @@ public class DBDataSaverImpl implements DBDataSaver{
     private byte[] dbDesc;
     private String cipher;
     private String kdf;
-    private long rounds;
+    private Integer rounds;
     private Integer memory;
     private Integer parallelism;
     private boolean isTweakable;
@@ -40,7 +40,7 @@ public class DBDataSaverImpl implements DBDataSaver{
     }
 
     @Override
-    public void takeRounds(final long rounds) {
+    public void takeRounds(final Integer rounds) {
         this.rounds = rounds;
     }
 
@@ -80,7 +80,7 @@ public class DBDataSaverImpl implements DBDataSaver{
     }
 
     @Override
-    public long getRounds() {
+    public Integer getRounds() {
         return this.rounds;
     }
 
