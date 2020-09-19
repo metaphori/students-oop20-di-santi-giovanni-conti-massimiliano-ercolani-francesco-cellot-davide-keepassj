@@ -23,7 +23,7 @@ public class KDBHeader {
 
     private static final byte[] SIGNATURE = {(byte) 0xdb, (byte) 0xdb, (byte) 0xdb, (byte) 0xdb};
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
-    private static final long DEFAULT_ROUNDS = 15;
+    private static final int DEFAULT_ROUNDS = 15;
     private Map<Integer, byte[]> fields;
     private EnumMap<Field, Integer> headerFields;
 
@@ -176,10 +176,10 @@ public class KDBHeader {
         return this.getFieldData(Field.STREM_START_BYTES);
     }
 
-    public final long getTransformRounds() {
+    public final int getTransformRounds() {
         final ByteBuffer transformRound = ByteBuffer.wrap(this.getFieldData(Field.TRANSFORM_ROUNDS));
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
-        return transformRound.getLong();
+        return transformRound.getInt();
     }
 
     public final int getKDFParallelism() {
@@ -294,10 +294,10 @@ public class KDBHeader {
         this.setTransformSeed(seed);
     }
 
-    private void setTransformRounds(final long rounds) {
-        final ByteBuffer transformRound = ByteBuffer.allocate(8);
+    public void setTransformRounds(final int rounds) {
+        final ByteBuffer transformRound = ByteBuffer.allocate(Integer.BYTES);
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
-        transformRound.putLong(rounds);
+        transformRound.putInt(rounds);
         transformRound.rewind();
         this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
     }
