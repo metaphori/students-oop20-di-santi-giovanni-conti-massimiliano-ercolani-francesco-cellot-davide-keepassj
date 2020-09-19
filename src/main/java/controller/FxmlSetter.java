@@ -12,5 +12,11 @@ public interface FxmlSetter {
      * @param max is the maximum limit
      */
     void setSpinner(Spinner<Integer> spinner, Integer min, Integer max);
+
+    /**
+     * Set a javafx dialog box
+     * @param warningMessage is the message shown in the dialog box
+     */
+    void warningDialog(String warningMessage);
     
 }
