@@ -35,7 +35,7 @@ public interface DBDataSaver {
      * Save the database transform rounds
      * @param rounds
      */
-    void takeRounds(Integer rounds);
+    void takeRounds(long rounds);
     
     /**
      * Save the database memory usage
@@ -49,6 +49,59 @@ public interface DBDataSaver {
      */
     void takeParallelism(Integer parallelism);
     
+    /**
+     * Save tweakable info
+     * @param isTweakable
+     */
+    void isTweakable(boolean isTweakable);
+    
+    /**
+     * Get database name
+     * @return database name
+     */
+    byte[] getDBName();
+    
+    /**
+     * Get database description
+     * @return database description
+     */
+    byte[] getDBDesc();
+    
+    /**
+     * Get database cipher  
+     * @return database cipher
+     */
+    String getCipher();
+    
+    /**
+     * Get database kdf
+     * @return database kdf
+     */
+    String getKdf();
+    
+    /**
+     * Get database key transform rounds
+     * @return kdf
+     */
+    long getRounds();
+    
+    /**
+     * Get database memory usage
+     * @return memory usage
+     */
+    Integer getMemory();
+    
+    /**
+     * Get parallelism 
+     * @return parallelism
+     */
+    Integer getParallelism();
+    
+    /**
+     * Get if chosen kdf is tweakable or not
+     * @return true or false
+     */
+    boolean getTweakable();
     
     
 }
