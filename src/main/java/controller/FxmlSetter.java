@@ -1,6 +1,8 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Spinner;
+import javafx.stage.Stage;
 
 public interface FxmlSetter {
 
@@ -18,5 +20,12 @@ public interface FxmlSetter {
      * @param warningMessage is the message shown in the dialog box
      */
     void warningDialog(String warningMessage);
+    
+    /**
+     * Get the stage from every controller
+     * @param event is the event or the current clicked element 
+     * @return the stage
+     */
+    Stage getStage(ActionEvent event);
     
 }

@@ -1,8 +1,10 @@
 package controller;
 
-import java.awt.TextArea;
+import java.util.EventObject;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -26,5 +28,11 @@ public class FxmlSetterImpl implements FxmlSetter {
         Scene scene = new Scene(new Group(new Text(100, 150, warningMessage)));
         dialog.setScene(scene);
         dialog.show();
+    }
+
+    @Override
+    public Stage getStage(ActionEvent event) {
+        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+        return stage;
     }
 }
