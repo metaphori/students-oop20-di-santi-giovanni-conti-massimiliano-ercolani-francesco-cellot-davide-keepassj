@@ -8,17 +8,25 @@ public class Entry {
     private String nameAccount;
     private String username;
     private String password;
-    private String category;
+    private String group;
     private String url;
     private String note;
 
-    public Entry() { }
+    //constructor used for test
+    public Entry() {
+        this.nameAccount = "prova";
+        this.username = "prova";
+        this.password = "prova";
+        this.group = "prova";
+        this.url = "prova";
+        this.note = "prova";
+    }
 
-    public Entry(final String nameAccount, final String username, final String password, final String category, final String url, final String notes) {
+    public Entry(final String nameAccount, final String username, final String password, final Group group, final String url, final String notes) {
         this.nameAccount = nameAccount;
         this.username = username;
         this.password = password;
-        this.setCategory(category);
+        this.group = group.getName();
         this.url = url;
         this.note = notes;
     }
@@ -69,14 +77,14 @@ public class Entry {
      * @return the category of the entry
      */
     public String getCategory() {
-        return category;
+        return group;
     }
 
     /**
-     * @param category selected of the entry
+     * @param group selected of the entry
      */
-    public void setCategory(final String category) {
-        this.category = category;
+    public void setCategory(final Group group) {
+        this.group = group.getName();
     }
 
     /**
@@ -107,15 +115,17 @@ public class Entry {
         this.note = note;
     }
 
+    /*
     //in prova e da spostare
     public final String toText() {
         //add quote ""
-        String nameA = "\"" + this.nameAccount + "\"";
-        String usern = "\"" + this.username + "\"";
-        String passw = "\"" + this.password + "\"";
-        String webs = "\"" + this.url + "\"";
-        String notes = "\"" + this.note + "\"";
+        final String nameA = "\"" + this.nameAccount + "\"";
+        final String user = "\"" + this.username + "\"";
+        final String pass = "\"" + this.password + "\"";
+        final String webs = "\"" + this.url + "\"";
+        final String notes = "\"" + this.note + "\"";
 
         return nameA + usern + passw + webs + notes;
     }
+    */
 }

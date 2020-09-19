@@ -18,12 +18,17 @@ public class Database {
     @XmlElement(name = "entry")
     private ArrayList<Entry> entryList;
     @XmlElementWrapper(name = "categoryList")
-    private ArrayList<String> categoryList;
+    private ArrayList<Group> groupList;
     private KDB cryptoDb;
+
+    public Database() {
+        this.entryList = new ArrayList<>();
+        this.groupList = new ArrayList<>();
+    }
 
     public Database(final KDB cryptoDb) throws FileNotFoundException, JAXBException {
         this.entryList = new ArrayList<>();
-        this.categoryList = new ArrayList<>();
+        this.groupList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
         updateXml();
     }
@@ -64,6 +69,14 @@ public class Database {
         return true;
     }
 
+    /*
+     * get all the Entry entered.
+     * return ArrayList of Entry
+     */
+    public final ArrayList<Entry> getAllEntry() {
+        return this.entryList;
+    }
+
     /**
      * control if the array already contains an entry
      * with the same name.
@@ -78,7 +91,9 @@ public class Database {
             }
         }
         */
-        return (entryList.stream().filter(e -> e.getNameAccount() == nameAccount).count() != 0) ? true : false;
+        return (entryList.stream()
+                .filter(e -> e.getNameAccount() == nameAccount)
+                .count() != 0) ? true : false;
     }
 
     /**
@@ -87,12 +102,16 @@ public class Database {
      * @return the entry or null if not found
      */
     public Entry getEntry(final String nameAccount) {
-        for (int i = 0; i < entryList.size(); i++) {
+
+        for (int i = 0; i < entryList.size(); i++) { 
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
-                return entryList.get(i);
-            }
+                return entryList.get(i); 
+            } 
         }
         return null;
+
+                  //Entry app = (Entry) this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount);
+                  //return app;
     }
 
     /**
@@ -110,27 +129,28 @@ public class Database {
 
     /**
      * Receive a new entry to insert.
-     * @param category
+     * @param group
      * @return true if it's done, false if already exist of something wrong
      */
-    public final boolean addCategory(final String category) {
-        if (categoryList.contains(category)) {
+    public final boolean addCategory(final Group group) {
+        if (groupList.contains(group)) {
             return false;
         }
-        this.categoryList.add(category);
+        this.groupList.add(group);
         return true;
     }
 
     /**
      * Receive a new entry to insert.
-     * @param category
+     * @param group
      * @return true if it's done, false if don't contain it of something wrong
      */
-    public final boolean delCategory(final String category) {
-        if (!categoryList.contains(category)) {
-            return false;
-        }
-        this.categoryList.remove(category);
+    public final boolean delCategory(final Group group) {
+        if (groupList.contains(group)) {
+        if (entryList.stream().filter(e -> e.getGroup() == group).count() == 0) {
+        this.groupList.remove(group);
         return true;
+        }}
+        return false;
     }
 }

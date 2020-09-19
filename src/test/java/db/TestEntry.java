@@ -11,18 +11,19 @@ private Entry gf = null;
 
     @org.junit.Test
     public void testConstructor() {
-        gf = new Entry("prova", "name", "mypass00", "category", "www.prova.it", "");
+        gf = new Entry();
         assertNotNull(gf);
     }
 
     @org.junit.Test
     public void testGetterSetter() {
-        String nameAccount = "prova";
+        String nameAccount = "nome";
         String username = "username";
         String password = "1234abcde";
         String category = "other";
         String url = "www.try.it";
         String note = "note";
+
         gf = new Entry();
         gf.setNameAccount(nameAccount);
         gf.setUsername(username);
