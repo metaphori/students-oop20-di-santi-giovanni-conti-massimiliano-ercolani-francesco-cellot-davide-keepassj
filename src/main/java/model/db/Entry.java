@@ -74,16 +74,16 @@ public class Entry {
     }
 
     /**
-     * @return the category of the entry
+     * @return String group of the entry
      */
-    public String getCategory() {
+    public String getGroup() {
         return group;
     }
 
     /**
      * @param group selected of the entry
      */
-    public void setCategory(final Group group) {
+    public void setGroup(final Group group) {
         this.group = group.getName();
     }
 

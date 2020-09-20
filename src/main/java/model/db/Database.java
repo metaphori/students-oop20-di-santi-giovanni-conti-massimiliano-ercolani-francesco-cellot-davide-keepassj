@@ -2,7 +2,6 @@ package model.db;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBException;
@@ -149,7 +148,7 @@ public class Database {
      */
     public final boolean delCategory(final Group group) {
         if (groupList.contains(group)) {
-            if (entryList.stream().filter(e -> e.getGroup() == group).count() == 0) {
+            if (entryList.stream().filter(e -> e.getGroup() == group.getName()).count() == 0) {
                 this.groupList.remove(group);
                 return true;
             }
@@ -165,7 +164,7 @@ public class Database {
     public final ArrayList<Entry> getAllEntryOfSpecifiedGroup(final Group group) {
         ArrayList<Entry> app = new ArrayList<Entry>(
                                 this.entryList.stream()
-                                .filter(e -> e.getCategory() == group.getName())
+                                .filter(e -> e.getGroup() == group.getName())
                                 .collect(Collectors.toList()));
                                 //.collect(Collectors.toCollection(ArrayList::new));
         return app;

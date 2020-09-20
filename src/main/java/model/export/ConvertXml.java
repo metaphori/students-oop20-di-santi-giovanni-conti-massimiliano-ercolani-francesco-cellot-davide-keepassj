@@ -7,9 +7,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLEventReader;
 
-import javafx.scene.chart.PieChart.Data;
 
 public final class ConvertXml {
 
@@ -31,6 +29,7 @@ public final class ConvertXml {
 
         //m.marshal(db, System.out);
         m.marshal(db, new File("database-jaxb.xml"));
+        return "";
 /*
         Address address = customer.getAddress();
         System.out.println(address.getStreet());
