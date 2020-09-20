@@ -21,7 +21,7 @@ import model.kdbx.KDBHeader;
 public class ChooseEncrSetController implements Initializable {
     
     KDBHeader header = new KDBHeader();
-    String source = "/resource/choosePassMenu.fxml";
+    String source = "/view/createnew/choosePassMenu.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
     FxmlSetter setter = new FxmlSetterImpl();
     DBDataSaver data;

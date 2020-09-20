@@ -10,7 +10,7 @@ public class ViewImpl implements View {
     @Override
     public void loadFirstScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("resources/view/MainMenuView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
             

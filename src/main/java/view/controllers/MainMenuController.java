@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 
 public class MainMenuController {
     
-    final String source = "src/main/resources/view/createnew/chooseNameDb.fxml";
+    final String source = "/view/createnew/chooseNameDb.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
     
     @FXML
