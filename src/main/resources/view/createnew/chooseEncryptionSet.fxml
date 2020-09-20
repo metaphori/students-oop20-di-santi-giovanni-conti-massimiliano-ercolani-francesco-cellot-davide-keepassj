@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseEncrSet">
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseEncrSetController">
     <AnchorPane prefHeight="616.0" prefWidth="1050.0">
       <children>
          <Label layoutX="55.0" layoutY="402.0" text="Memory usage:">
