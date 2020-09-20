@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class ViewImpl implements View {
 
     @Override
-    public void loadFirstScene() {
+    public void loadFirstScene(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
