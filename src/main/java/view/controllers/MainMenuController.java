@@ -1,9 +1,8 @@
 package view.controllers;
 
-import java.awt.event.ActionEvent;
-
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 public class MainMenuController {
