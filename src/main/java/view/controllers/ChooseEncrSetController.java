@@ -107,6 +107,7 @@ public class ChooseEncrSetController implements Initializable {
         this.data.takeParallelism(this.pSpinner.getValue());
         
         this.loader.getSceneData(this.data, ChoosePassController.class);
+        setter.getStage(event).close();
     }
 
     @FXML

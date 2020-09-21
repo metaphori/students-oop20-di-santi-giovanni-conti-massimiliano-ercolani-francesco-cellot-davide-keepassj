@@ -7,6 +7,8 @@ import java.util.List;
 
 import controller.DBDataSaver;
 import controller.DBDataSaverImpl;
+import controller.FxmlFilesLoader;
+import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
@@ -19,6 +21,7 @@ import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
 public class ChoosePassController {
+    FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/MainMenuView.fxml");
     private DBDataSaver data = new DBDataSaverImpl();
     private FxmlSetter setter = new FxmlSetterImpl();
     private KDBHeader header = new KDBHeader();
