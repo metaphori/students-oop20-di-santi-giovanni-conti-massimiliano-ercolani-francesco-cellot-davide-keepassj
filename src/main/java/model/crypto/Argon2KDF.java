@@ -1,11 +1,11 @@
 package model.crypto;
 
-import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Advanced;
 import de.mkammerer.argon2.Argon2Factory;
-import de.mkammerer.argon2.Argon2Helper;
 
 public class Argon2KDF extends KDFAdvanced {
+
+    private static final int ROUNDS = 60;
 
     /**
      * {@inheritDoc}
@@ -21,8 +21,11 @@ public class Argon2KDF extends KDFAdvanced {
      */
     @Override
     public final int getDefaultRounds() {
+        /* Unfortunately this functions takes too long
         final Argon2 argon2 = Argon2Factory.create();
-        return Argon2Helper.findIterations(argon2, 1000, this.memory, this.parallelism);
+        return Argon2Helper.findIterations(argon2, 1000, this.memory, this.parallelism)
+        */
+        return ROUNDS;
     }
 
     /**

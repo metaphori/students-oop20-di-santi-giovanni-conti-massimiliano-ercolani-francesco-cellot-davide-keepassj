@@ -4,13 +4,27 @@ import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
 import model.crypto.KDF;
+import model.crypto.KDFBadParameter;
 import model.crypto.KDFFactory;
 import model.crypto.Util;
 
 public class TestKDF {
 
+    @Test(expected = KDFBadParameter.class)
+    public void testArgon2Parallelism() throws KDFBadParameter {
+        final KDF argon2 = KDFFactory.create("Argon2");
+        final int p = argon2.getMaxParallelism();
+        argon2.setParallelism(p + 2);
+    }
+
     @Test
-    public void testArgon2() throws Exception {
+    public void testArgon2Rounds() {
+        final KDF argon2 = KDFFactory.create("Argon2");
+        System.out.println(argon2.getDefaultRounds());
+    }
+
+    @Test
+    public void testArgon2() throws KDFBadParameter {
         final KDF argon2 = KDFFactory.create("Argon2");
         final byte[] password = Util.sha256("ciao".getBytes());
         final byte[] salt = Util.sha256("test".getBytes());
