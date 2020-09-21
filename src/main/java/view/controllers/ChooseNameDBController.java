@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 
 public class ChooseNameDBController {
     
-    final String source = "src/main/resources/view/createnew/chooseEncryptionSet.fxml";
+    final String source = "view/createnew/chooseEncryptionSet.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
     DBDataSaver data = new DBDataSaverImpl();
     
