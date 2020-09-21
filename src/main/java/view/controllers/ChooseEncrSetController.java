@@ -80,7 +80,7 @@ public class ChooseEncrSetController implements Initializable {
         this.data.takeKdf(selection);
         
         this.setter.setSpinner(muSpinner, 1, header.getKDFMaxMemory(selection));
-        this.setter.setSpinner(pSpinner, 1, header.getKDFMaxMemory(selection));
+        this.setter.setSpinner(pSpinner, 1, header.getKDFMaxParallelism(selection));
         this.setter.setSpinner(trSpinner, 1, header.getKDFRounds(selection));
         
         if(header.isKDFTweakable(selection) == false) {

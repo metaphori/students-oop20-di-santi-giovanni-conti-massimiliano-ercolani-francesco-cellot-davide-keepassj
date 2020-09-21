@@ -41,7 +41,7 @@ public class ChoosePassController {
 
     @FXML
     void confirmCreation(ActionEvent event) {
-        if(passwordRepeat.toString() == password.toString()) {
+        if(passwordRepeat.getText().equals(password.getText())) {
             header.setComment(data.getDBName());
             header.setPublicCustomData(data.getDBDesc());
             header.setCipher(data.getCipher());
@@ -56,8 +56,7 @@ public class ChoosePassController {
             fileChooser.setTitle("Save database as");
             fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
             File file = fileChooser.showSaveDialog(stage);
-            creadentials = Arrays.asList(password.toString().getBytes());
-            
+            creadentials = Arrays.asList(password.getText().getBytes());   
             try {
                 database = new KDB(file, creadentials, header);
                 database.write(new byte[0]);
