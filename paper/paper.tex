@@ -289,57 +289,58 @@ In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
 %\subsection*{Design Dettagliato}
 %
 
-\subsection{Giovanni Di Santi}
+\section*{Giovanni Di Santi}
 
 Il mio compito principale del progetto è stato quello di gestire la parte crittografica e
 definire la struttura dell'header del database.
 
-\subsubsection{Caratteristiche}
+\subsection*{CryptoCipher}
 
-Le parti crittografiche più importanti sono definite dalle interfacce \textbf{CryptoCipher}
-e \textbf{KDF}. L'interfaccia \textbf{CryptoCipher} descrive i metodi necessari
-per effettuare l'encryption e la decryption di un array di \texttt{byte}.
-
+\textbf{CryptoCipher} è l'interfaccia che descrive i metodi necessari per effettuare
+l'encryption e la decryption di un array di \textt{byte}.\\
+Ogni implementazione disponibile di questa interfaccia è un
+\href{https://web.cs.ucdavis.edu/~rogaway/papers/ad.pdf}{AEAD Cipher} 
+(Authenticated Encryption with Associated Data).\\
+Ho scelto questo schema di encryption per rendere il database resistente ad 
+attacchi del tipo \textbf{CCA} (Chosen Ciphertext Attack), cifrando il contenuto del
+database e autenticando sia il contenuto che l'header (Associated Data).
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{crypto-cipher}
-\caption{rappresentazione uml del pattern strategy per la personalità di glados}
+\caption{rappresentazione UML del pattern factory per creare un CryptoCipher}
 \label{img:strategy}
 \end{figure}
+Attualmente i cipher disponibili sono:
+\begin{itemize}
+  \item \href{https://tools.ietf.org/html/rfc7539}{ChaCha20-Poly1305}.
+  \item \href{https://csrc.nist.gov/publications/detail/sp/800-38d/final}{AES-GCM}.
+  \item \href{https://tools.ietf.org/html/draft-mcgrew-aead-aes-cbc-hmac-sha2-05}{AES-256-CBC-HMAC-SHA-512}.
+\end{itemize}
+
+Esistono due \textt{abstract class} diverse per implementare un \textbf{CryptoCipher},
+poiché la costruzione di \textbf{AES} che sarebbe \textt{AES-256-CBC-HMAC-SHA-512} è manuale,
+mentre \textbf{ChaCha20-Poly1305} e \textbf{AES-GCM} sono implementate direttamente in openjdk11.
+La classe astratta \textbf{AEADAES}, permette di essere estesa per costruire altri
+cryptosystem come \textt{AES-192-CBC-HMAC-SHA-384}, tuttavia ho deciso di estendere
+solo lo schema più sicuro.\\
+Nonostante i dati da cifrare e decifrare sono nella pratica degli \{Input,Output\}Stream,
+non ho usato le classi \href{https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/crypto/CipherOutputStream.html}{CipherOutputStream}
+e \href{https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/crypto/CipherInputStream.html}{CipherInputStream}
+per:
+\begin{itemize}
+  \item Rendere più semplice il suo utilizzo.
+  \item Facilitare il testing delle varie implementazioni.
+\end{itemize}
+
+\subsection*{KDF}
+
+KDF.
 
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{kdf}
-\caption{rappresentazione uml del pattern strategy per la personalità di glados}
+\caption{rappresentazione UML del pattern factory per creare un KDF}
 \label{img:strategy}
-\end{figure}
-
-Sono state attualmente implementate due personalità, una buona ed una cattiva.
-Quella buona restituisce sempre una torta vera, mentre quella cattiva restituisce sempre la 
-promessa di una torta che verrà in realtà disattesa.
-Dato che le due personalità differiscono solo per il comportamento da effettuarsi in caso di percorso completato con successo, è stato utilizzato il pattern template method per massimizzare il riuso, come da \Cref{img:template}.
-Il metodo template è \texttt{onSuccess()}, che chiama un metodo astratto e protetto 
-\texttt{makeCake()}.
-
-\begin{figure}[H]
-\centering{}
-\includegraphics[width=\textwidth]{img/template}
-\caption{Rappresentazione UML dell'applicazione del pattern Template Method alla gerarchia delle Personalità}
-\label{img:template}
-\end{figure}
-
-Per quanto riguarda il reporting, è stato utilizzato il pattern Observer per consentire la 
-comunicazione uno-a-molti fra \texttt{GLaDOS} ed i sistemi di output.
-%
-\texttt{GLaDOS} è observable, e le istanze di \texttt{Input} sono observer.
-%
-Il suo utilizzo è esemplificato in \Cref{img:observer}
-
-\begin{figure}[H]
-\centering{}
-\includegraphics[width=\textwidth]{img/observer}
-\caption{Il pattern Observer è usato per consentire a GLaDOS di informare tutti i sistemi di output in ascolto}
-\label{img:observer}
 \end{figure}
 
 \subsection*{Contro-esempio: pessimo diagramma UML}
