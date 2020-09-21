@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Scene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -9,83 +8,82 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseEncrSetController">
-    <AnchorPane prefHeight="616.0" prefWidth="1050.0">
-      <children>
-         <Label layoutX="55.0" layoutY="402.0" text="Memory usage:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <Label layoutX="55.0" layoutY="344.0" text="Transform rounds:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <Label layoutX="55.0" layoutY="61.0" prefHeight="52.0" prefWidth="620.0" text="Here you can set your database encryption settings.">
-            <font>
-               <Font name="System Bold" size="19.0" />
-            </font>
-         </Label>
-         <MenuBar prefHeight="29.0" prefWidth="1050.0">
-           <menus>
-             <Menu mnemonicParsing="false" text="File">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseEncrSetController">
+   <children>
+      <Label layoutX="55.0" layoutY="402.0" text="Memory usage:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="55.0" layoutY="344.0" text="Transform rounds:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="55.0" layoutY="61.0" prefHeight="52.0" prefWidth="620.0" text="Here you can set your database encryption settings.">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <MenuBar prefHeight="29.0" prefWidth="1050.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
                <items>
-                 <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
                </items>
-             </Menu>
-             <Menu mnemonicParsing="false" text="Edit">
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
                <items>
-                 <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
                </items>
-             </Menu>
-             <Menu mnemonicParsing="false" text="Help">
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
                <items>
-                 <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" text="About" />
                </items>
-             </Menu>
-           </menus>
-         </MenuBar>
-         <Label layoutX="644.0" layoutY="135.0" text="Algorithm description:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <Label layoutX="55.0" layoutY="138.0" prefHeight="27.0" prefWidth="217.0" text="Encryption Algorithm:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <ComboBox fx:id="comboEA" layoutX="285.0" layoutY="138.0" onAction="#selectEA" prefHeight="26.0" prefWidth="279.0" />
-         <Label layoutX="55.0" layoutY="253.0" prefHeight="21.0" prefWidth="230.0" text="Key Derivation Function:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <ComboBox fx:id="comboKDF" layoutX="285.0" layoutY="250.0" onAction="#selectKDF" prefHeight="26.0" prefWidth="280.0" />
-         <Button layoutX="373.0" layoutY="539.0" mnemonicParsing="false" onAction="#goBack" prefHeight="33.0" prefWidth="160.0" text="Go back" />
-         <Button layoutX="545.0" layoutY="540.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="32.0" prefWidth="160.0" text="Continue" />
-         <Button layoutX="760.0" layoutY="540.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
-         <Label layoutX="55.0" layoutY="455.0" text="Parallelism:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <TextArea fx:id="algDescription" layoutX="644.0" layoutY="167.0" prefHeight="60.0" prefWidth="360.0" />
-         <Label layoutX="643.0" layoutY="247.0" prefHeight="21.0" prefWidth="363.0" text="Key Derivation Function description:">
-            <font>
-               <Font size="17.0" />
-            </font>
-         </Label>
-         <TextArea fx:id="kdfDescription" layoutX="644.0" layoutY="278.0" prefHeight="60.0" prefWidth="360.0" />
-         <Spinner fx:id="trSpinner" layoutX="285.0" layoutY="341.0" />
-         <Spinner fx:id="muSpinner" layoutX="285.0" layoutY="399.0" />
-         <Spinner fx:id="pSpinner" layoutX="285.0" layoutY="452.0" />
-         <Text layoutX="396.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MiB" />
-         <Text layoutX="371.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="threads" />
-      </children></AnchorPane>
-</Scene>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Label layoutX="644.0" layoutY="135.0" text="Algorithm description:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="55.0" layoutY="138.0" prefHeight="27.0" prefWidth="217.0" text="Encryption Algorithm:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="comboEA" layoutX="285.0" layoutY="138.0" onAction="#selectEA" prefHeight="26.0" prefWidth="279.0" />
+      <Label layoutX="55.0" layoutY="253.0" prefHeight="21.0" prefWidth="230.0" text="Key Derivation Function:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="comboKDF" layoutX="285.0" layoutY="250.0" onAction="#selectKDF" prefHeight="26.0" prefWidth="280.0" />
+      <Button layoutX="373.0" layoutY="539.0" mnemonicParsing="false" onAction="#goBack" prefHeight="33.0" prefWidth="160.0" text="Go back" />
+      <Button layoutX="545.0" layoutY="540.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="32.0" prefWidth="160.0" text="Continue" />
+      <Button layoutX="760.0" layoutY="540.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
+      <Label layoutX="55.0" layoutY="455.0" text="Parallelism:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="algDescription" layoutX="644.0" layoutY="167.0" prefHeight="60.0" prefWidth="360.0" />
+      <Label layoutX="643.0" layoutY="247.0" prefHeight="21.0" prefWidth="360.0" text="Key Derivation Function description:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="kdfDescription" layoutX="644.0" layoutY="278.0" prefHeight="60.0" prefWidth="360.0" />
+      <Spinner fx:id="trSpinner" layoutX="285.0" layoutY="341.0" />
+      <Spinner fx:id="muSpinner" layoutX="285.0" layoutY="399.0" />
+      <Spinner fx:id="pSpinner" layoutX="285.0" layoutY="452.0" />
+      <Text layoutX="396.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MiB" />
+      <Text layoutX="371.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="threads" />
+   </children>
+</Pane>
