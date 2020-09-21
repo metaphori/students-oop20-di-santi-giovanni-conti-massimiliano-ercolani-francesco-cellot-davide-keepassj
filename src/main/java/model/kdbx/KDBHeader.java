@@ -183,6 +183,7 @@ public class KDBHeader {
     }
 
     public final int getKDFParallelism() {
+        System.out.println(this.getFieldData(Field.KDF_PARALLELISM));
         final ByteBuffer parallelismBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_PARALLELISM));
         parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return parallelismBuffer.getInt();
@@ -223,6 +224,11 @@ public class KDBHeader {
                 .getKey();
         try {
             this.setField(Field.KDF_ID, Hex.decodeHex(key));
+            KDF k = KDFFactory.create(kdf);
+            if (k.isTweakable()) {
+                this.setKDFParallelism(k.getDefaultParallelism());
+                this.setKDFMemory(k.getDefaultMemory());
+            }
         } catch (DecoderException e) {
             e.printStackTrace();
         }

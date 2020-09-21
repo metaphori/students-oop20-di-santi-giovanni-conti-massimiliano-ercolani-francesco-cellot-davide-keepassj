@@ -26,6 +26,10 @@ public class TestKDBHeader {
         final KDBHeader header = new KDBHeader();
         header.setKDF(kdfType);
         assertEquals(kdfType, header.getKDF());
+        final int rounds = 60;
+        assertEquals(rounds, header.getKDFRounds(kdfType));
+        assertEquals(2, header.getKDFParallelism());
+        assertEquals(32768, header.getKDFMemory());
         kdfType = "PBKDF2";
         header.setKDF(kdfType);
         assertEquals(kdfType, header.getKDF());

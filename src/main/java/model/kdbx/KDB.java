@@ -19,6 +19,7 @@ import com.google.common.primitives.Bytes;
 import model.crypto.CipherFactory;
 import model.crypto.CryptoCipher;
 import model.crypto.KDF;
+import model.crypto.KDFBadParameter;
 import model.crypto.KDFFactory;
 import model.crypto.Util;
 
@@ -113,6 +114,14 @@ public class KDB {
         this.cipher = CipherFactory.create(cipherType);
         this.kdf = KDFFactory.create(kdfType);
         this.kdf.setKeySize(this.cipher.getKeySize());
+        try {
+            if (this.kdf.isTweakable()) {
+                this.kdf.setMemory(header.getKDFMemory());
+                this.kdf.setParallelism(header.getKDFParallelism());
+            }
+        } catch (KDFBadParameter k) {
+            System.out.println(k + "Header is corrupted");
+        }
     }
 
     private void initializeCipher() {

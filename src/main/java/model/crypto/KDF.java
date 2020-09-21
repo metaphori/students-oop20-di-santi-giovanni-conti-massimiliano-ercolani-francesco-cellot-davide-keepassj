@@ -21,6 +21,18 @@ public interface KDF {
     int getDefaultRounds();
 
     /**
+     * Get the default memory used to generate the key.
+     * @return memory.
+     */
+    int getDefaultMemory();
+
+    /**
+     * Get the default parallelism used to generate the key.
+     * @return parallelism.
+     */
+    int getDefaultParallelism();
+
+    /**
      * Check if the KDF can be tweaked with memory and parallelism.
      * @return true if the Object is tweakable.
      */

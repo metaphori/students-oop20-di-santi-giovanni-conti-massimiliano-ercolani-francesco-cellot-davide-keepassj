@@ -50,8 +50,21 @@ public abstract class KDFAdvanced implements KDF {
     }
 
     /**
-     * If is tweakable is true, then the setParallelism and setMemory are configurable.
-     * @return boolean.
+     * @{inheritDoc}
+     */
+    public final int getDefaultParallelism() {
+        return DEFAULT_PARALLELISM;
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    public final int getDefaultMemory() {
+        return DEFAULT_MEMORY;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public final boolean isTweakble() {
         return true;

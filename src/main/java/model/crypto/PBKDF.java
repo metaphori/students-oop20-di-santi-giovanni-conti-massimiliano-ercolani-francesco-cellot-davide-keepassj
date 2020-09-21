@@ -57,6 +57,22 @@ public class PBKDF implements KDF {
         return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDefaultMemory() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDefaultParallelism() {
+        return 0;
+    }
+
     @Override
     public final int getMaxParallelism() {
         return 0;
