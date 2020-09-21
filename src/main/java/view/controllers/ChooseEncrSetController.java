@@ -79,19 +79,19 @@ public class ChooseEncrSetController implements Initializable {
         kdfDescription.setText(header.getKDFDescriptions().get(selection));
         this.data.takeKdf(selection);
         
-        this.setter.setSpinner(muSpinner, 1, header.getKDFMaxMemory(selection));
-        this.setter.setSpinner(pSpinner, 1, header.getKDFMaxParallelism(selection));
         this.setter.setSpinner(trSpinner, 1, header.getKDFRounds(selection));
-        
-        if(header.isKDFTweakable(selection) == false) {
-            this.muSpinner.setDisable(true);
-            this.pSpinner.setDisable(true);
-            this.data.isTweakable(false);
-            
-        } else {
+
+        if(header.isKDFTweakable(selection)) {
             this.muSpinner.setDisable(false);
             this.pSpinner.setDisable(false);
             this.data.isTweakable(true);
+            this.setter.setSpinner(muSpinner, 1, header.getKDFMaxMemory(selection));
+            this.setter.setSpinner(pSpinner, 1, header.getKDFMaxParallelism(selection));
+            
+        } else {
+            this.muSpinner.setDisable(true);
+            this.pSpinner.setDisable(true);
+            this.data.isTweakable(false);
         }
     }
     
