@@ -18,12 +18,12 @@ import com.google.common.primitives.Bytes;
 import model.crypto.CipherFactory;
 import model.crypto.KDFFactory;
 import model.crypto.KDF;
+import model.crypto.KDFBadParameter;
 
 public class KDBHeader {
 
     private static final byte[] SIGNATURE = {(byte) 0xdb, (byte) 0xdb, (byte) 0xdb, (byte) 0xdb};
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
-    private static final int DEFAULT_ROUNDS = 15;
     private Map<Integer, byte[]> fields;
     private EnumMap<Field, Integer> headerFields;
 
@@ -183,7 +183,6 @@ public class KDBHeader {
     }
 
     public final int getKDFParallelism() {
-        System.out.println(this.getFieldData(Field.KDF_PARALLELISM));
         final ByteBuffer parallelismBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_PARALLELISM));
         parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return parallelismBuffer.getInt();
@@ -211,7 +210,7 @@ public class KDBHeader {
                 .getKey();
         try {
             this.setField(Field.CIPHER_ID, Hex.decodeHex(key));
-        } catch (DecoderException e) {
+        } catch (final DecoderException e) {
             e.printStackTrace();
         }
     }
@@ -224,14 +223,15 @@ public class KDBHeader {
                 .getKey();
         try {
             this.setField(Field.KDF_ID, Hex.decodeHex(key));
-            KDF k = KDFFactory.create(kdf);
+            final KDF k = KDFFactory.create(kdf);
             if (k.isTweakable()) {
                 this.setKDFParallelism(k.getDefaultParallelism());
                 this.setKDFMemory(k.getDefaultMemory());
             }
-        } catch (DecoderException e) {
+        } catch (final DecoderException e) {
             e.printStackTrace();
         }
+        this.setTransformRounds(this.getKDFRounds(kdf));
     }
 
     public final void setMasterSeed(final byte[] masterSeed) {
@@ -295,7 +295,6 @@ public class KDBHeader {
         final byte [] seed = new byte[CipherFactory.create(defaultCipher).getIVSize()];
         this.setCipher(defaultCipher);
         this.setKDF(defaultKDF);
-        this.setTransformRounds(KDBHeader.DEFAULT_ROUNDS);
         random.nextBytes(seed);
         this.setTransformSeed(seed);
     }
