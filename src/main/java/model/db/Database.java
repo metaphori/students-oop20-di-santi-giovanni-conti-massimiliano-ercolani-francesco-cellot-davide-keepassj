@@ -18,7 +18,7 @@ public class Database {
     @XmlElementWrapper(name = "entryList")
     @XmlElement(name = "entry")
     private ArrayList<Entry> entryList;
-    @XmlElementWrapper(name = "categoryList")
+    @XmlElementWrapper(name = "groupList")
     private ArrayList<Group> groupList;
     private KDB cryptoDb;
 
@@ -31,10 +31,14 @@ public class Database {
         this.entryList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
-        updateXml();
+        writeToXml();
     }
 
-    private void updateXml() throws JAXBException, FileNotFoundException {
+    /*
+     * When it's called write the database
+     * to XML file trough encryption of KDB object.
+     */
+    private void writeToXml() throws JAXBException, FileNotFoundException {
         String app = ConvertXml.getXml(this);
         cryptoDb.write(app.getBytes());
         return;
@@ -59,15 +63,16 @@ public class Database {
      * @return true if it's done
      */
     public final boolean delEntry(final String nameToDelete) {
+/*
         Entry temp;
         if (getEntry(nameToDelete) == null) {
             return false;
         } else {
             temp = getEntry(nameToDelete);
         }
-
         this.entryList.remove(temp);
-        return true;
+*/
+        return this.entryList.removeIf(e -> e.getNameAccount() == nameToDelete);
     }
 
     /*
@@ -94,7 +99,7 @@ public class Database {
          */
         return (entryList.stream()
                 .filter(e -> e.getNameAccount() == nameAccount)
-                .count() != 0) ? true : false;
+                .count() == 0) ? false : true;
     }
 
     /**
@@ -133,7 +138,7 @@ public class Database {
      * @param group
      * @return true if it's done, false if already exist of something wrong
      */
-    public final boolean addCategory(final Group group) {
+    public final boolean addGroup(final Group group) {
         if (groupList.contains(group)) {
             return false;
         }
@@ -146,7 +151,7 @@ public class Database {
      * @param group
      * @return true if it's done, false if don't contain it of something wrong
      */
-    public final boolean delCategory(final Group group) {
+    public final boolean delGroup(final Group group) {
         if (groupList.contains(group)) {
             if (entryList.stream().filter(e -> e.getGroup() == group.getName()).count() == 0) {
                 this.groupList.remove(group);

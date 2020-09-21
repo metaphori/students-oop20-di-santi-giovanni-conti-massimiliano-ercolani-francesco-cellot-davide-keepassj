@@ -2,6 +2,7 @@ package model.export;
 
 import model.db.Database;
 import java.io.File;
+import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -28,8 +29,10 @@ public final class ConvertXml {
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
         //m.marshal(db, System.out);
-        m.marshal(db, new File("database-jaxb.xml"));
-        return "";
+        //m.marshal(db, new File("database-jaxb.xml"));
+        StringWriter app = new StringWriter();
+        m.marshal(db, app);
+        return app.toString();
 /*
         Address address = customer.getAddress();
         System.out.println(address.getStreet());

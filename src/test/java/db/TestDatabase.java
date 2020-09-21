@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
-import model.kdbx.KDB;
 
 public class TestDatabase {
 
@@ -40,16 +39,21 @@ private Database gf = null;
     public void testCategory() {
         Group group = new Group("Other");
         Entry app = new Entry();
-        app.setCategory(group);
+        app.setGroup(group);
         gf.addEntry(app);
 
         //true for correct add to list
-        assertTrue(gf.addCategory(group));
-        //false for a category already added
-        assertFalse(gf.addCategory(group));
-        //true for correct remove from list
-        assertTrue(gf.delCategory(group));
+        assertTrue(gf.addGroup(group));
+        //false for a group already added
+        assertFalse(gf.addGroup(group));
+        //can't remove from list for 1 item in that group
+        assertFalse(gf.delGroup(group));
+
+        //remove item used for test
+        gf.delEntry(app.getNameAccount());
+        //true for correct remove
+        assertTrue(gf.delGroup(group));
         //false for nothing to remove
-        assertFalse(gf.delCategory(group));
+        assertFalse(gf.delGroup(group));
     }
 }

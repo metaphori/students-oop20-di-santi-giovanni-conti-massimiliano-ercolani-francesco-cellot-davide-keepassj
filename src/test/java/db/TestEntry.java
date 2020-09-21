@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import model.db.Entry;
+import model.db.Group;
 
 public class TestEntry {
 
@@ -28,7 +29,7 @@ private Entry gf = null;
         gf.setNameAccount(nameAccount);
         gf.setUsername(username);
         gf.setPassword(password);
-        gf.setCategory(category);
+        gf.setGroup(new Group(category));
         gf.setUrl(url);
         gf.setNote(note);
 
@@ -36,7 +37,7 @@ private Entry gf = null;
         assertEquals(nameAccount, gf.getNameAccount());
         assertEquals(username, gf.getUsername());
         assertEquals(password, gf.getPassword());
-        assertEquals(category, gf.getCategory());
+        assertEquals(category, gf.getGroup());
         assertEquals(url, gf.getUrl());
         assertEquals(note, gf.getNote());
     }
