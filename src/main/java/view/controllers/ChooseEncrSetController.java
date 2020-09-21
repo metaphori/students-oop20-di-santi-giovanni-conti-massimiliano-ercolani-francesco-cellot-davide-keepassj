@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import controller.DBDataSaver;
+import controller.DBDataSaverImpl;
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
@@ -24,7 +25,7 @@ public class ChooseEncrSetController implements Initializable {
     String source = "/view/createnew/choosePassMenu.fxml";
     FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
     FxmlSetter setter = new FxmlSetterImpl();
-    DBDataSaver data;
+    DBDataSaver data = new DBDataSaverImpl();
     
     @FXML
     private ComboBox<String> comboEA;
