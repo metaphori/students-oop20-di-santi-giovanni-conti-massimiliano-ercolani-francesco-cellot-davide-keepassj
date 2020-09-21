@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.DBDataSaver;
+import controller.DBDataSaverImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
@@ -18,7 +19,7 @@ import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
 public class ChoosePassController {
-    private DBDataSaver data;
+    private DBDataSaver data = new DBDataSaverImpl();
     private FxmlSetter setter = new FxmlSetterImpl();
     private KDBHeader header = new KDBHeader();
     private KDB database;
@@ -40,7 +41,7 @@ public class ChoosePassController {
 
     @FXML
     void confirmCreation(ActionEvent event) {
-        if(passwordRepeat == password) {
+        if(passwordRepeat.toString() == password.toString()) {
             header.setComment(data.getDBName());
             header.setPublicCustomData(data.getDBDesc());
             header.setCipher(data.getCipher());
