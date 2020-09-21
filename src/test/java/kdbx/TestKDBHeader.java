@@ -25,14 +25,20 @@ public class TestKDBHeader {
         String kdfType = "Argon2";
         final KDBHeader header = new KDBHeader();
         header.setKDF(kdfType);
+        assertEquals(true, header.isKDFTweakable("Argon2"));
         assertEquals(kdfType, header.getKDF());
         final int rounds = 60;
         assertEquals(rounds, header.getKDFRounds(kdfType));
+        assertEquals(rounds, header.getTransformRounds());
+        header.setTransformRounds(rounds + 2);
+        assertEquals(rounds + 2, header.getTransformRounds());
         assertEquals(2, header.getKDFParallelism());
         assertEquals(32768, header.getKDFMemory());
         kdfType = "PBKDF2";
         header.setKDF(kdfType);
+        assertEquals(10000, header.getTransformRounds());
         assertEquals(kdfType, header.getKDF());
+        assertEquals(false, header.isKDFTweakable(kdfType));
     }
 
     @SuppressWarnings("MagicNumber")

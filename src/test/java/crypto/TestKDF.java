@@ -1,5 +1,7 @@
 package crypto;
 
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
@@ -41,6 +43,7 @@ public class TestKDF {
     @Test
     public final void testPBKDF2() {
         final KDF pbkdf2 = KDFFactory.create("PBKDF2");
+        assertEquals(false, pbkdf2.isTweakable());
         final byte[] password = Util.sha256("ciao".getBytes());
         final byte[] salt = Util.sha256("test".getBytes());
         final int rounds = 10;
