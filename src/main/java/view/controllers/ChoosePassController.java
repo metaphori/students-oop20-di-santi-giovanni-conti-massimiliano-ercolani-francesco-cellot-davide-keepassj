@@ -60,7 +60,7 @@ public class ChoosePassController {
             fileChooser = new FileChooser();
             Stage stage = setter.getStage(event);
             fileChooser.setTitle("Save database as");
-            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("KeePassJ database", "*.kdbx"));
+            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("KeePassJ database", "*.kdbj"));
             File file = fileChooser.showSaveDialog(stage);
             
             if(file != null) {
