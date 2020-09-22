@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import controller.DBDataSaver;
 import controller.DBDataSaverImpl;
 import controller.FxmlFilesLoader;
@@ -28,6 +30,7 @@ public class ChoosePassController {
     private KDB database;
     private FileChooser fileChooser;
     private List<byte[]> creadentials;
+    
     @FXML
     private PasswordField password;
 
@@ -57,16 +60,19 @@ public class ChoosePassController {
             fileChooser = new FileChooser();
             Stage stage = setter.getStage(event);
             fileChooser.setTitle("Save database as");
-            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
+            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("KeePassJ database", "*.kdbx"));
             File file = fileChooser.showSaveDialog(stage);
-            creadentials = Arrays.asList(password.getText().getBytes());   
-            loader.getScene();
-            setter.getStage(event).close();
-            try {
-                database = new KDB(file, creadentials, header);
-                database.write(new byte[0]);
-            } catch(IOException e) {
-                e.printStackTrace();
+            
+            if(file != null) {
+                creadentials = Arrays.asList(password.getText().getBytes());   
+                loader.getScene();
+                setter.getStage(event).close();
+                try {
+                    database = new KDB(file, creadentials, header);
+                    database.write(new byte[0]);
+                } catch(IOException e) {
+                    e.printStackTrace();
+                    }
             }
             
         } else {

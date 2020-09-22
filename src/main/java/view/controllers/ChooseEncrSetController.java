@@ -102,18 +102,17 @@ public class ChooseEncrSetController implements Initializable {
     }
 
     @FXML
-    void continueCreation(ActionEvent event) {
-        this.data.takeRounds(this.trSpinner.getValue());
-        this.data.takeMemory(this.muSpinner.getValue());
-        this.data.takeParallelism(this.pSpinner.getValue());
-        
+    void continueCreation(ActionEvent event) {     
         if(this.data.getCipher() == null) {
             setter.warningDialog("Choose an encryption algorithm");
         } else if(this.data.getKdf() == null) {
             setter.warningDialog("Choose a key derivation function");
             } else { 
-            this.loader.getSceneData(this.data, ChoosePassController.class);
-            setter.getStage(event).close();
+                this.data.takeRounds(this.trSpinner.getValue());
+                this.data.takeMemory(this.muSpinner.getValue());
+                this.data.takeParallelism(this.pSpinner.getValue());
+                this.loader.getSceneData(this.data, ChoosePassController.class);
+                setter.getStage(event).close();
             }
     }
 
