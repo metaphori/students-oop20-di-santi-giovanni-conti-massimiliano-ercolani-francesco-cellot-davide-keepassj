@@ -11,13 +11,13 @@ public interface DBDataSaver {
      * Save the database name
      * @param dbName is the database name
      */
-    void takeDBName(byte [] dbName);
+    void takeDBName(String dbName);
     
     /**
      * Save the database description
      * @param dbDesc is the database description
      */
-    void takeDBDesc(byte [] dbDesc);
+    void takeDBDesc(String dbDesc);
     
     /**
      * Save the database cipher
@@ -59,13 +59,13 @@ public interface DBDataSaver {
      * Get database name
      * @return database name
      */
-    byte[] getDBName();
+    String getDBName();
     
     /**
      * Get database description
      * @return database description
      */
-    byte[] getDBDesc();
+    String getDBDesc();
     
     /**
      * Get database cipher  

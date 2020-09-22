@@ -10,8 +10,8 @@ package controller;
  */
 public class DBDataSaverImpl implements DBDataSaver{
     
-    private byte[] dbName;
-    private byte[] dbDesc;
+    private String dbName;
+    private String dbDesc;
     private String cipher;
     private String kdf;
     private Integer rounds;
@@ -20,12 +20,12 @@ public class DBDataSaverImpl implements DBDataSaver{
     private boolean isTweakable;
     
     @Override
-    public void takeDBName(final byte[] dbName) {
+    public void takeDBName(final String dbName) {
         this.dbName = dbName;
     }
 
     @Override
-    public void takeDBDesc(final byte[] dbDesc) {
+    public void takeDBDesc(final String dbDesc) {
         this.dbDesc = dbDesc;
     }
 
@@ -60,12 +60,12 @@ public class DBDataSaverImpl implements DBDataSaver{
     }
 
     @Override
-    public byte[] getDBName() {
+    public String getDBName() {
         return this.dbName;
     }
 
     @Override
-    public byte[] getDBDesc() {
+    public String getDBDesc() {
         return this.dbDesc;
     }
 
