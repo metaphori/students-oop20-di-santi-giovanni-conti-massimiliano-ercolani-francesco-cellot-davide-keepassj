@@ -42,10 +42,13 @@ public abstract class KDFAdvanced implements KDF {
      */
     @Override
     public void setMemory(final int memory) throws KDFBadParameter {
-        if (memory <= getMaxMemory()) {
+        final int maxMemory = getMaxMemory();
+        if (memory <= maxMemory && memory >= DEFAULT_MEMORY) {
             this.memory = memory;
-        } else {
+        } else if (memory > maxMemory) {
             throw new KDFBadParameter("Memory requested too high");
+        } else {
+            throw new KDFBadParameter("Memory requested too small");
         }
     }
 

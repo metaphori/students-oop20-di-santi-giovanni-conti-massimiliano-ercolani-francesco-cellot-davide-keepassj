@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.Test;
 
+import model.crypto.KDFBadParameter;
 import model.kdbx.KDBHeader;
 
 public class TestKDBHeader {
@@ -43,10 +44,10 @@ public class TestKDBHeader {
 
     @SuppressWarnings("MagicNumber")
     @Test
-    public void testKDFParameters() {
+    public void testKDFParameters() throws KDFBadParameter{
         final KDBHeader header = new KDBHeader();
         header.setKDFParallelism(4);
-        header.setKDFMemory(6500);
+        header.setKDFMemory(32768 * 2);
         System.out.println(Hex.encodeHex(header.writeHeader()));
     }
 
@@ -55,5 +56,12 @@ public class TestKDBHeader {
         final KDBHeader header = new KDBHeader();
         header.getCipherDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
         header.getKDFDescriptions().entrySet().forEach(s -> System.out.println(s.getKey() + " " + s.getValue()));
+    }
+
+    @Test
+    public void testComments() {
+        final KDBHeader header = new KDBHeader();
+        header.setComment("ciao".getBytes());
+        header.setPublicCustomData("testino".getBytes());
     }
 }

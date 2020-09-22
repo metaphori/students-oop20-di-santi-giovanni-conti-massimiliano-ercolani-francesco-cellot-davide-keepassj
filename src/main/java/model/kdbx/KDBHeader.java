@@ -26,6 +26,7 @@ public class KDBHeader {
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
     private Map<Integer, byte[]> fields;
     private EnumMap<Field, Integer> headerFields;
+    private KDF currentKDF;
 
     private final Map<String, String> ciphers = ImmutableMap.of(
             "8eb0132c227519353e44de6fc1df241d", "ChaCha20Poly1305",
@@ -73,6 +74,12 @@ public class KDBHeader {
         this.setDefaults();
     }
 
+    /**
+     * Parse the database header.
+     * @param fileData byte array of the database to parse.
+     * @return position of the ciphertext.
+     * @throws IOException
+     */
     public final int readHeader(final byte[] fileData) throws IOException {
         // byte[] allBytes = inStream.readAllBytes();
         final ByteBuffer inputByteBuffer = ByteBuffer.wrap(fileData);
@@ -102,8 +109,8 @@ public class KDBHeader {
     }
 
     /**
-     * Write Header in ByteBuffer.
-     * @return List of ByteBuffer.
+     * Byte array representation of the header.
+     * @return byte array of the header.
      */
     public final byte[] writeHeader() {
         final byte[] dataBuffer = Bytes.toArray(this.fields.entrySet().stream()
@@ -117,10 +124,18 @@ public class KDBHeader {
         return Bytes.concat(KDBHeader.SIGNATURE, dataBuffer, KDBHeader.END_OF_HEADER);
     }
 
+    /**
+     * Get the cipher descriptions.
+     * @return Map of nameCipher:descriptionCipher.
+     */
     public final Map<String, String> getCipherDescriptions() {
         return cipherDescriptions;
     }
 
+    /**
+     * Get the KDF descriptions.
+     * @return Map of nameKDF:descriptionKDF.
+     */
     public final Map<String, String> getKDFDescriptions() {
         return kdfDescriptions;
     }
@@ -141,10 +156,9 @@ public class KDBHeader {
         return this.kdfs.get(new String(Hex.encodeHex(this.getFieldData(Field.KDF_ID))));
     }
 
-
     /**
      * Get suggested KDF rounds for a given KDF.
-     * @param kdf
+     * @param kdf This is the KDF algorithm.
      * @return kdf rounds.
      */
     public final int getKDFRounds(final String kdf) {
@@ -160,14 +174,26 @@ public class KDBHeader {
         return KDFFactory.create(kdf).isTweakable();
     }
 
+    /**
+     * Get master seed.
+     * @return seed.
+     */
     public final byte[] getMasterSeed() {
         return this.getFieldData(Field.MASTER_SEED);
     }
 
+    /**
+     * Get IV.
+     * @return IV.
+     */
     public final byte[] getEncryptionIV() {
         return this.getFieldData(Field.ENCRYPTION_IV);
     }
 
+    /**
+     * Get salt.
+     * @return salt.
+     */
     public final byte[] getTransformSeed() {
         return this.getFieldData(Field.TRANSFORM_SEED);
     }
@@ -176,32 +202,58 @@ public class KDBHeader {
         return this.getFieldData(Field.STREM_START_BYTES);
     }
 
+    /**
+     * Get the selected KDF rounds.
+     * @return rounds.
+     */
     public final int getTransformRounds() {
         final ByteBuffer transformRound = ByteBuffer.wrap(this.getFieldData(Field.TRANSFORM_ROUNDS));
         transformRound.order(ByteOrder.LITTLE_ENDIAN);
         return transformRound.getInt();
     }
 
+    /**
+     * Get the selected KDF parallelism, appliable only if the KDF is tweakable.
+     * @return parallelism.
+     */
     public final int getKDFParallelism() {
         final ByteBuffer parallelismBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_PARALLELISM));
         parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return parallelismBuffer.getInt();
     }
 
+    /**
+     * Get the maximum number of threads that a KDF could use.
+     * @param kdf KDF algorithm.
+     * @return threads.
+     */
     public final int getKDFMaxParallelism(final String kdf) {
         return KDFFactory.create(kdf).getMaxParallelism();
     }
 
+    /**
+     * Get the selected KDF memory in use, appliable only if the KDF is tweakable.
+     * @return
+     */
     public final int getKDFMemory() {
         final ByteBuffer memoryBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_MEMORY));
         memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
         return memoryBuffer.getInt();
     }
 
+    /**
+     * Get the maximum memory that a KDF could use
+     * @param kdf KDF algorithm.
+     * @return memory.
+     */
     public final int getKDFMaxMemory(final String kdf) {
         return KDFFactory.create(kdf).getMaxMemory();
     }
 
+    /**
+     * Set cipher to use.
+     * @param cipher Cipher algorithm.
+     */
     public final void setCipher(final String cipher) {
         final String key = ciphers.entrySet().stream()
                 .filter(c -> c.getValue().equals(cipher))
@@ -215,6 +267,10 @@ public class KDBHeader {
         }
     }
 
+    /**
+     * Set the KDF to use.
+     * @param kdf KDF algorithm.
+     */
     public final void setKDF(final String kdf) {
         final String key = kdfs.entrySet().stream()
                 .filter(c -> c.getValue().equals(kdf))
@@ -225,8 +281,12 @@ public class KDBHeader {
             this.setField(Field.KDF_ID, Hex.decodeHex(key));
             final KDF k = KDFFactory.create(kdf);
             if (k.isTweakable()) {
-                this.setKDFParallelism(k.getDefaultParallelism());
-                this.setKDFMemory(k.getDefaultMemory());
+                try {
+                    this.setKDFParallelism(k.getDefaultParallelism());
+                    this.setKDFMemory(k.getDefaultMemory());
+                } catch (final KDFBadParameter e) {
+                    System.out.println(e.toString() + "This shouldn't happen");
+                }
             }
         } catch (final DecoderException e) {
             e.printStackTrace();
@@ -238,32 +298,74 @@ public class KDBHeader {
         setField(Field.MASTER_SEED, masterSeed);
     }
 
+    /**
+     * Set the encryption IV of the header.
+     * @param iv This is the IV.
+     */
     public final void setEncryptionIV(final byte[] iv) {
         this.setField(Field.ENCRYPTION_IV, iv);
     }
 
-    public final void setKDFParallelism(final int parallelism) {
-        final ByteBuffer parallelismBuffer = ByteBuffer.allocate(Integer.BYTES);
-        parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        parallelismBuffer.putInt(parallelism);
-        parallelismBuffer.rewind();
-        this.setField(Field.KDF_PARALLELISM, parallelismBuffer.array());
+    /**
+     * Set the number of threads that the selected KDF should use. Appliable only if the KDF is tweakable.
+     * @param parallelism Number of threads.
+     * @throws KDFBadParameter
+     */
+    public final void setKDFParallelism(final int parallelism) throws KDFBadParameter {
+        currentKDF = KDFFactory.create(this.getKDF());
+        if (currentKDF.isTweakable()) {
+            currentKDF.setParallelism(parallelism);
+            final ByteBuffer parallelismBuffer = ByteBuffer.allocate(Integer.BYTES);
+            parallelismBuffer.order(ByteOrder.LITTLE_ENDIAN);
+            parallelismBuffer.putInt(parallelism);
+            parallelismBuffer.rewind();
+            this.setField(Field.KDF_PARALLELISM, parallelismBuffer.array());
+        }
     }
 
+    /**
+     * Set the memory that the selected KDF should use. Appliable only if the KDF is tweakable.
+     * @param memory This is the memory to use.
+     * @throws KDFBadParameter
+     */
+    public final void setKDFMemory(final int memory) throws KDFBadParameter {
+        currentKDF = KDFFactory.create(this.getKDF());
+        if (currentKDF.isTweakable()) {
+            currentKDF.setMemory(memory);
+            final ByteBuffer memoryBuffer = ByteBuffer.allocate(Integer.BYTES);
+            memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
+            memoryBuffer.putInt(memory);
+            memoryBuffer.rewind();
+            this.setField(Field.KDF_MEMORY, memoryBuffer.array());
+        }
+    }
+
+    /**
+     * Set the number of rounds that the selected KDF should use.
+     * @param rounds This is the number of rounds.
+     */
+    public void setTransformRounds(final int rounds) {
+        final ByteBuffer transformRound = ByteBuffer.allocate(Integer.BYTES);
+        transformRound.order(ByteOrder.LITTLE_ENDIAN);
+        transformRound.putInt(rounds);
+        transformRound.rewind();
+        this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
+    }
+
+    /**
+     * Set the database name.
+     * @param comment This is the name of the database.
+     */
     public final void setComment(final byte[] comment) {
         setField(Field.COMMENT, comment);
     }
 
+    /**
+     * Set the description of the database.
+     * @param data This is the description of the database.
+     */
     public final void setPublicCustomData(final byte[] data) {
         setField(Field.PUBLIC_CUSTOM_DATA, data);
-    }
-
-    public final void setKDFMemory(final int memory) {
-        final ByteBuffer memoryBuffer = ByteBuffer.allocate(Integer.BYTES);
-        memoryBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        memoryBuffer.putInt(memory);
-        memoryBuffer.rewind();
-        this.setField(Field.KDF_MEMORY, memoryBuffer.array());
     }
 
     private boolean checkField(final int fieldId) {
@@ -297,14 +399,6 @@ public class KDBHeader {
         this.setKDF(defaultKDF);
         random.nextBytes(seed);
         this.setTransformSeed(seed);
-    }
-
-    public void setTransformRounds(final int rounds) {
-        final ByteBuffer transformRound = ByteBuffer.allocate(Integer.BYTES);
-        transformRound.order(ByteOrder.LITTLE_ENDIAN);
-        transformRound.putInt(rounds);
-        transformRound.rewind();
-        this.setField(Field.TRANSFORM_ROUNDS, transformRound.array());
     }
 
     private void setTransformSeed(final byte[] seed) {

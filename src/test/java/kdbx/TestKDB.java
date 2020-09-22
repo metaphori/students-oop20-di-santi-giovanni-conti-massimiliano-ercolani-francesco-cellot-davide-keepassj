@@ -10,6 +10,7 @@ import javax.crypto.AEADBadTagException;
 
 import org.junit.Test;
 
+import model.crypto.KDFBadParameter;
 import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
@@ -25,6 +26,8 @@ public class TestKDB {
         final List<byte[]> credentials = Arrays.asList(password);
         final KDBHeader header = new KDBHeader();
         header.setCipher("AES");
+        header.setComment("This is a database".getBytes());
+        header.setPublicCustomData("This is a data".getBytes());
         try {
             final KDB kdb = new KDB(database, credentials, header);
             kdb.write(plaintext1);
@@ -73,7 +76,7 @@ public class TestKDB {
         }
     }
 
-    public final void testKDBWrite3() {
+    public final void testKDBWrite3() throws KDFBadParameter {
         final File database = new File("test-write-3.kdbx");
         final List<byte[]> credentials = Arrays.asList(password);
         final KDBHeader header = new KDBHeader();
@@ -119,7 +122,7 @@ public class TestKDB {
     }
 
     @Test
-    public final void testKDB3() throws AEADBadTagException, IOException {
+    public final void testKDB3() throws AEADBadTagException, IOException, KDFBadParameter {
         testKDBWrite3();
         testKDBReader3();
     }

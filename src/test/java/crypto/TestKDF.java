@@ -31,7 +31,7 @@ public class TestKDF {
         final byte[] password = Util.sha256("ciao".getBytes());
         final byte[] salt = Util.sha256("test".getBytes());
         final int rounds = 10;
-        final int memory = 10_000;
+        final int memory = 60_000;
         final int parallelism = 4;
         argon2.setMemory(memory);
         argon2.setKeySize(64);
