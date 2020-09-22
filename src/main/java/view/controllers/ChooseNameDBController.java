@@ -25,15 +25,21 @@ public class ChooseNameDBController {
 
     @FXML
     void cancelCreation(ActionEvent event) {
-
+        setter.getStage(event).close();
     }
 
     @FXML
     void continueCreation(ActionEvent event) {
-        data.takeDBName(this.dbName.getText().getBytes());
-        data.takeDBDesc(this.dbDescription.getText().getBytes());
+        this.data.takeDBName(this.dbName.getText().getBytes());
+        this.data.takeDBDesc(this.dbDescription.getText().getBytes());
         
-        loader.getSceneData(data, ChooseNameDBController.class);
-        setter.getStage(event).close();
+        if(this.dbName.getText().trim().isBlank()) {
+            setter.warningDialog("Choose a database name");
+        } else if(this.dbDescription.getText().trim().isBlank()) {
+            setter.warningDialog("Choose a database description");
+        } else {
+            loader.getSceneData(data, ChooseNameDBController.class);
+            setter.getStage(event).close();
+        }
     }
 }

@@ -39,7 +39,7 @@ public class ChoosePassController {
     }
     @FXML
     void cancelCreation(ActionEvent event) {
-
+        setter.getStage(event).close();
     }
 
     @FXML
@@ -60,6 +60,8 @@ public class ChoosePassController {
             fileChooser.getExtensionFilters().addAll(new ExtensionFilter("All Files", "*.*"));
             File file = fileChooser.showSaveDialog(stage);
             creadentials = Arrays.asList(password.getText().getBytes());   
+            loader.getScene();
+            setter.getStage(event).close();
             try {
                 database = new KDB(file, creadentials, header);
                 database.write(new byte[0]);

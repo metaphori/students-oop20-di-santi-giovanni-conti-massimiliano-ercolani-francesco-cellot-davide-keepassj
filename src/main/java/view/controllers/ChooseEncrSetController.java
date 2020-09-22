@@ -57,7 +57,8 @@ public class ChooseEncrSetController implements Initializable {
         this.algDescription.setEditable(false);
         this.kdfDescription.setWrapText(true);
         this.kdfDescription.setEditable(false);
-
+        
+        
         this.comboEA.setItems(listEA);
         this.comboKDF.setItems(listKDF);        
     }
@@ -69,14 +70,14 @@ public class ChooseEncrSetController implements Initializable {
     @FXML
     void selectEA(ActionEvent event) {
         String selection = comboEA.getSelectionModel().getSelectedItem().toString();
-        algDescription.setText(header.getCipherDescriptions().get(selection));
+        this.algDescription.setText(header.getCipherDescriptions().get(selection));
         this.data.takeCipher(selection);
     }
 
     @FXML
     void selectKDF(ActionEvent event) {
         String selection = comboKDF.getSelectionModel().getSelectedItem().toString();
-        kdfDescription.setText(header.getKDFDescriptions().get(selection));
+        this.kdfDescription.setText(header.getKDFDescriptions().get(selection));
         this.data.takeKdf(selection);
         
         this.setter.setSpinner(trSpinner, 1, header.getKDFRounds(selection));
@@ -97,7 +98,7 @@ public class ChooseEncrSetController implements Initializable {
     
     @FXML
     void cancelCreation(ActionEvent event) {
-
+        setter.getStage(event).close();
     }
 
     @FXML
@@ -106,8 +107,14 @@ public class ChooseEncrSetController implements Initializable {
         this.data.takeMemory(this.muSpinner.getValue());
         this.data.takeParallelism(this.pSpinner.getValue());
         
-        this.loader.getSceneData(this.data, ChoosePassController.class);
-        setter.getStage(event).close();
+        if(this.data.getCipher() == null) {
+            setter.warningDialog("Choose an encryption algorithm");
+        } else if(this.data.getKdf() == null) {
+            setter.warningDialog("Choose a key derivation function");
+            } else { 
+            this.loader.getSceneData(this.data, ChoosePassController.class);
+            setter.getStage(event).close();
+            }
     }
 
     @FXML
