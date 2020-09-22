@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseNameDBController">
    <children>
       <MenuBar prefHeight="29.0" prefWidth="711.0">
@@ -32,6 +31,7 @@
          </menus>
       </MenuBar>
       <TextField fx:id="dbName" layoutX="214.0" layoutY="184.0" prefHeight="26.0" prefWidth="416.0" />
+      <TextField fx:id="dbDescription" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
       <Label layoutX="52.0" layoutY="186.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
          <font>
             <Font size="17.0" />
@@ -49,6 +49,5 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="dbDescription" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
    </children>
 </Pane>
