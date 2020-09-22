@@ -35,10 +35,10 @@ public class ChooseNameDBController {
         } else if(this.dbDescription.getText().trim().isBlank()) {
             setter.warningDialog("Choose a database description");
         } else {
-            this.data.takeDBName(this.dbName.getText().getBytes());
-            this.data.takeDBDesc(this.dbDescription.getText().getBytes());
-            loader.getSceneData(data, ChooseNameDBController.class);
-            setter.getStage(event).close();
+            this.data.takeDBName(this.dbName.getText().toString());
+            this.data.takeDBDesc(this.dbDescription.getText().toString());
+            this.loader.getSceneData(this.data, ChooseEncrSetController.class);
+            this.setter.getStage(event).close();
         }
     }
 }

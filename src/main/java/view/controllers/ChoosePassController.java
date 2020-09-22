@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.apache.commons.codec.binary.Hex;
+
 import controller.DBDataSaver;
 import controller.DBDataSaverImpl;
 import controller.FxmlFilesLoader;
@@ -19,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import model.crypto.KDFBadParameter;
 import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
@@ -46,16 +49,23 @@ public class ChoosePassController {
     }
 
     @FXML
-    void confirmCreation(ActionEvent event) {
+    void confirmCreation(ActionEvent event) {       
+        System.out.println(data.getDBDesc());
         if(passwordRepeat.getText().equals(password.getText())) {
-            header.setComment(data.getDBName());
-            header.setPublicCustomData(data.getDBDesc());
+            header.setComment(data.getDBName().getBytes());
+            header.setPublicCustomData(data.getDBDesc().getBytes());
+
             header.setCipher(data.getCipher());
             header.setKDF(data.getKdf());
             header.setTransformRounds(data.getRounds());
             if(data.getTweakable() == true) {
-                header.setKDFMemory(data.getMemory());
-                header.setKDFParallelism(data.getParallelism());
+                try {
+                    header.setKDFMemory(data.getMemory());
+                    header.setKDFParallelism(data.getParallelism());
+                } catch (KDFBadParameter e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
             fileChooser = new FileChooser();
             Stage stage = setter.getStage(event);
