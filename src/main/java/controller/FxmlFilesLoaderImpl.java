@@ -35,11 +35,11 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
             Parent root1 = (Parent) fxmlLoader.load();
             
             if(controllerClass == ChooseEncrSetController.class) {
-                ChooseEncrSetController controllerOra = fxmlLoader.<ChooseEncrSetController>getController();
-                controllerOra.takeData(data);
+                ChooseEncrSetController encrController = fxmlLoader.<ChooseEncrSetController>getController();
+                encrController.takeData(data);
             } else if(controllerClass == ChoosePassController.class) {
-                ChoosePassController controllerOra = fxmlLoader.<ChoosePassController>getController();
-                controllerOra.takeData(data);
+                ChoosePassController passController = fxmlLoader.<ChoosePassController>getController();
+                passController.takeData(data);
             }
             
             Stage stage = new Stage();
