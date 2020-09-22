@@ -78,9 +78,10 @@ public class TestKDB {
         final List<byte[]> credentials = Arrays.asList(password);
         final KDBHeader header = new KDBHeader();
         header.setCipher("ChaCha20Poly1305");
-        header.setKDF("Argon2");
+        header.setKDF("Scrypt");
         header.setKDFMemory(32768);
         header.setKDFParallelism(1);
+        header.setTransformRounds(9);
         try {
             final KDB kdb = new KDB(database, credentials, header);
             kdb.write(plaintext3);

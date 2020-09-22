@@ -37,7 +37,7 @@ public class SCryptKDF extends KDFAdvanced {
     public final void setMemory(final int memory) throws KDFBadParameter {
         super.setMemory(memory);
         if (isPowerOfTwo(memory)) {
-            this.setMemory(memory);
+            this.memory = memory;
         } else {
             throw new KDFBadParameter("Memory must be a power of two");
         }
