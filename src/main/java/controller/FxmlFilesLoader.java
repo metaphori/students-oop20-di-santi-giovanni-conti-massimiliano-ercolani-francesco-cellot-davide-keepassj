@@ -1,5 +1,12 @@
 package controller;
 
+import java.io.File;
+
+/**
+ * 
+ * Interface for fxml files loading in different ways
+ *
+ */
 public interface FxmlFilesLoader {
     
     /**
@@ -18,4 +25,10 @@ public interface FxmlFilesLoader {
      * Get fxml file of mainMenuView
      */
     void getMainMenuScene();
+    
+    /**
+     * Get fxml file passing the file
+     * @param file
+     */
+    void getSceneFile(File file);
 }
