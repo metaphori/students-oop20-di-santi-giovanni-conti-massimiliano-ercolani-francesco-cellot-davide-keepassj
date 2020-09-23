@@ -50,6 +50,9 @@ dependencies {
     // JAXB api
     // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+	// JAX-B dependencies for JDK 9+
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:2.3.2"
+    implementation "org.glassfish.jaxb:jaxb-runtime:2.3.2"
     
 }
 
