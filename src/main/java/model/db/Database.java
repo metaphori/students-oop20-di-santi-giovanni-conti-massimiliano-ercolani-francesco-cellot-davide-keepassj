@@ -1,9 +1,11 @@
 package model.db;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import javax.crypto.AEADBadTagException;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -37,15 +39,6 @@ public class Database {
     }
 
     /*
-     * Constructor called when open a Database already exist.
-     */
-    public Database(final Database db) {
-        this.entryList = db.entryList;
-        this.groupList = db.groupList;
-        //this.cryptoDb = db.cryptoDb;
-    }
-
-    /*
      * Convert the Database to an Xml String.
      */
     public final String getXml() throws JAXBException {
@@ -55,13 +48,19 @@ public class Database {
     /*
      * Write the Xml String to file trough encryption of KDB object.
      */
-    private void writeXml() throws JAXBException {
+    public final void writeXml() throws JAXBException {
         try {
-        cryptoDb.write(getXml().getBytes());
+            cryptoDb.write(getXml().getBytes());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         //ConvertXml.fromXml(cryptoDb.read().toString());
+    }
+
+    public final void readXml() throws AEADBadTagException, IOException {
+        Database app = ConvertXml.fromXml(cryptoDb.read().toString());
+        this.entryList = app.entryList;
+        this.groupList = app.groupList;
     }
 
     /**
@@ -83,7 +82,7 @@ public class Database {
      * @return true if it's done
      */
     public final boolean deleteEntry(final Entry entry) {
-/*
+        /*
         Entry temp;
         if (getEntry(nameToDelete) == null) {
             return false;
@@ -91,7 +90,7 @@ public class Database {
             temp = getEntry(nameToDelete);
         }
         this.entryList.remove(temp);
-*/
+         */
         return this.entryList.removeIf(e -> e.getNameAccount() == entry.getNameAccount());
     }
 
@@ -128,7 +127,7 @@ public class Database {
      * @return the entry or null if not found
      */
     public Entry getEntry(final String nameAccount) {
-/*
+        /*
         for (int i = 0; i < entryList.size(); i++) { 
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
                 return entryList.get(i); 
@@ -172,7 +171,7 @@ public class Database {
      */
     public final boolean delGroup(final Group group) {
         if (groupList.contains(group)) {
-            if (entryList.stream().filter(e -> e.getGroup() == group.getName()).count() == 0) {
+            if (entryList.stream().filter(e -> e.getGroupName() == group.getName()).count() == 0) {
                 this.groupList.remove(group);
                 return true;
             }
@@ -187,10 +186,10 @@ public class Database {
      */
     public final ArrayList<Entry> getAllEntryOfSpecifiedGroup(final Group group) {
         ArrayList<Entry> app = new ArrayList<Entry>(
-                                this.entryList.stream()
-                                .filter(e -> e.getGroup() == group.getName())
-                                .collect(Collectors.toList()));
-                                //.collect(Collectors.toCollection(ArrayList::new));
+                this.entryList.stream()
+                .filter(e -> e.getGroupName() == group.getName())
+                .collect(Collectors.toList()));
+        //.collect(Collectors.toCollection(ArrayList::new));
         return app;
     }
 }
