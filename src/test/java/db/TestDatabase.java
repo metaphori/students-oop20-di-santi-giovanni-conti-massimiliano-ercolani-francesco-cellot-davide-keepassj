@@ -45,7 +45,7 @@ private Database myDb = null;
     public void testGroup() {
         Group group = new Group("Other");
         Entry app = new Entry();
-        app.setGroup(group);
+        app.setGroupName(group);
         myDb.addEntry(app);
 
         //true for correct add to list

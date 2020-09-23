@@ -29,7 +29,7 @@ private Entry gf = null;
         gf.setNameAccount(nameAccount);
         gf.setUsername(username);
         gf.setPassword(password);
-        gf.setGroup(new Group(category));
+        gf.setGroupName(new Group(category));
         gf.setUrl(url);
         gf.setNote(note);
 
@@ -37,7 +37,7 @@ private Entry gf = null;
         assertEquals(nameAccount, gf.getNameAccount());
         assertEquals(username, gf.getUsername());
         assertEquals(password, gf.getPassword());
-        assertEquals(category, gf.getGroup());
+        assertEquals(category, gf.getGroupName());
         assertEquals(url, gf.getUrl());
         assertEquals(note, gf.getNote());
     }
