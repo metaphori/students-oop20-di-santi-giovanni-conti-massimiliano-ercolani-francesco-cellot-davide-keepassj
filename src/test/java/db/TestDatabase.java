@@ -8,6 +8,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.xml.bind.JAXBException;
+
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
@@ -75,6 +77,7 @@ private Database myDb = null;
         list.add(one);
         list.add(two);
 
+        assertEquals(one, myDb.getEntry(one.getNameAccount()));
         assertEquals(list, myDb.getAllEntry());
         assertEquals(list, myDb.getAllEntryOfSpecifiedGroup(new Group("prova")));
     }
