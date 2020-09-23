@@ -1,5 +1,6 @@
 package model.db;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "entry")
@@ -34,6 +35,7 @@ public class Entry {
     /**
      * @return the nameAccount
      */
+    @XmlElement(name = "nomeEntry")
     public String getNameAccount() {
         return nameAccount;
     }

@@ -7,9 +7,15 @@ public class Group {
 
     private int id;
     private String name;
+    private String description;
+
+    public Group() {
+        this.name = "prova";
+    }
 
     public Group(final String name) {
         this.setName(name);
+        this.description = "";
         createId();
     }
 
