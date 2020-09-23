@@ -45,6 +45,7 @@ public class ChoosePassController {
     }
     @FXML
     void cancelCreation(ActionEvent event) {
+        loader.getMainMenuScene();
         setter.getStage(event).close();
     }
 
