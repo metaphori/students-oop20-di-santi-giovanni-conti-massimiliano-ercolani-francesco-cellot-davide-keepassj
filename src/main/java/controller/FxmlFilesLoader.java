@@ -13,4 +13,9 @@ public interface FxmlFilesLoader {
      * @param controllerclass is the class of the controller
      */
     void getSceneData(DBDataSaver data, Class<?>controllerClass);
+    
+    /**
+     * Get fxml file of mainMenuView
+     */
+    void getMainMenuScene();
 }

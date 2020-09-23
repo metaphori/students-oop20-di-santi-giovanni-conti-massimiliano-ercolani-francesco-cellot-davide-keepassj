@@ -10,9 +10,19 @@ import view.controllers.ChoosePassController;
 
 public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
     
-    final String source;
+    private String source;
     
-    public FxmlFilesLoaderImpl(String source) {
+    /**
+     * Empty constructor
+     */
+    public FxmlFilesLoaderImpl() {
+    }
+    
+    /**
+     * Constructor which takes fxml source
+     * @param source is the fxml source
+     */
+    public FxmlFilesLoaderImpl(final String source) {
         this.source = source;
     }
     
@@ -48,6 +58,12 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public void getMainMenuScene() {
+        this.source = "/view/MainMenuView.fxml";
+        this.getScene();
     }
     
 }
