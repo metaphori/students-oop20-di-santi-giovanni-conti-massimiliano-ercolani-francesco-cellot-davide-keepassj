@@ -115,10 +115,4 @@ public class ChooseEncrSetController implements Initializable {
                 setter.getStage(event).close();
             }
     }
-
-    @FXML
-    void goBack(ActionEvent event) {
-
-    }
-    
 }

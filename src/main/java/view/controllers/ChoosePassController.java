@@ -89,9 +89,4 @@ public class ChoosePassController {
             setter.warningDialog("Passwords are not the same");
         }
     }
-
-    @FXML
-    void goBack(ActionEvent event) {
-
-    }
 }
