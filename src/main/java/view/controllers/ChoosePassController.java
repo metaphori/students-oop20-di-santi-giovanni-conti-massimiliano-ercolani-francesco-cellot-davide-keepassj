@@ -26,7 +26,7 @@ import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
 public class ChoosePassController {
-    FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/MainMenuView.fxml");
+    FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private DBDataSaver data = new DBDataSaverImpl();
     private FxmlSetter setter = new FxmlSetterImpl();
     private KDBHeader header = new KDBHeader();
@@ -75,7 +75,7 @@ public class ChoosePassController {
             
             if(file != null) {
                 creadentials = Arrays.asList(password.getText().getBytes());   
-                loader.getScene();
+                loader.getMainMenuScene();
                 setter.getStage(event).close();
                 try {
                     database = new KDB(file, creadentials, header);

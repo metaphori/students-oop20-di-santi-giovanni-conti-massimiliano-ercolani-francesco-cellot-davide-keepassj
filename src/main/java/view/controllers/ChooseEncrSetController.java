@@ -98,6 +98,7 @@ public class ChooseEncrSetController implements Initializable {
     
     @FXML
     void cancelCreation(ActionEvent event) {
+        loader.getMainMenuScene();
         setter.getStage(event).close();
     }
 
