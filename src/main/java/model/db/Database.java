@@ -59,10 +59,10 @@ public class Database {
 
     /**
      * Receive a new entry to insert.
-     * @param nameToDelete
+     * @param entry
      * @return true if it's done
      */
-    public final boolean delEntry(final String nameToDelete) {
+    public final boolean deleteEntry(final Entry entry) {
 /*
         Entry temp;
         if (getEntry(nameToDelete) == null) {
@@ -72,7 +72,7 @@ public class Database {
         }
         this.entryList.remove(temp);
 */
-        return this.entryList.removeIf(e -> e.getNameAccount() == nameToDelete);
+        return this.entryList.removeIf(e -> e.getNameAccount() == entry.getNameAccount());
     }
 
     /*

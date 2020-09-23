@@ -31,7 +31,7 @@ private Database gf = null;
         assertNotNull(gf);
         assertTrue(gf.addEntry(g));
         assertTrue(gf.nameAlreadyExist("prova"));
-        assertTrue(gf.delEntry("prova"));
+        assertTrue(gf.deleteEntry("prova"));
         assertFalse(gf.nameAlreadyExist("prova"));
     }
 
@@ -50,7 +50,7 @@ private Database gf = null;
         assertFalse(gf.delGroup(group));
 
         //remove item used for test
-        gf.delEntry(app.getNameAccount());
+        gf.deleteEntry(app.getNameAccount());
         //true for correct remove
         assertTrue(gf.delGroup(group));
         //false for nothing to remove
