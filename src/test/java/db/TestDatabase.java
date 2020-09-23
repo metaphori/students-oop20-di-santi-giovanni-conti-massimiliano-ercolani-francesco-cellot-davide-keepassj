@@ -31,12 +31,12 @@ private Database gf = null;
         assertNotNull(gf);
         assertTrue(gf.addEntry(g));
         assertTrue(gf.nameAlreadyExist("prova"));
-        assertTrue(gf.deleteEntry("prova"));
+        assertTrue(gf.deleteEntry(g));
         assertFalse(gf.nameAlreadyExist("prova"));
     }
 
     @org.junit.Test
-    public void testCategory() {
+    public void testGroup() {
         Group group = new Group("Other");
         Entry app = new Entry();
         app.setGroup(group);
@@ -50,7 +50,7 @@ private Database gf = null;
         assertFalse(gf.delGroup(group));
 
         //remove item used for test
-        gf.deleteEntry(app.getNameAccount());
+        gf.deleteEntry(app);
         //true for correct remove
         assertTrue(gf.delGroup(group));
         //false for nothing to remove
