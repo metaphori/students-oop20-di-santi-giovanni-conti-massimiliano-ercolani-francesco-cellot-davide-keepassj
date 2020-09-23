@@ -1,19 +1,24 @@
 package view.controllers;
 
+import java.io.File;
+
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MainMenuController {
     
     final String source = "/view/createnew/chooseNameDb.fxml";
-    FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
-    FxmlSetter setter = new FxmlSetterImpl();
-    
+    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
+    private FxmlSetter setter = new FxmlSetterImpl();
+    private FileChooser fileChooser;
+    private String fileExtension;
     @FXML
     public void createNewDatabase(ActionEvent event) throws Exception{
         loader.getScene();
@@ -22,6 +27,22 @@ public class MainMenuController {
     
     @FXML
     public void openDatabase(ActionEvent event) {
+        fileChooser = new FileChooser();
+        Stage stage = setter.getStage(event);
+        
+        fileChooser.setTitle("Open database ");
+        File file = fileChooser.showOpenDialog(stage);
+        
+        if(file != null) {
+            fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length());
+            System.out.println(fileExtension);
+            if(fileExtension.equals("kdbj")) {         
+                loader.getSceneFile(file);
+                setter.getStage(event).close();
+            } else {
+                setter.warningDialog("Impossibile aprire il database");
+            }
+        }
         
     }
 }
