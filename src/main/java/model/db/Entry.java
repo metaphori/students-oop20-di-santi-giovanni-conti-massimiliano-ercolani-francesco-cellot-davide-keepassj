@@ -2,8 +2,10 @@ package model.db;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "entry")
+//@XmlType(propOrder = {        "nameAccount",        "username",        "password",        "group",        "url",        "note"    })
 public class Entry {
 
     private String nameAccount;

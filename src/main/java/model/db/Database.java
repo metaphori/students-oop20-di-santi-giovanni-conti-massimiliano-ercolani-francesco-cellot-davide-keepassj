@@ -21,6 +21,7 @@ public class Database {
     @XmlElementWrapper(name = "groupList")
     @XmlElement(name = "group")
     private ArrayList<Group> groupList;
+    //@XmlElementWrapper(name = "kdb")
     private KDB cryptoDb;
 
     public Database() {
