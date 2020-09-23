@@ -1,7 +1,11 @@
 package model.export;
 
 import model.db.Database;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
@@ -39,11 +43,19 @@ public final class ConvertXml {
         return null;
     }
 
-    public static Database fromXml(final String xmlToOpen) {
+    public static Database fromXml(final String xmlToOpen) throws IOException {
         try {
+            File temp = File.createTempFile("pattern", ".suffix");
+            // Delete temp file when program exits.
+            temp.deleteOnExit();
+            // Write to temp file
+            BufferedWriter out = new BufferedWriter(new FileWriter(temp));
+            out.write(xmlToOpen);
+            out.close();
+
             JAXBContext context = JAXBContext.newInstance(Database.class);
             Unmarshaller un = context.createUnmarshaller();
-            Database db = (Database) un.unmarshal(new File(xmlToOpen));
+            Database db = (Database) un.unmarshal(temp);
             return db;
         } catch (JAXBException e) {
             e.printStackTrace();
