@@ -1,9 +1,7 @@
 package model.export;
 
-import model.db.*;
-import model.kdbx.*;
+import model.db.Database;
 import java.io.File;
-import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -29,7 +27,7 @@ public final class ConvertXml {
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(db, System.out);
-            //m.marshal(db, new File("database-jaxb.xml"));
+            m.marshal(db, new File("database-jaxb.xml"));
             //StringWriter app = new StringWriter();
             //m.marshal(db, app);
             //return app.toString();
@@ -44,7 +42,7 @@ public final class ConvertXml {
         try {
             JAXBContext context = JAXBContext.newInstance(Database.class);
             Unmarshaller un = context.createUnmarshaller();
-            Database db = (Database) un.unmarshal(new File(xmlToOpen));
+            Database db = (Database) un.unmarshal(new File("database-jaxb.xml"));
             return db;
         } catch (JAXBException e) {
             e.printStackTrace();
