@@ -19,6 +19,7 @@ public class Database {
     @XmlElement(name = "entry")
     private ArrayList<Entry> entryList;
     @XmlElementWrapper(name = "groupList")
+    @XmlElement(name = "group")
     private ArrayList<Group> groupList;
     private KDB cryptoDb;
 
@@ -27,21 +28,39 @@ public class Database {
         this.groupList = new ArrayList<>();
     }
 
-    public Database(final KDB cryptoDb) throws FileNotFoundException, JAXBException {
+    public Database(final KDB cryptoDb) throws JAXBException {
         this.entryList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
-        writeToXml();
+        writeXml();
     }
 
     /*
-     * When it's called write the database
-     * to XML file trough encryption of KDB object.
+     * Constructor called when open a Database already exist.
      */
-    private void writeToXml() throws JAXBException, FileNotFoundException {
-        String app = ConvertXml.getXml(this);
-        cryptoDb.write(app.getBytes());
-        return;
+    public Database(final Database db) {
+        this.entryList = db.entryList;
+        this.groupList = db.groupList;
+        //this.cryptoDb = db.cryptoDb;
+    }
+
+    /*
+     * Convert the Database to an Xml String.
+     */
+    public final String getXml() throws JAXBException {
+        return ConvertXml.toXml(this);
+    }
+
+    /*
+     * Write the Xml String to file trough encryption of KDB object.
+     */
+    private void writeXml() throws JAXBException {
+        try {
+        cryptoDb.write(getXml().getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
     /**
@@ -108,16 +127,15 @@ public class Database {
      * @return the entry or null if not found
      */
     public Entry getEntry(final String nameAccount) {
-
+/*
         for (int i = 0; i < entryList.size(); i++) { 
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
                 return entryList.get(i); 
             } 
-        }
-        return null;
+        }*/
+        //return null;
 
-        //Entry app = (Entry) this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount);
-        //return app;
+        return this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount).findFirst().get();
     }
 
     /**
