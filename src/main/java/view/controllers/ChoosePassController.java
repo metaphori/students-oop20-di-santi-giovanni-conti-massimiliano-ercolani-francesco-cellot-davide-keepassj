@@ -73,17 +73,22 @@ public class ChoosePassController {
             fileChooser.setTitle("Save database as");
             fileChooser.getExtensionFilters().addAll(new ExtensionFilter("KeePassJ database", "*.kdbj"));
             File file = fileChooser.showSaveDialog(stage);
-            
+           
             if(file != null) {
-                creadentials = Arrays.asList(password.getText().getBytes());   
-                loader.getMainMenuScene();
-                setter.getStage(event).close();
-                try {
-                    database = new KDB(file, creadentials, header);
-                    database.write(new byte[0]);
-                } catch(IOException e) {
-                    e.printStackTrace();
-                    }
+                String filename = file.getName();
+                if(filename.endsWith(".kdbj") == false) {
+                    setter.warningDialog(".kdbj extension missing");
+                } else {
+                    creadentials = Arrays.asList(password.getText().getBytes());   
+                    loader.getMainMenuScene();
+                    setter.getStage(event).close();
+                    try {
+                        database = new KDB(file, creadentials, header);
+                        database.write(new byte[0]);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                        }
+                }
             }
             
         } else {
