@@ -5,13 +5,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "entry")
-//@XmlType(propOrder = {        "nameAccount",        "username",        "password",        "group",        "url",        "note"    })
+@XmlType(propOrder = {        "nameAccount",        "username",        "password",        "groupName",        "url",        "note"    })
 public class Entry {
 
     private String nameAccount;
     private String username;
     private String password;
-    private String group;
+    private String groupName;
     private String url;
     private String note;
 
@@ -20,7 +20,7 @@ public class Entry {
         this.nameAccount = "prova";
         this.username = "prova";
         this.password = "prova";
-        this.group = "prova";
+        this.groupName = "prova";
         this.url = "prova";
         this.note = "prova";
     }
@@ -29,7 +29,7 @@ public class Entry {
         this.nameAccount = nameAccount;
         this.username = username;
         this.password = password;
-        this.group = group.getName();
+        this.groupName = group.getName();
         this.url = url;
         this.note = notes;
     }
@@ -80,15 +80,16 @@ public class Entry {
     /**
      * @return String group of the entry
      */
-    public String getGroup() {
-        return group;
+    @XmlElement(name = "Group")
+    public String getGroupName() {
+        return groupName;
     }
 
     /**
      * @param group selected of the entry
      */
-    public void setGroup(final Group group) {
-        this.group = group.getName();
+    public void setGroupName(final Group group) {
+        this.groupName = group.getName();
     }
 
     /**

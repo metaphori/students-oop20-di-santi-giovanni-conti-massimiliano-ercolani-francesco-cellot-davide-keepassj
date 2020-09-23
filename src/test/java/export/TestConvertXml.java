@@ -3,9 +3,14 @@ package export;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.xml.bind.JAXBException;
 
-import model.db.*;
+import model.db.Database;
+import model.db.Entry;
+import model.db.Group;
 import model.export.ConvertXml;
 
 public class TestConvertXml {
@@ -25,8 +30,17 @@ public class TestConvertXml {
         //active test
         String app = ConvertXml.toXml(myDb);
         assertNotNull(app);
-        //File file = new File("database-jaxb.xml");
-        Database recreateDb = ConvertXml.fromXml(app);
+
+        String nomeFile = "testDatabase-xml.xml";
+        try {
+            FileWriter myWriter = new FileWriter(nomeFile);
+            myWriter.write(app);
+            myWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Database recreateDb = ConvertXml.fromXml(nomeFile);
         assertNotNull(recreateDb);
         System.out.println(app);
 
