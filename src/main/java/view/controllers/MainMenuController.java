@@ -11,6 +11,11 @@ import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Controller for MainMenu.fxml file.
+ *
+ */
 public class MainMenuController {
 
     private final String source = "/view/createnew/chooseNameDb.fxml";

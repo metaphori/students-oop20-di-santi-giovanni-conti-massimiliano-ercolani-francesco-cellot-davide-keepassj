@@ -9,10 +9,15 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+/**
+ * 
+ * Controller for AddGroup.fxml file.
+ *
+ */
 public class AddNewGroupController {
-    FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
-    FxmlSetter setter = new FxmlSetterImpl();
-    
+    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
+    private FxmlSetter setter = new FxmlSetterImpl();
+
     @FXML
     private TextField title;
 
@@ -28,8 +33,8 @@ public class AddNewGroupController {
     @FXML
     void confirmAdd(ActionEvent event) {
         //todo
-        
-        
+
+
         loader.getScene();
         setter.getStage(event).close();
     }

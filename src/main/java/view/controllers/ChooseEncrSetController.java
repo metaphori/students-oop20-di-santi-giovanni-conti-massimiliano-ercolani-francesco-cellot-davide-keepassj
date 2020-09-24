@@ -18,6 +18,11 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import model.kdbx.KDBHeader;
 
+/**
+ * 
+ * Controller for chooseEncryptionSet.fxml file.
+ *
+ */
 public class ChooseEncrSetController implements Initializable {
 
     private KDBHeader header = new KDBHeader();

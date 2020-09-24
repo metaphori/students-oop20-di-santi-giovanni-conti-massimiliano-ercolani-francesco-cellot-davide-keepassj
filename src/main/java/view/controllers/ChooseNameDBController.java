@@ -10,6 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
+/**
+ * 
+ * Controller for chooseNameDb.fxml file.
+ *
+ */
 public class ChooseNameDBController {
 
     private final String source = "/view/createnew/chooseEncryptionSet.fxml";

@@ -20,6 +20,11 @@ import model.crypto.KDFBadParameter;
 import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
+/**
+ * 
+ * Controller for choosePassMenu.fxml file.
+ *
+ */
 public class ChoosePassController {
     private FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private DBDataSaver data = new DBDataSaverImpl();

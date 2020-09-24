@@ -7,10 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import model.db.Database;
 
+/**
+ * 
+ * Controller for ManageMenu.fxml file.
+ *
+ */
 public class ManageMenuController {
     private FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
     private FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
-    private Database db = new Database();
+    Database db = new Database();
 
     @FXML
     private TableColumn<?, ?> titleColumn;

@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.crypto.AEADBadTagException;
-import javax.xml.bind.JAXBException;
-
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
@@ -18,6 +16,11 @@ import javafx.scene.control.PasswordField;
 import model.db.Database;
 import model.kdbx.KDB;
 
+/**
+ * 
+ * Controller for OpenDatabase.fxml file.
+ *
+ */
 public class OpenDatabaseController {
 
     private File file;
@@ -42,7 +45,7 @@ public class OpenDatabaseController {
     @FXML
     void openDatabase(final ActionEvent event) {
         this.credentials = Arrays.asList(password.getText().getBytes());
-        
+
         try {
             database = new KDB(this.file, this.credentials);
         } catch (FileNotFoundException e) {
@@ -50,7 +53,7 @@ public class OpenDatabaseController {
         }
 
         db = new Database(database);
-        
+
         try {
             db.readXml();
             loader.getSceneDb(db);
