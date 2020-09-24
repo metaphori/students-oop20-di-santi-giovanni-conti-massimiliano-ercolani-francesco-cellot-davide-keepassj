@@ -20,6 +20,7 @@ import org.apache.commons.codec.binary.Hex;
 
 public class TestCryptoCipher {
 
+    private final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
     @Test
     public void testAES() {
         try {
@@ -47,7 +48,7 @@ public class TestCryptoCipher {
 
     @Test(expected = AEADBadTagException.class)
     public void testAESAuth() throws AEADBadTagException {
-        CryptoCipher aes = CipherFactory.create("AES");
+        final CryptoCipher aes = CipherFactory.create("AES");
         final byte[] key = new byte[aes.getKeySize()];
         final byte[] iv = new byte[aes.getIVSize()];
         final byte[] plaintext = "this is an aes test".getBytes();
@@ -63,7 +64,6 @@ public class TestCryptoCipher {
 
     @Test
     public void testAESGCM() {
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final CryptoCipher aesGcm = CipherFactory.create("AESGCM");
         final byte[] iv = new byte[aesGcm.getIVSize()];
         final byte[] key = new byte[aesGcm.getKeySize()];
@@ -79,7 +79,6 @@ public class TestCryptoCipher {
 
     @Test(expected = AEADBadTagException.class)
     public void testAESGCMAuth() throws AEADBadTagException {
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final CryptoCipher aesGcm = CipherFactory.create("AESGCM");
         final byte[] iv = new byte[aesGcm.getIVSize()];
         final byte[] key = new byte[aesGcm.getKeySize()];
@@ -97,7 +96,6 @@ public class TestCryptoCipher {
     @Test
     public void testChaCha20Poly1305() {
         final CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final byte[] iv = new byte[chacha20poly1305.getIVSize()];
         final byte[] key = new byte[chacha20poly1305.getKeySize()];
         Arrays.fill(iv, (byte) 'b');
@@ -113,7 +111,6 @@ public class TestCryptoCipher {
     @Test(expected = AEADBadTagException.class)
     public void testChaCha20Poly1305Auth() throws AEADBadTagException {
         final CryptoCipher chacha20poly1305 = CipherFactory.create("ChaCha20Poly1305");
-        final byte[] plaintext = "aaaaaaaaaaaaaaaa".getBytes();
         final byte[] iv = new byte[chacha20poly1305.getIVSize()];
         final byte[] key = new byte[chacha20poly1305.getKeySize()];
         final byte[] ad = "associated data".getBytes();

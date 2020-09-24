@@ -24,8 +24,8 @@ public class KDBHeader {
 
     private static final byte[] SIGNATURE = {(byte) 0xdb, (byte) 0xdb, (byte) 0xdb, (byte) 0xdb};
     private static final byte[] END_OF_HEADER = {(byte) 0, (byte) 0, (byte) 0};
-    private Map<Integer, byte[]> fields;
-    private EnumMap<Field, Integer> headerFields;
+    private final Map<Integer, byte[]> fields;
+    private final EnumMap<Field, Integer> headerFields;
     private KDF currentKDF;
 
     private final Map<String, String> ciphers = ImmutableMap.of(
@@ -78,7 +78,7 @@ public class KDBHeader {
      * Parse the database header.
      * @param fileData byte array of the database to parse.
      * @return position of the ciphertext.
-     * @throws IOException
+     * @throws IOException If the header is corrupted.
      */
     public final int readHeader(final byte[] fileData) throws IOException {
         // byte[] allBytes = inStream.readAllBytes();
@@ -167,7 +167,7 @@ public class KDBHeader {
 
     /**
      * Check if a KDF is tweakable, if is tweakable then memory and parallelism could be set.
-     * @param kdf
+     * @param kdf KDF algorithm.
      * @return is tweakable.
      */
     public final boolean isKDFTweakable(final String kdf) {
@@ -233,7 +233,7 @@ public class KDBHeader {
 
     /**
      * Get the selected KDF memory in use, appliable only if the KDF is tweakable.
-     * @return
+     * @return memory.
      */
     public final int getKDFMemory() {
         final ByteBuffer memoryBuffer = ByteBuffer.wrap(this.getFieldData(Field.KDF_MEMORY));
@@ -242,7 +242,7 @@ public class KDBHeader {
     }
 
     /**
-     * Get the maximum memory that a KDF could use
+     * Get the maximum memory that a KDF could use.
      * @param kdf KDF algorithm.
      * @return memory.
      */
@@ -309,7 +309,7 @@ public class KDBHeader {
     /**
      * Set the number of threads that the selected KDF should use. Appliable only if the KDF is tweakable.
      * @param parallelism Number of threads.
-     * @throws KDFBadParameter
+     * @throws KDFBadParameter if the parallelism is too high or too low.
      */
     public final void setKDFParallelism(final int parallelism) throws KDFBadParameter {
         currentKDF = KDFFactory.create(this.getKDF());
@@ -326,7 +326,7 @@ public class KDBHeader {
     /**
      * Set the memory that the selected KDF should use. Appliable only if the KDF is tweakable.
      * @param memory This is the memory to use.
-     * @throws KDFBadParameter
+     * @throws KDFBadParameter if the memory is too high or too low.
      */
     public final void setKDFMemory(final int memory) throws KDFBadParameter {
         currentKDF = KDFFactory.create(this.getKDF());

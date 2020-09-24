@@ -17,9 +17,9 @@ public final class KDFFactory {
         if (kdf == null) {
             return null;
         }
-        if (kdf.equalsIgnoreCase("PBKDF2")) {
+        if ("PBKDF2".equalsIgnoreCase(kdf)) {
             return new PBKDF();
-        } else if (kdf.equalsIgnoreCase("Argon2")) {
+        } else if ("Argon2".equalsIgnoreCase(kdf)) {
             return new Argon2KDF();
         } else {
             return new SCryptKDF();

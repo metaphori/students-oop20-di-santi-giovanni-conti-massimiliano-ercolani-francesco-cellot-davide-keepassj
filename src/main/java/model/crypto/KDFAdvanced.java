@@ -53,15 +53,17 @@ public abstract class KDFAdvanced implements KDF {
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
+    @Override
     public final int getDefaultParallelism() {
         return DEFAULT_PARALLELISM;
     }
 
     /**
-     * @{inheritDoc}
+     * {@inheritDoc}
      */
+    @Override
     public final int getDefaultMemory() {
         return DEFAULT_MEMORY;
     }

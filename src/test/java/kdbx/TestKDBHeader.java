@@ -23,6 +23,7 @@ public class TestKDBHeader {
 
     @Test
     public void testKDF() {
+        final int memory1 = 32_768;
         String kdfType = "Argon2";
         final KDBHeader header = new KDBHeader();
         header.setKDF(kdfType);
@@ -34,20 +35,21 @@ public class TestKDBHeader {
         header.setTransformRounds(rounds + 2);
         assertEquals(rounds + 2, header.getTransformRounds());
         assertEquals(2, header.getKDFParallelism());
-        assertEquals(32768, header.getKDFMemory());
+        assertEquals(memory1, header.getKDFMemory());
         kdfType = "PBKDF2";
         header.setKDF(kdfType);
-        assertEquals(10000, header.getTransformRounds());
+        final int memory2 = 10_000;
+        assertEquals(memory2, header.getTransformRounds());
         assertEquals(kdfType, header.getKDF());
         assertEquals(false, header.isKDFTweakable(kdfType));
     }
 
     @SuppressWarnings("MagicNumber")
     @Test
-    public void testKDFParameters() throws KDFBadParameter{
+    public void testKDFParameters() throws KDFBadParameter {
         final KDBHeader header = new KDBHeader();
         header.setKDFParallelism(4);
-        header.setKDFMemory(32768 * 2);
+        header.setKDFMemory(32_768 * 2);
         System.out.println(Hex.encodeHex(header.writeHeader()));
     }
 

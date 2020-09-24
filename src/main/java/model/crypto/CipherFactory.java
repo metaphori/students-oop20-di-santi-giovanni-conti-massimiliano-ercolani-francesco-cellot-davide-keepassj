@@ -13,11 +13,11 @@ public final class CipherFactory {
         if (cipherType == null) {
             return null;
         }
-        if (cipherType.equalsIgnoreCase("AES")) {
+        if ("AES".equalsIgnoreCase(cipherType)) {
             return new AES();
-        } else if (cipherType.equalsIgnoreCase("AESGCM")) {
+        } else if ("AESGCM".equalsIgnoreCase(cipherType)) {
             return new AESGCM();
-        } else if (cipherType.equalsIgnoreCase("ChaCha20Poly1305")) {
+        } else if ("ChaCha20Poly1305".equalsIgnoreCase(cipherType)) {
             return new ChaCha20Poly1305();
         }
         return null;

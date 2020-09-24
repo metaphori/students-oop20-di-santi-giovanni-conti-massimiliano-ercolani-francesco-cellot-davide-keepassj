@@ -32,7 +32,8 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
      */
     @Override
     public final byte[] encrypt(final byte[] plaintext, final byte[] iv) {
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        this.initCipher();
+        final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.ENCRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
             return this.doFinal(plaintext);
@@ -49,7 +50,7 @@ public class ChaCha20Poly1305 extends CryptoCipherAEAD {
     @Override
     public final byte[] decrypt(final byte[] ciphertext, final byte[] iv) throws AEADBadTagException {
         this.initCipher();
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        final IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
         try {
             this.cipher.init(Cipher.DECRYPT_MODE, this.chacha20poly1305key, ivParameterSpec);
             return this.doFinal(ciphertext);

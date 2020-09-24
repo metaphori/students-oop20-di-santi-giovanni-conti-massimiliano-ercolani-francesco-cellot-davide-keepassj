@@ -77,14 +77,16 @@ public class TestKDB {
     }
 
     public final void testKDBWrite3() throws KDFBadParameter {
+        final int memory = 32_768;
+        final int rounds = 9;
         final File database = new File("test-write-3.kdbx");
         final List<byte[]> credentials = Arrays.asList(password);
         final KDBHeader header = new KDBHeader();
         header.setCipher("ChaCha20Poly1305");
         header.setKDF("Scrypt");
-        header.setKDFMemory(32768);
+        header.setKDFMemory(memory);
         header.setKDFParallelism(1);
-        header.setTransformRounds(9);
+        header.setTransformRounds(rounds);
         try {
             final KDB kdb = new KDB(database, credentials, header);
             kdb.write(plaintext3);
