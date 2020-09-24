@@ -11,7 +11,11 @@ import view.controllers.ChoosePassController;
 import view.controllers.ManageMenuController;
 import view.controllers.OpenDatabaseController;
 
-
+/**
+ * 
+ * Class that implements FxmlFilesLoader interface.
+ *
+ */
 public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
     private String source;
@@ -33,10 +37,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     @Override
     public void getScene() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
+            stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +73,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
         this.source = "/view/MainMenuView.fxml";
         this.getScene();
     }
-    
+
     @Override
     public void getManageMenuScene() {
         this.source = "/view/database/ManageMenu.fxml";
