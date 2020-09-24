@@ -67,6 +67,12 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
         this.source = "/view/MainMenuView.fxml";
         this.getScene();
     }
+    
+    @Override
+    public void getManageMenuScene() {
+        this.source = "/view/database/ManageMenu.fxml";
+        this.getScene();
+    }
 
     @Override
     public void getSceneFile(File file) {

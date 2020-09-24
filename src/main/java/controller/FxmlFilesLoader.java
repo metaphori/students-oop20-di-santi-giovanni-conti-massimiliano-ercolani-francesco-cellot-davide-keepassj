@@ -24,6 +24,11 @@ public interface FxmlFilesLoader {
      * Get fxml file of mainMenuView.
      */
     void getMainMenuScene();
+    
+    /**
+     * Get fxml file of ManageMenu.fxml
+     */
+    void getManageMenuScene();
 
     /**
      * Get fxml file passing the file.
