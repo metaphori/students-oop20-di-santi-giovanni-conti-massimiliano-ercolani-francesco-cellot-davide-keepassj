@@ -25,13 +25,15 @@ public class AddNewGroupController {
     private TextField username;
 
     @FXML
-    void cancel(ActionEvent event) {
+    final
+    void cancel(final ActionEvent event) {
         loader.getScene();
         setter.getStage(event).close();
     }
 
     @FXML
-    void confirmAdd(ActionEvent event) {
+    final
+    void confirmAdd(final ActionEvent event) {
         //todo
 
 

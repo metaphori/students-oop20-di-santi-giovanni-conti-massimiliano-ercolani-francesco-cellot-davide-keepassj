@@ -101,5 +101,5 @@ public interface DBDataSaver {
      * Get if chosen kdf is tweakable or not.
      * @return true or false
      */
-    boolean getTweakable();
+    boolean isTweakable();
 }

@@ -64,7 +64,7 @@ public class ChoosePassController {
             header.setCipher(data.getCipher());
             header.setKDF(data.getKdf());
             header.setTransformRounds(data.getRounds());
-            if (data.getTweakable()) {
+            if (data.isTweakable()) {
                 try {
                     header.setKDFMemory(data.getMemory());
                     header.setKDFParallelism(data.getParallelism());

@@ -35,22 +35,27 @@ public class ManageMenuController {
     @FXML
     private TableColumn<?, ?> urlColumn;
 
-    
-    public void takeDatabase(Database db) {
+    /**
+     * Takes database from previous fxml file.
+     * @param db is the database
+     */
+    public final void takeDatabase(final Database db) {
         this.db = db;
     }
-    
+
     @FXML
-    void addEntry(ActionEvent event) {
+    final
+    void addEntry(final ActionEvent event) {
         //todo
-        
+
         entryLoader.getScene();
     }
 
     @FXML
-    void addGroup(ActionEvent event) {
+    final
+    void addGroup(final ActionEvent event) {
         //todo
-        
+
         groupLoader.getScene();
     }
 

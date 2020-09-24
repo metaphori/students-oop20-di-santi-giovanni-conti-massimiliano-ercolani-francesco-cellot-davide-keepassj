@@ -12,6 +12,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * 
+ * Class that implements FxmlSetter interface.
+ *
+ */
 public class FxmlSetterImpl implements FxmlSetter {
 
     @Override

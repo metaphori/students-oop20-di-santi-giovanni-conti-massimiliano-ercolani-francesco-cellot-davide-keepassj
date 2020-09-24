@@ -9,7 +9,7 @@ package controller;
  *
  */
 public class DBDataSaverImpl implements DBDataSaver{
-    
+
     private String dbName;
     private String dbDesc;
     private String cipher;
@@ -18,84 +18,84 @@ public class DBDataSaverImpl implements DBDataSaver{
     private Integer memory;
     private Integer parallelism;
     private boolean isTweakable;
-    
+
     @Override
-    public void takeDBName(final String dbName) {
+    public final void takeDBName(final String dbName) {
         this.dbName = dbName;
     }
 
     @Override
-    public void takeDBDesc(final String dbDesc) {
+    public final void takeDBDesc(final String dbDesc) {
         this.dbDesc = dbDesc;
     }
 
     @Override
-    public void takeCipher(final String cipher) {
+    public final void takeCipher(final String cipher) {
         this.cipher = cipher;
     }
 
     @Override
-    public void takeKdf(final String kdf) {
+    public final void takeKdf(final String kdf) {
         this.kdf = kdf;
     }
 
     @Override
-    public void takeRounds(final Integer rounds) {
+    public final void takeRounds(final Integer rounds) {
         this.rounds = rounds;
     }
 
     @Override
-    public void takeMemory(final Integer memory) {
+    public final void takeMemory(final Integer memory) {
         this.memory = memory;
     }
 
     @Override
-    public void takeParallelism(final Integer parallelism) {
+    public final void takeParallelism(final Integer parallelism) {
         this.parallelism = parallelism;
     }
 
     @Override
-    public void isTweakable(final boolean isTweakable) {
+    public final void isTweakable(final boolean isTweakable) {
         this.isTweakable = isTweakable;
     }
 
     @Override
-    public String getDBName() {
+    public final String getDBName() {
         return this.dbName;
     }
 
     @Override
-    public String getDBDesc() {
+    public final String getDBDesc() {
         return this.dbDesc;
     }
 
     @Override
-    public String getCipher() {
+    public final String getCipher() {
         return this.cipher;
     }
 
     @Override
-    public String getKdf() {
+    public final String getKdf() {
         return this.kdf;
     }
 
     @Override
-    public Integer getRounds() {
+    public final Integer getRounds() {
         return this.rounds;
     }
 
     @Override
-    public Integer getMemory() {
+    public final Integer getMemory() {
         return this.memory;
     }
 
     @Override
-    public Integer getParallelism() {
+    public final Integer getParallelism() {
         return this.parallelism;
     }
 
     @Override
-    public boolean getTweakable() {
+    public final boolean isTweakable() {
         return this.isTweakable;
     }
 

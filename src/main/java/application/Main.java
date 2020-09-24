@@ -5,10 +5,15 @@ import javafx.stage.Stage;
 import view.View;
 import view.ViewImpl;
 
+/**
+ * 
+ * Main for application start.
+ *
+ */
 public class Main extends Application {
 
     @Override
-    public void start(final Stage stage) throws Exception {
+    public final void start(final Stage stage) throws Exception {
         View view = new ViewImpl();
         view.loadFirstScene(stage);
     }
