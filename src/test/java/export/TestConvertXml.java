@@ -17,17 +17,14 @@ public class TestConvertXml {
     @org.junit.Test
     public void testXml() throws JAXBException, IOException {
         //create of Database to parse
-        Database myDb = new Database();
-        Entry one = new Entry();
-        one.setNameAccount("one");
-        Entry two = new Entry();
-        two.setNameAccount("two");
-        myDb.addEntry(one);
-        myDb.addEntry(two);
-        myDb.addGroup(new Group("prova"));
+        final Database myDb = new Database();
+        final Group group = new Group("Other");
+        myDb.addEntry(new Entry("one", "", "", group, "", ""));
+        myDb.addEntry(new Entry("two", "", "", group, "", ""));
+        myDb.addGroup(group);
 
         //active test
-        String app = ConvertXml.toXml(myDb);
+        final String app = ConvertXml.toXml(myDb);
         assertNotNull(app);
 
         /*String nomeFile = "testDatabase-xml.xml";
@@ -39,10 +36,12 @@ public class TestConvertXml {
             e.printStackTrace();
         }*/
 
-        Database recreateDb = ConvertXml.fromXml(app);
+        final Database recreateDb = ConvertXml.fromXml(app);
         assertNotNull(recreateDb);
         //System.out.println(app);
 
-        assertEquals(myDb.getAllEntry().size(), recreateDb.getAllEntry().size());
+        assertEquals(2, myDb.getAllEntry().size());
+        assertEquals(2, recreateDb.getAllEntry().size());
+        //assertEquals(myDb.getAllEntry().size(), recreateDb.getAllEntry().size());
     }
 }

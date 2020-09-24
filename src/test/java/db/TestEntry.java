@@ -8,28 +8,36 @@ import model.db.Group;
 
 public class TestEntry {
 
-private Entry gf = null;
+    private Entry gf = null;
+
+    private String nameAccount = "nameAccount";
+    private String username = "username";
+    private String password = "password";
+    private final Group group = new Group("group");
+    private String url = "url";
+    private String note = "notes";
 
     @org.junit.Test
     public void testConstructor() {
-        gf = new Entry();
+        gf = new Entry(nameAccount, username, password, group, url, note);
         assertNotNull(gf);
     }
 
     @org.junit.Test
     public void testGetterSetter() {
-        String nameAccount = "nome";
-        String username = "username";
-        String password = "1234abcde";
-        String category = "other";
-        String url = "www.try.it";
-        String note = "note";
+        gf = new Entry(nameAccount, username, password, group, url, note);
 
-        gf = new Entry();
+        nameAccount = "prova";
+        username = "nome";
+        password = "mypass12334";
+        group.setName("other");
+        url = "www.ciao.it";
+        note = "annotazione";
+
         gf.setNameAccount(nameAccount);
         gf.setUsername(username);
         gf.setPassword(password);
-        gf.setGroupName(new Group(category));
+        gf.setGroupName(group);
         gf.setUrl(url);
         gf.setNote(note);
 
@@ -37,7 +45,7 @@ private Entry gf = null;
         assertEquals(nameAccount, gf.getNameAccount());
         assertEquals(username, gf.getUsername());
         assertEquals(password, gf.getPassword());
-        assertEquals(category, gf.getGroupName());
+        assertEquals(group.getName(), gf.getGroupName());
         assertEquals(url, gf.getUrl());
         assertEquals(note, gf.getNote());
     }
