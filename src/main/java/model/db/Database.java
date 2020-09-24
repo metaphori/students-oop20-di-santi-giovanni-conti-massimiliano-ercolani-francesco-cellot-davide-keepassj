@@ -57,17 +57,16 @@ public class Database {
         //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
-    public final Boolean readXml() throws AEADBadTagException {
+    public final void readXml() throws AEADBadTagException {
         Database app = null;
         try {
             app = ConvertXml.fromXml(cryptoDb.read().toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
         this.entryList = app.entryList;
         this.groupList = app.groupList;
-        return true;
     }
 
     /**
