@@ -5,10 +5,12 @@ import controller.FxmlFilesLoaderImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import model.db.Database;
 
 public class ManageMenuController {
     private FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
     private FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
+    private Database db = new Database();
 
     @FXML
     private TableColumn<?, ?> titleColumn;
@@ -28,6 +30,11 @@ public class ManageMenuController {
     @FXML
     private TableColumn<?, ?> urlColumn;
 
+    
+    public void takeDatabase(Database db) {
+        this.db = db;
+    }
+    
     @FXML
     void addEntry(ActionEvent event) {
         //todo
