@@ -31,7 +31,7 @@ public class Database {
         this.groupList = new ArrayList<>();
     }
 
-    public Database(final KDB cryptoDb) throws JAXBException {
+    public Database(final KDB cryptoDb) {
         this.entryList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
