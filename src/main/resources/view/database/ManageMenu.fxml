@@ -6,14 +6,12 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ManageMenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ManageMenuController">
    <children>
-      <MenuBar prefHeight="29.0" prefWidth="1208.0">
+      <MenuBar prefHeight="29.0" prefWidth="1300.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -32,17 +30,22 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TreeView layoutX="22.0" layoutY="115.0" prefHeight="598.0" prefWidth="547.0" />
-      <TableView layoutX="600.0" layoutY="55.0" prefHeight="658.0" prefWidth="585.0">
+      <TableView layoutX="29.0" layoutY="113.0" prefHeight="595.0" prefWidth="1240.0">
          <columns>
-            <TableColumn prefWidth="120.0" text="Title" />
-            <TableColumn prefWidth="104.0" text="Username" />
-            <TableColumn minWidth="2.0" prefWidth="135.0" text="Password" />
-            <TableColumn prefWidth="100.0" text="URL" />
-            <TableColumn prefWidth="125.0" text="Created" />
+            <TableColumn fx:id="titleColumn" prefWidth="214.0" text="Title" />
+            <TableColumn fx:id="usernameColumn" minWidth="0.0" prefWidth="160.0" text="Username" />
+            <TableColumn fx:id="passwordColumn" minWidth="2.0" prefWidth="164.0" text="Password" />
+            <TableColumn fx:id="groupColumn" prefWidth="197.0" text="Group" />
+            <TableColumn fx:id="notesColumn" minWidth="7.0" prefWidth="235.0" text="Notes" />
+            <TableColumn fx:id="urlColumn" prefWidth="267.0" text="URL" />
          </columns>
       </TableView>
-      <Button layoutX="22.0" layoutY="55.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="39.0" prefWidth="547.0" text="Add new entry">
+      <Button layoutX="29.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="325.0" layoutY="47.0" mnemonicParsing="false" onAction="#addGroup" prefHeight="47.0" prefWidth="260.0" text="Add new group">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
