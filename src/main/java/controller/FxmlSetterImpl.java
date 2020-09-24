@@ -22,7 +22,7 @@ public class FxmlSetterImpl implements FxmlSetter {
     }
 
     @Override
-    public void warningDialog(String warningMessage) {
+    public void warningDialog(final String warningMessage) {
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UTILITY);
         Scene scene = new Scene(new Group(new Text(100, 150, warningMessage)));
@@ -31,8 +31,8 @@ public class FxmlSetterImpl implements FxmlSetter {
     }
 
     @Override
-    public Stage getStage(ActionEvent event) {
-        Stage stage = (Stage)((Node)((EventObject) event).getSource()).getScene().getWindow();
+    public Stage getStage(final ActionEvent event) {
+        Stage stage = (Stage) ((Node) ((EventObject) event).getSource()).getScene().getWindow();
         return stage;
     }
 }

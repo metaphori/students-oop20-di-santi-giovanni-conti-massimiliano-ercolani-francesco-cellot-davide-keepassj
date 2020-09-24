@@ -1,34 +1,34 @@
 package controller;
 
 import java.io.File;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.controllers.ChooseEncrSetController;
-import view.controllers.ChooseNameDBController;
 import view.controllers.ChoosePassController;
 import view.controllers.OpenDatabaseController;
 
-public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
-    
+
+public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
+
     private String source;
-    
+
     /**
-     * Empty constructor
+     * Empty constructor.
      */
     public FxmlFilesLoaderImpl() {
     }
-    
+
     /**
-     * Constructor which takes fxml source
+     * Constructor which takes fxml source.
      * @param source is the fxml source
      */
     public FxmlFilesLoaderImpl(final String source) {
         this.source = source;
     }
-    
+
+    @Override
     public void getScene() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
@@ -42,26 +42,26 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
     }
 
     @Override
-    public void getSceneData(DBDataSaver data, Class<?>controllerClass) {
+    public void getSceneData(final DBDataSaver data, final Class<?>controllerClass) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             Parent root1 = (Parent) fxmlLoader.load();
-            
-            if(controllerClass == ChooseEncrSetController.class) {
+
+            if (controllerClass == ChooseEncrSetController.class) {
                 ChooseEncrSetController encrController = fxmlLoader.<ChooseEncrSetController>getController();
                 encrController.takeData(data);
-            } else if(controllerClass == ChoosePassController.class) {
+            } else if (controllerClass == ChoosePassController.class) {
                 ChoosePassController passController = fxmlLoader.<ChoosePassController>getController();
                 passController.takeData(data);
             }
             Stage stage = new Stage();
-            stage.setScene(new Scene(root1));  
+            stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void getMainMenuScene() {
         this.source = "/view/MainMenuView.fxml";
@@ -76,12 +76,11 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader{
            OpenDatabaseController controller = fxmlLoader.<OpenDatabaseController>getController();
            controller.takeFile(file);
            Stage stage = new Stage();
-           stage.setScene(new Scene(root1));  
+           stage.setScene(new Scene(root1));
            stage.show();
-           
+
        } catch (Exception e) {
            e.printStackTrace();
        }
     }
-    
 }

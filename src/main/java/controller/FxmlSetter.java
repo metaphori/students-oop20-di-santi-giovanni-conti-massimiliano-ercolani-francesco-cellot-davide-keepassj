@@ -16,16 +16,16 @@ public interface FxmlSetter {
     void setSpinner(Spinner<Integer> spinner, Integer min, Integer max);
 
     /**
-     * Set a javafx dialog box
+     * Set a javafx dialog box.
      * @param warningMessage is the message shown in the dialog box
      */
     void warningDialog(String warningMessage);
-    
+
     /**
-     * Get the stage from every controller
+     * Get the stage from every controller.
      * @param event is the event or the current clicked element 
      * @return the stage
      */
     Stage getStage(ActionEvent event);
-    
+
 }

@@ -5,20 +5,19 @@ import javafx.stage.Stage;
 import view.View;
 import view.ViewImpl;
 
-/*
- * keepassj main
- *
- */
-public class Main extends Application{
-    
+public class Main extends Application {
+
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(final Stage stage) throws Exception {
         View view = new ViewImpl();
         view.loadFirstScene(stage);
     }
-    
+
+    /**
+     * KeePassJ launch.
+     * @param args 
+     */
     public static void main(final String[] args) {
         Application.launch();
     }
-
 }
