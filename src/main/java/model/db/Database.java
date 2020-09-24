@@ -35,7 +35,7 @@ public class Database {
         this.entryList = new ArrayList<>();
         this.groupList = new ArrayList<>();
         this.cryptoDb = cryptoDb;
-        writeXml();
+        //writeXml();
     }
 
     /*
@@ -57,10 +57,20 @@ public class Database {
         //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
-    public final void readXml() throws AEADBadTagException, IOException {
-        Database app = ConvertXml.fromXml(cryptoDb.read().toString());
+    public final Boolean readXml() {
+        Database app = null;
+        try {
+            app = ConvertXml.fromXml(cryptoDb.read().toString());
+        } catch (AEADBadTagException e) {
+            e.printStackTrace();
+            return false;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
         this.entryList = app.entryList;
         this.groupList = app.groupList;
+        return true;
     }
 
     /**

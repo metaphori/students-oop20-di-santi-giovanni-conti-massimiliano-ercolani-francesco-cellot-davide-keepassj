@@ -43,21 +43,30 @@ public final class ConvertXml {
         return null;
     }
 
-    public static Database fromXml(final String xmlToOpen) throws IOException {
+    public static Database fromXml(final String xmlToOpen) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(Database.class);
+            Unmarshaller un = context.createUnmarshaller();
+            Database db = (Database) un.unmarshal(getTempFile(xmlToOpen));
+            return db;
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static File getTempFile(final String app) {
         try {
             File temp = File.createTempFile("pattern", ".suffix");
             // Delete temp file when program exits.
             temp.deleteOnExit();
             // Write to temp file
-            BufferedWriter out = new BufferedWriter(new FileWriter(temp));
-            out.write(xmlToOpen);
+            BufferedWriter out;
+            out = new BufferedWriter(new FileWriter(temp));
+            out.write(app);
             out.close();
-
-            JAXBContext context = JAXBContext.newInstance(Database.class);
-            Unmarshaller un = context.createUnmarshaller();
-            Database db = (Database) un.unmarshal(temp);
-            return db;
-        } catch (JAXBException e) {
+            return temp;
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
