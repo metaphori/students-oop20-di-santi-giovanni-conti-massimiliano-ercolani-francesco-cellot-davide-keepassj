@@ -3,7 +3,6 @@ package export;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBException;

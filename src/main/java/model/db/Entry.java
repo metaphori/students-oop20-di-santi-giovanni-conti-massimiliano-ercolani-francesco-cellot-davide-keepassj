@@ -119,18 +119,4 @@ public class Entry {
     public void setNote(final String note) {
         this.note = note;
     }
-
-    /*
-    //in prova e da spostare
-    public final String toText() {
-        //add quote ""
-        final String nameA = "\"" + this.nameAccount + "\"";
-        final String user = "\"" + this.username + "\"";
-        final String pass = "\"" + this.password + "\"";
-        final String webs = "\"" + this.url + "\"";
-        final String notes = "\"" + this.note + "\"";
-
-        return nameA + usern + passw + webs + notes;
-    }
-    */
 }
