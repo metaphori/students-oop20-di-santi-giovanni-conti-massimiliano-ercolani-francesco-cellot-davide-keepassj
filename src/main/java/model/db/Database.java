@@ -1,8 +1,8 @@
 package model.db;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.crypto.AEADBadTagException;
@@ -19,10 +19,10 @@ public class Database {
 
     @XmlElementWrapper(name = "entryList")
     @XmlElement(name = "entry")
-    private ArrayList<Entry> entryList;
+    private List<Entry> entryList;
     @XmlElementWrapper(name = "groupList")
     @XmlElement(name = "group")
-    private ArrayList<Group> groupList;
+    private List<Group> groupList;
     //@XmlElementWrapper(name = "kdb")
     private KDB cryptoDb;
 
@@ -57,13 +57,10 @@ public class Database {
         //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
-    public final Boolean readXml() {
+    public final Boolean readXml() throws AEADBadTagException {
         Database app = null;
         try {
             app = ConvertXml.fromXml(cryptoDb.read().toString());
-        } catch (AEADBadTagException e) {
-            e.printStackTrace();
-            return false;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return false;
@@ -117,7 +114,7 @@ public class Database {
      * get all the Entry entered.
      * return ArrayList of Entry
      */
-    public final ArrayList<Entry> getAllEntry() {
+    public final List<Entry> getAllEntry() {
         return this.entryList;
     }
 
@@ -125,7 +122,7 @@ public class Database {
      * get all the Group entered.
      * return ArrayList of Group
      */
-    public final ArrayList<Group> getAllGroup() {
+    public final List<Group> getAllGroup() {
         return this.groupList;
     }
 
@@ -221,12 +218,11 @@ public class Database {
      * @param group
      * @return ArrayList<Entry>
      */
-    public final ArrayList<Entry> getAllEntryOfSpecifiedGroup(final Group group) {
-        ArrayList<Entry> app = new ArrayList<Entry>(
-                this.entryList.stream()
+    public final List<Entry> getAllEntryOfSpecifiedGroup(final Group group) {
+        return this.entryList.stream()
                 .filter(e -> e.getGroupName() == group.getName())
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
         //.collect(Collectors.toCollection(ArrayList::new));
-        return app;
+        //return app;
     }
 }

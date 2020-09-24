@@ -28,8 +28,8 @@ public final class ConvertXml {
     public static String toXml(final Database db) {
         // create JAXB context
         try {
-            JAXBContext context = JAXBContext.newInstance(Database.class);
-            Marshaller m = context.createMarshaller();
+            final JAXBContext context = JAXBContext.newInstance(Database.class);
+            final Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             //m.marshal(db, System.out);
             //m.marshal(db, new File("database-jaxb.xml"));
@@ -45,9 +45,9 @@ public final class ConvertXml {
 
     public static Database fromXml(final String xmlToOpen) {
         try {
-            JAXBContext context = JAXBContext.newInstance(Database.class);
-            Unmarshaller un = context.createUnmarshaller();
-            Database db = (Database) un.unmarshal(getTempFile(xmlToOpen));
+            final JAXBContext context = JAXBContext.newInstance(Database.class);
+            final Unmarshaller un = context.createUnmarshaller();
+            final Database db = (Database) un.unmarshal(getTempFile(xmlToOpen));
             return db;
         } catch (JAXBException e) {
             e.printStackTrace();
