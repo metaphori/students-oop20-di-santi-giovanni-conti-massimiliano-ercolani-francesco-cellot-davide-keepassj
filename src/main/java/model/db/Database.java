@@ -65,6 +65,9 @@ public class Database {
             e.printStackTrace();
             return;
         }
+        if (app == null) {
+            return;
+        }
         this.entryList = app.entryList;
         this.groupList = app.groupList;
     }
@@ -107,7 +110,7 @@ public class Database {
         this.entryList.set(this.entryList.indexOf(entryToEdit), entryToEdit);
         return true;
     }
-    */
+     */
 
     /*
      * get all the Entry entered.

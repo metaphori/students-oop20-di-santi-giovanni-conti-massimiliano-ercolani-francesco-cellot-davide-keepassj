@@ -33,7 +33,7 @@ public final class ConvertXml {
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             //m.marshal(db, System.out);
             //m.marshal(db, new File("database-jaxb.xml"));
-            StringWriter app = new StringWriter();
+            final StringWriter app = new StringWriter();
             m.marshal(db, app);
             return app.toString();
             //return "";
@@ -47,8 +47,8 @@ public final class ConvertXml {
         try {
             final JAXBContext context = JAXBContext.newInstance(Database.class);
             final Unmarshaller un = context.createUnmarshaller();
-            final Database db = (Database) un.unmarshal(getTempFile(xmlToOpen));
-            return db;
+            return (Database) un.unmarshal(getTempFile(xmlToOpen));
+            //return db;
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public final class ConvertXml {
 
     private static File getTempFile(final String app) {
         try {
-            File temp = File.createTempFile("pattern", ".suffix");
+            final File temp = File.createTempFile("pattern", ".suffix");
             // Delete temp file when program exits.
             temp.deleteOnExit();
             // Write to temp file

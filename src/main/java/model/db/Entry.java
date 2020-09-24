@@ -17,21 +17,23 @@ public class Entry {
 
     //constructor used for test
     public Entry() {
+        /*
         this.nameAccount = "prova";
-        this.username = "prova";
-        this.password = "prova";
-        this.groupName = "prova";
-        this.url = "prova";
-        this.note = "prova";
+        this.username = "account";
+        this.password = "pass33--t";
+        this.groupName = "Other";
+        this.url = "www.ciao.it";
+        this.note = "questa nota";
+        */
     }
 
-    public Entry(final String nameAccount, final String username, final String password, final Group group, final String url, final String notes) {
+    public Entry(final String nameAccount, final String username, final String password, final Group group, final String url, final String note) {
         this.nameAccount = nameAccount;
         this.username = username;
         this.password = password;
         this.groupName = group.getName();
         this.url = url;
-        this.note = notes;
+        this.note = note;
     }
 
     /**
