@@ -95,11 +95,28 @@ public class Database {
     }
 
     /*
+    public final Boolean editEntry(final Entry entryToEdit, final ArrayList<String> gg) {
+        Entry temp = entryToEdit;
+        temp.se
+        this.entryList.set(this.entryList.indexOf(entryToEdit), entryToEdit);
+        return true;
+    }
+    */
+
+    /*
      * get all the Entry entered.
      * return ArrayList of Entry
      */
     public final ArrayList<Entry> getAllEntry() {
         return this.entryList;
+    }
+
+    /*
+     * get all the Group entered.
+     * return ArrayList of Group
+     */
+    public final ArrayList<Group> getAllGroup() {
+        return this.groupList;
     }
 
     /**
@@ -136,6 +153,16 @@ public class Database {
         //return null;
 
         return this.entryList.stream().filter(e -> e.getNameAccount() == nameAccount).findFirst().get();
+    }
+
+    /**
+     * from the unique nameAccount return the entire Entry.
+     * @param groupName
+     * @return the group or null if not found
+     */
+    public Group getGroup(final String groupName) {
+
+        return this.groupList.stream().filter(e -> e.getName() == groupName).findFirst().get();
     }
 
     /**
