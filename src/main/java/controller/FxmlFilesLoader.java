@@ -2,6 +2,8 @@ package controller;
 
 import java.io.File;
 
+import model.db.Database;
+
 /**
  * 
  * Interface for fxml files loading in different ways.
@@ -35,4 +37,10 @@ public interface FxmlFilesLoader {
      * @param file is the file to be passed
      */
     void getSceneFile(File file);
+    
+    /**
+     * Get fxml file passing the database.
+     * @param db is database to be passed
+     */
+    void getSceneDb(Database db);
 }

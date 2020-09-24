@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.db.Database;
 import view.controllers.ChooseEncrSetController;
 import view.controllers.ChoosePassController;
+import view.controllers.ManageMenuController;
 import view.controllers.OpenDatabaseController;
 
 
@@ -88,5 +90,21 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
        } catch (Exception e) {
            e.printStackTrace();
        }
+    }
+
+    @Override
+    public void getSceneDb(Database db) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/ManageMenu.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            controller.takeDatabase(db);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
