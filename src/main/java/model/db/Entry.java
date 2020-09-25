@@ -123,7 +123,7 @@ public class Entry {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
@@ -136,44 +136,59 @@ public class Entry {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Entry other = (Entry) obj;
         if (groupName == null) {
-            if (other.groupName != null)
+            if (other.groupName != null) {
                 return false;
-        } else if (!groupName.equals(other.groupName))
+            }
+        } else if (!groupName.equals(other.groupName)) {
             return false;
+        }
         if (nameAccount == null) {
-            if (other.nameAccount != null)
+            if (other.nameAccount != null) {
                 return false;
-        } else if (!nameAccount.equals(other.nameAccount))
+            }
+        } else if (!nameAccount.equals(other.nameAccount)) {
             return false;
+        }
         if (note == null) {
-            if (other.note != null)
+            if (other.note != null) {
                 return false;
-        } else if (!note.equals(other.note))
+            }
+        } else if (!note.equals(other.note)) {
             return false;
+        }
         if (password == null) {
-            if (other.password != null)
+            if (other.password != null) {
                 return false;
-        } else if (!password.equals(other.password))
+            }
+        } else if (!password.equals(other.password)) {
             return false;
+        }
         if (url == null) {
-            if (other.url != null)
+            if (other.url != null) {
                 return false;
-        } else if (!url.equals(other.url))
+            }
+        } else if (!url.equals(other.url)) {
             return false;
+        }
         if (username == null) {
-            if (other.username != null)
+            if (other.username != null) {
                 return false;
-        } else if (!username.equals(other.username))
+            }
+        } else if (!username.equals(other.username)) {
             return false;
+        }
         return true;
     }
 }
