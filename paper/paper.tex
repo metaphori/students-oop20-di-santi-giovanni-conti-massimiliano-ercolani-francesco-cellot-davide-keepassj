@@ -235,10 +235,10 @@ TODO.
 \section*{Giovanni Di Santi}
 
 \begin{itemize}
-  \item \textit{javax.crypto}: usata per lavorare con Cipher, KDF, e MessageDigest.
+  \item \textit{javax.crypto e java.security}: usata per lavorare con Cipher, KDF, e MessageDigest.
   \item \textit{Stream}: usata per manipolare l'header in modo efficace ed elegante.
   \item \textit{Libreria Google Guava}: lavorare con i byte array in java non è comodo. Questa libreria ha varie classi per semplificare
-    il lavoroi tra cui \href{https://guava.dev/releases/19.0/api/docs/com/google/common/primitives/Bytes.html}{Bytes}.
+    il lavoro tra cui \href{https://guava.dev/releases/19.0/api/docs/com/google/common/primitives/Bytes.html}{Bytes}.
   \item \textit{ByteBuffer}: per convertire in little endian i bytes, i Data\{Input,Output\}Stream in java lavorano solo in big-endian.
   \item \textit{Libreria Argon2 e Scrypt}: Questi due KDF non erano disponibili dentro \texttt{javax.crypto}.
   \item \textit{Libreria Apache Commons}: per convertire byte array in formato esadecimale.
@@ -255,20 +255,30 @@ Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai do
 
 \section{Autovalutazione e lavori futuri}
 
-\textbf{È richiesta una sezione per ciascun membro del gruppo, obbligatoriamente}.
-%
-Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di debolezza in quanto prodotto.
-Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
-Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
-Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
+\subsection*{Giovanni Di Santi}
 
-\section{Difficoltà incontrate e commenti per i docenti}
-
-Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-%
-È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-%
-Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
+L'idea iniziale del progetto è stata mia perché mi piace lavorare con la crittografia.
+Mi è piaciuto come ho realizzato la parte di \textbf{CryptoCipher}, tuttavia l'architettura
+che riguarda \textbf{KDF} non mi risulta ottimale. Un difetto che ho trovato
+è stata l'integrazione manuale dei vari metodi in \textbf{KDF} dentro gli accessor
+method di \textbf{KDBHeader}.  Dovrebbero esistere librerie, plugin o pattern di
+programmazione su misura per quel tipo di problema ma non li ho usati.
+In \textbf{KDB} non ho aderito al Single-responsibility principle (SRP) per comodità,
+infatti la classe effettua sia la \texttt{write} che la \texttt{read}, al posto di suddividere
+i compiti in due classi diverse. L'ho fatto principalmente perché entrambi i metodi
+usano lo stato dell'oggetto (campi) per essere eseguiti, quindi era molto conveniente tenerli all'interno
+della stessa classe.
+Ho dovuto lavorare di più del dovuto perché i miei compagni fino a settembre
+non hanno implementato nessuna parte di codice significativo.
+A inizio giugno la modellazione e l'implementazione della maggior parte del mio
+compito erano completate, tuttavia mi sono ritrovato ad aggiungere parti di 
+codice in più a settembre, poiché i miei compagni hanno iniziato a lavorare
+solo in quel mese. Vari problemi sarebbero nati subito se avessimo lavorato
+insieme. Ad esempio ho dovuto aggiungere vari metodi che aiutassero Francesco a modellare
+la GUI, difatti tutti i miei commit di settembre sono getter e setter aggiuntivi.
+Avendo progettato l'architettura abbastanza bene non ho avuto problemi ad aggiungere
+quelle parti di codice, tuttavia ho dovuto riprendere in mano un codice scritto 3 mesi
+prima e continuare a lavorarci sopra. Avrei preferito consegnare con la deadline C.
 
 \appendix
 \chapter{Guida utente}
