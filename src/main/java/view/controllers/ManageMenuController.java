@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.db.Database;
 import model.db.Entry;
@@ -29,23 +30,10 @@ public class ManageMenuController {
     private FxmlSetter setter = new FxmlSetterImpl();
     private Database db = new Database();
 
-    @FXML
-    private TableColumn<?, ?> titleColumn;
 
     @FXML
-    private TableColumn<?, ?> usernameColumn;
+    private TableView<?> accountTable;
 
-    @FXML
-    private TableColumn<?, ?> passwordColumn;
-
-    @FXML
-    private TableColumn<?, ?> groupColumn;
-
-    @FXML
-    private TableColumn<?, ?> notesColumn;
-
-    @FXML
-    private TableColumn<?, ?> urlColumn;
 
     private void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("nameAccount"));

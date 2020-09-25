@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -30,16 +29,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView layoutX="29.0" layoutY="113.0" prefHeight="595.0" prefWidth="1240.0">
-         <columns>
-            <TableColumn fx:id="titleColumn" prefWidth="214.0" text="Title" />
-            <TableColumn fx:id="usernameColumn" minWidth="0.0" prefWidth="160.0" text="Username" />
-            <TableColumn fx:id="passwordColumn" minWidth="2.0" prefWidth="164.0" text="Password" />
-            <TableColumn fx:id="groupColumn" prefWidth="197.0" text="Group" />
-            <TableColumn fx:id="notesColumn" minWidth="7.0" prefWidth="235.0" text="Notes" />
-            <TableColumn fx:id="urlColumn" prefWidth="267.0" text="URL" />
-         </columns>
-      </TableView>
+      <TableView fx:id="accountTable" layoutX="29.0" layoutY="113.0" prefHeight="595.0" prefWidth="1240.0" />
       <Button layoutX="29.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
          <font>
             <Font name="System Bold" size="19.0" />
