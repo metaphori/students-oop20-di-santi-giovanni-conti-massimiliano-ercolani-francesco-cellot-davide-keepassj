@@ -1,19 +1,25 @@
 package view.controllers;
 
 import java.awt.TextField;
+import java.util.stream.Collectors;
 
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import model.db.Database;
+import model.db.Entry;
+import model.db.Group;
 
 public class AddEntryController {
-    FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
-    FxmlFilesLoader loaderGroup = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
-    FxmlSetter setter = new FxmlSetterImpl();
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
+    private final FxmlSetter setter = new FxmlSetterImpl();
+    private Database db;
 
     @FXML
     private TextField title;
@@ -31,34 +37,52 @@ public class AddEntryController {
     private TextField notes;
 
     @FXML
-    void addNewGroup(ActionEvent event) {
-        loaderGroup.getScene();
+    private ComboBox<String> comboBoxGroup;
+
+    @FXML
+    final void addNewGroup(final ActionEvent event) {
+        loader.getSceneGroup(db);
+        setter.getStage(event).close();
+    }
+
+    /**
+     * Takes database from previous fxml file.
+     * @param db is the database
+     */
+    public final void takeDatabase(final Database db) {
+        this.db = db;
+    }
+
+    @FXML
+    final void cancel(final ActionEvent event) {
+        loader.getSceneDb(db);
         setter.getStage(event).close();
     }
 
     @FXML
-    void cancel(ActionEvent event) {
-        loader.getManageMenuScene();
+    final void confirmAdd(final ActionEvent event) {
+        String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
+        db.addEntry(
+                new Entry(title.getText(), 
+                        username.getText(), 
+                        password.getText(), 
+                        db.getGroup(tempGroup), 
+                        url.getText(), 
+                        notes.getText()));
+        loader.getSceneDb(db);
         setter.getStage(event).close();
     }
 
     @FXML
-    void confirmAdd(ActionEvent event) {
-        //todo
-        
-        
-        
-        loader.getMainMenuScene();
-        setter.getStage(event).close();
-    }
-
-    @FXML
-    void generatePassword(ActionEvent event) {
+    final void generatePassword(final ActionEvent event) {
 
     }
 
     @FXML
-    void selectGroup(ActionEvent event) {
-
+    final void selectGroup(final ActionEvent event) {
+        this.comboBoxGroup.setItems(FXCollections.observableArrayList(db.getAllGroup()
+                                                                        .stream()
+                                                                        .map(Group::getName)
+                                                                        .collect(Collectors.toList())));
     }
 }

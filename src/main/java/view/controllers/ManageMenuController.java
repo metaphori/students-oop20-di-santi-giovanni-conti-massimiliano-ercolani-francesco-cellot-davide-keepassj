@@ -1,21 +1,19 @@
 package view.controllers;
-
+/*
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.crypto.AEADBadTagException;
-
+*/
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import model.db.Database;
 import model.db.Entry;
 
@@ -25,24 +23,16 @@ import model.db.Entry;
  *
  */
 public class ManageMenuController {
-    private FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
-    private FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
-    private FxmlSetter setter = new FxmlSetterImpl();
+    private final FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
+    private final FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
+    private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db = new Database();
 
 
     @FXML
-    private TableView<?> accountTable;
+    private TableView<Entry> accountTable;
 
 
-    private void initialize() {
-        titleColumn.setCellValueFactory(new PropertyValueFactory<>("nameAccount"));
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-        groupColumn.setCellValueFactory(new PropertyValueFactory<>("group"));
-        notesColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
-        urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
-    }
     /**
      * Takes database from previous fxml file.
      * @param db is the database
@@ -51,26 +41,20 @@ public class ManageMenuController {
         this.db = db;
         //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toList());
         //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toCollection(ArrayList::new));
-        //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toList());
-        initialize();
+        //ObservableList<Entry> app = FXCollections.<Entry>observableArrayList();
+        accountTable.getItems().setAll(db.getAllEntry());
     }
 
     @FXML
     final void addEntry(final ActionEvent event) {
         entryLoader.getSceneEntry(db);
-        try {
-            db.readXml();
-        } catch (AEADBadTagException e) {
-            e.printStackTrace();
-            setter.warningDialog("Impossibile aprire il database");
-        }
+        setter.getStage(event).close();
     }
 
     @FXML
     final void addGroup(final ActionEvent event) {
-        //todo
-
-        groupLoader.getScene();
+        groupLoader.getSceneGroup(db);
+        setter.getStage(event).close();
     }
 
 }

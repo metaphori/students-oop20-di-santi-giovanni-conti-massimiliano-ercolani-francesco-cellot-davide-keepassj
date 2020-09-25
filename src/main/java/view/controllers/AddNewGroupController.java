@@ -8,6 +8,8 @@ import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import model.db.Database;
+import model.db.Group;
 
 /**
  * 
@@ -15,9 +17,9 @@ import javafx.fxml.FXML;
  *
  */
 public class AddNewGroupController {
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
-    private FxmlSetter setter = new FxmlSetterImpl();
-
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
+    private final FxmlSetter setter = new FxmlSetterImpl();
+    private Database db;
 
     @FXML
     private TextField groupName;
@@ -26,19 +28,23 @@ public class AddNewGroupController {
     private TextField groupDesc;
 
     @FXML
-    final
-    void cancel(final ActionEvent event) {
-        loader.getScene();
+    final void cancel(final ActionEvent event) {
+        loader.getSceneEntry(db);
         setter.getStage(event).close();
     }
 
     @FXML
-    final
-    void confirmAdd(final ActionEvent event) {
-        //todo
-
-
-        loader.getScene();
+    final void confirmAdd(final ActionEvent event) {
+        db.addGroup(new Group(groupName.getText(), groupDesc.getText()));
+        loader.getSceneEntry(db);
         setter.getStage(event).close();
+    }
+
+    /**
+     * Takes database from previous fxml file.
+     * @param db is the database
+     */
+    public final void takeDatabase(final Database db) {
+        this.db = db;
     }
 }
