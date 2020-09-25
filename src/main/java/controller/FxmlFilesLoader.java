@@ -43,4 +43,16 @@ public interface FxmlFilesLoader {
      * @param db is database to be passed
      */
     void getSceneDb(Database db);
+
+    /**
+     * Get fxml file passing the db (for Group).
+     * @param db
+     */
+    void getSceneGroup(Database db);
+
+    /**
+     * Get fxml file passing the db (for Entry).
+     * @param db
+     */
+    void getSceneEntry(Database db);
 }

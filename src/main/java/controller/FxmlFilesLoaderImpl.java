@@ -111,4 +111,45 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * getScene that open the view to add new entry to db.
+     * @param db
+     */
+    @Override
+    public void getSceneEntry(final Database db) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddEntry.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            controller.takeDatabase(db);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * getScene that open the view to add new Group to db.
+     * @param db
+     */
+    @Override
+    public void getSceneGroup(final Database db) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddGroup.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            controller.takeDatabase(db);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
