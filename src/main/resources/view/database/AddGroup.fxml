@@ -46,8 +46,8 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="title" layoutX="183.0" layoutY="121.0" prefHeight="26.0" prefWidth="385.0" />
-      <TextField fx:id="username" layoutX="183.0" layoutY="162.0" prefHeight="26.0" prefWidth="385.0" />
+      <TextField fx:id="groupName" layoutX="183.0" layoutY="121.0" prefHeight="26.0" prefWidth="385.0" />
+      <TextField fx:id="groupDesc" layoutX="183.0" layoutY="162.0" prefHeight="26.0" prefWidth="385.0" />
       <Button layoutX="396.0" layoutY="219.0" mnemonicParsing="false" onAction="#cancel" prefHeight="33.0" prefWidth="171.0" text="Cancel">
          <font>
             <Font size="17.0" />

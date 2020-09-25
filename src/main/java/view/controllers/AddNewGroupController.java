@@ -18,11 +18,12 @@ public class AddNewGroupController {
     private FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
     private FxmlSetter setter = new FxmlSetterImpl();
 
-    @FXML
-    private TextField title;
 
     @FXML
-    private TextField username;
+    private TextField groupName;
+
+    @FXML
+    private TextField groupDesc;
 
     @FXML
     final
