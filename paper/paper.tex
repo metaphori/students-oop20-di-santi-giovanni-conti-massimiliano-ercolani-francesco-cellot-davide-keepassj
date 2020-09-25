@@ -211,6 +211,9 @@ richiesto.
 I due metodi pubblici principali di \textbf{KDB} sono:
 \begin{itemize}
   \item \texttt{write}: che esegue l'encryption dell'array di byte in input e lo scrive sul file.
+    Ad ogni write viene generato un nuovo IV, che viene poi usato per cifrare il plaintext.
+    In questo modo si creano due versioni diverse dello stesso \textit{body} e si rende
+    lo schema crittografico sicuro contro vari attacchi di tipo \textbf{CCA}.
   \item \texttt{read}: che legge il file e lo decrypta. Questo metodo lancia un
     \texttt{IOException} se il file non esiste o un \texttt{AEADBadTagException} quando il file è corrotto.
     Il file può risultare corrotto o perché la password è sbagliata o perché è stato effettivamente manipolato.
