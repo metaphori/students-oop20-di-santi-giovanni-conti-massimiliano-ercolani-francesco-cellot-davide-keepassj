@@ -26,9 +26,9 @@ public interface FxmlFilesLoader {
      * Get fxml file of mainMenuView.
      */
     void getMainMenuScene();
-    
+
     /**
-     * Get fxml file of ManageMenu.fxml
+     * Get fxml file of ManageMenu.fxml.
      */
     void getManageMenuScene();
 
@@ -37,7 +37,7 @@ public interface FxmlFilesLoader {
      * @param file is the file to be passed
      */
     void getSceneFile(File file);
-    
+
     /**
      * Get fxml file passing the database.
      * @param db is database to be passed
