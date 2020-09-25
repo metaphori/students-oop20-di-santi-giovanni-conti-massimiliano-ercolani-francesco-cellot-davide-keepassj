@@ -37,8 +37,8 @@
 \section{Requisiti}
 
 Il gruppo si pone come obiettivo quello di realizzare un keepass per salvare
-in modo sicuro le password. Al momento i keepass desktop più usati sono
-\href{https://keepass.info/}{keepass2} e \href{https://keepassxc.org/}{keepassxc}.
+in modo sicuro le password. Al momento i keepass desktop più usati sono keepass2
+\cite{keepass2} e keepassxc \cite{keepassxc}.
 TODO: scrivere descrizione più lunga.
 
 \subsubsection{Requisiti funzionali}
@@ -78,7 +78,7 @@ I vari parametri crittografici del database sono configurabili tramite \textbf{K
 che vengono usati dalla classe \textbf{KDB} per effettuare l'encryption e la decryption
 di array di byte arbitrari.
 Per lavorare sul database in chiaro usiamo un ulteriore classe che è \textbf{DataBase}
-che permettera di manipolare le entry e i gruppi.
+che permette di manipolare le entry e i gruppi.
 
 \begin{figure}[h]
 \centering{}
@@ -97,12 +97,27 @@ TODO: Inserire schema UML MVC.
 
 \section{Design dettagliato}
 
-TODO: Spiegare a grandi linee
-
 \section*{Giovanni Di Santi}
 
 Il mio compito principale del progetto è stato quello di gestire la parte crittografica e
-definire la struttura dell'header del database.
+definire la struttura dell'header del database. 
+Prima di iniziare a modellare le varie parti mi sono documentato sulle tecnologie attuali dei vari keepass,
+il paper più citato è "On The Security of Password Manager Database Formats" \cite{security}.
+Mi sono ispirato a come funziona il formato di keepass2 \href{https://keepass.info/help/kb/kdbx_4.html}{KDBX4}.
+Il formato è composta da un \textit{header} e un \textit{body}.
+Nell'\textit{header} sono definiti i vari cipher, kdf, e parametri per cifrare/decifrare
+il \textit{body}. Il body decifrato in KDBX4 è formato da un XML, tuttavia questa parte è ha scelta
+di chi deve implementare il database in chiaro. Nel nostro caso Massimiliano ha
+deciso di usare XML perché ha una buona interoperabilità con Java.
+
+La sezione del paper \textit{4.6} evidenzia come il formato KDBX4 di keepass2 sia
+insicuro contro attacchi del tipo \textbf{MAL-CDBA}. Senza entrare nei dettagli,
+l'header del database non viene autenticato e quindi si aprono una serie di possibili
+attacchi teorici.
+Tuttavia il paper sopra citato non è coerente con il sito di keepass2 in cui si descrive
+\href{https://keepass.info/help/kb/kdbx_4.html}{KDBX4}, infatti leggendo il sorgente di
+keepass2 si può notare che l'autenticazione viene eseguita. Probabilmente il paper
+essendo del 2012 non è aggiornato sui recenti cambiamenti.
 
 \subsection*{CryptoCipher}
 
@@ -224,7 +239,7 @@ testare il corretto funzionamento delle varie classi.
   \item \textit{KDB}: test sulla scrittura e lettura di diverse combinazioni di \texttt{cipher} e \texttt{KDF}.
 \end{itemize}
 
-I test vengono eseguiti anche in remoto tramite l'apposita \textit{bitbucket pipelines} che
+I test vengono eseguiti anche in remoto tramite l'apposita \texttt{bitbucket pipelines} che
 esegue la build del progetto e lancia i vari test.
 
 \section{Metodologia di lavoro}
@@ -245,14 +260,17 @@ TODO.
   \item \textit{Libreria Apache Commons}: per convertire byte array in formato esadecimale.
 \end{itemize}
 
+Ho iniziato lo sviluppo leggendo i sorgenti di keepass2, keepassxc e di \href{https://github.com/libkeepass/pykeepass}{pykeepass}.
+Non ho trovato librerie simili a \href{https://construct.readthedocs.io/en/latest/index.html}{construct} in
+java per parsare l'header utilizzando un linguaggio dichiarativo. L'unica alternativa
+era \href{http://kaitai.io/}{kaitai.io}, ma il supporto a java era limitato.
+Avendo avuto esperienze con le librerie crittografiche in python e C,
+il passaggio a java non è stato difficile.
+Per i pattern progettuali ho consultato il materiale didattico e online, ho trovato
+che il pattern factory mi aiutasse a risolvere vari tipi di problemi per la generazione
+automatica di oggetti e l'ho usato.
+
 \chapter{Commenti finali}
-
-In quest'ultimo capitolo si tirano le somme del lavoro svolto e si delineano eventuali sviluppi 
-futuri.
-
-\textit{Nessuna delle informazioni incluse in questo capitolo verrà utilizzata per formulare la valutazione finale}, a meno che non sia assente o manchino delle sezioni obbligatorie.
-%
-Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai docenti solo dopo aver formulato la valutazione.
 
 \section{Autovalutazione e lavori futuri}
 
@@ -260,15 +278,20 @@ Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai do
 
 L'idea iniziale del progetto è stata mia perché mi piace lavorare con la crittografia.
 Mi è piaciuto come ho realizzato la parte di \textbf{CryptoCipher}, tuttavia l'architettura
-che riguarda \textbf{KDF} non mi risulta ottimale. Un difetto che ho trovato
+che riguarda \textbf{KDF} non mi sembra eccellente. Un difetto che ho trovato
 è stata l'integrazione manuale dei vari metodi in \textbf{KDF} dentro gli accessor
 method di \textbf{KDBHeader}.  Dovrebbero esistere librerie, plugin o pattern di
 programmazione su misura per quel tipo di problema ma non li ho usati.
 In \textbf{KDB} non ho aderito al Single-responsibility principle (SRP) per comodità,
 infatti la classe effettua sia la \texttt{write} che la \texttt{read}, al posto di suddividere
 i compiti in due classi diverse. L'ho fatto principalmente perché entrambi i metodi
-usano lo stato dell'oggetto (campi) per essere eseguiti, quindi era molto conveniente tenerli all'interno
-della stessa classe.
+usano lo stato dell'oggetto (campi) per essere eseguiti, quindi era molto conveniente
+tenerli all'interno della stessa classe.
+
+\section{Difficoltà incontrate e commenti per i docenti}
+
+\subsection*{Giovanni Di Santi}
+
 Ho dovuto lavorare di più del dovuto perché i miei compagni fino a settembre
 non hanno implementato nessuna parte di codice significativo.
 A inizio giugno la modellazione e l'implementazione della maggior parte del mio
@@ -280,6 +303,13 @@ la GUI, difatti tutti i miei commit di settembre sono getter e setter aggiuntivi
 Avendo progettato l'architettura abbastanza bene non ho avuto problemi ad aggiungere
 quelle parti di codice, tuttavia ho dovuto riprendere in mano un codice scritto 3 mesi
 prima e continuare a lavorarci sopra. Avrei preferito consegnare con la deadline C.
+
+L'intenzione iniziale quando ho inziato a lavorare sul progetto era di renderlo
+compatibile con KDBX4, tuttavia ho notato dopo le prime 15 ore che quel formato
+è molto complicato da implementare. Non esiste documentazione del formato e quindi
+ho speso molto tempo a reverse ingegnerizzare il codice originale. Dopo le prime ore
+di implementazioni ho mantenuto la struttura, ma ho deciso di usare nuovi schemi
+crittografici. Non mi sono pentito della scelta fatta poiché mi ha reso più creativo.
 
 \appendix
 \chapter{Guida utente}
