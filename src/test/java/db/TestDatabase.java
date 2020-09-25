@@ -34,9 +34,9 @@ public class TestDatabase {
     public void testDelEntry() {
         assertNotNull(myDb);
         assertTrue(myDb.addEntry(firstEntry));
-        assertTrue(myDb.nameAlreadyExist(nameAccount));
+        assertTrue(myDb.entryAlreadyExist(firstEntry));
         assertTrue(myDb.deleteEntry(firstEntry));
-        assertFalse(myDb.nameAlreadyExist(nameAccount));
+        assertFalse(myDb.entryAlreadyExist(firstEntry));
     }
 
     @org.junit.Test

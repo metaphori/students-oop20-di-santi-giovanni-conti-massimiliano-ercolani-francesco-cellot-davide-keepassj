@@ -78,7 +78,7 @@ public class Database {
      * @return true if it's done
      */
     public final boolean addEntry(final Entry entry) {
-        if (nameAlreadyExist(entry.getNameAccount())) {
+        if (entryAlreadyExist(entry)) {
             return false;
         }
         this.entryList.add(entry);
@@ -131,10 +131,10 @@ public class Database {
     /**
      * control if the array already contains an entry
      * with the same name.
-     * @param nameAccount
+     * @param entry
      * @return true/false
      */
-    public boolean nameAlreadyExist(final String nameAccount) {
+    public boolean entryAlreadyExist(final Entry entry) {
         /*
         for (int i = 0; i < entryList.size(); i++) {
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
@@ -143,7 +143,7 @@ public class Database {
         }
          */
         return (entryList.stream()
-                .filter(e -> e.getNameAccount() == nameAccount)
+                .filter(e -> e.hashCode() == entry.hashCode())
                 .count() == 0) ? false : true;
     }
 
