@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
+import util.*;
 
 public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
@@ -110,7 +111,9 @@ public class AddEntryController implements Initializable {
 
     @FXML
     final void generatePassword(final ActionEvent event) {
-
+           GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
+           this.password.setText(generate.generatePassword());
+           System.out.println(password.getText());
     }
 
     @FXML
