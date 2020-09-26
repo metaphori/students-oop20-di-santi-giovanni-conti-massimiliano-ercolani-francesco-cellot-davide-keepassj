@@ -45,14 +45,15 @@ public final class ConvertXml {
 
     public static Database fromXml(final String xmlToOpen) {
         if (!xmlToOpen.startsWith("<?xml")) {
+            System.out.println("File not start like an xml type");
             return null;
         }
 
         try {
             final JAXBContext context = JAXBContext.newInstance(Database.class);
             final Unmarshaller un = context.createUnmarshaller();
-            return (Database) un.unmarshal(getTempFile(xmlToOpen));
-            //return db;
+            Database app = (Database) un.unmarshal(getTempFile(xmlToOpen));
+            return app;
         } catch (JAXBException e) {
             e.printStackTrace();
         }
