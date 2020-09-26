@@ -23,8 +23,8 @@ import model.db.Entry;
  *
  */
 public class ManageMenuController {
-    private final FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
-    private final FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl("/view/database/AddGroup.fxml");
+    private final FxmlFilesLoader entryLoader = new FxmlFilesLoaderImpl();
+    private final FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db = new Database();
 
@@ -47,7 +47,6 @@ public class ManageMenuController {
 
     @FXML
     final void addEntry(final ActionEvent event) {
-        entryLoader.getSceneEntry(db);
         setter.getStage(event).close();
     }
 

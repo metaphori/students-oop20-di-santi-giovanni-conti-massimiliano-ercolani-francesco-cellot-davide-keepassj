@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.db.Database;
+import view.controllers.AddEntryController;
+import view.controllers.AddNewGroupController;
 import view.controllers.ChooseEncrSetController;
 import view.controllers.ChoosePassController;
 import view.controllers.ManageMenuController;
@@ -122,7 +124,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddEntry.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            AddEntryController controller = fxmlLoader.<AddEntryController>getController();
             controller.takeDatabase(db);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
@@ -142,7 +144,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddGroup.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            AddNewGroupController controller = fxmlLoader.<AddNewGroupController>getController();
             controller.takeDatabase(db);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
