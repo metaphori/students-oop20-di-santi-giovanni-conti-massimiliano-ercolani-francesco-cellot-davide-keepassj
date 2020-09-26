@@ -1,6 +1,5 @@
 package view.controllers;
 
-import java.awt.TextField;
 import java.util.stream.Collectors;
 
 import controller.FxmlFilesLoader;
@@ -12,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;

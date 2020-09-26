@@ -47,6 +47,7 @@ public class ManageMenuController {
 
     @FXML
     final void addEntry(final ActionEvent event) {
+        entryLoader.getSceneEntry(db);
         setter.getStage(event).close();
     }
 

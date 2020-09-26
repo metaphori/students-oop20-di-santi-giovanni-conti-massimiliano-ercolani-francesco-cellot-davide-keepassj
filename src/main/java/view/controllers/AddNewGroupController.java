@@ -1,13 +1,12 @@
 package view.controllers;
 
-import java.awt.TextField;
-
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import model.db.Database;
 import model.db.Group;
 
