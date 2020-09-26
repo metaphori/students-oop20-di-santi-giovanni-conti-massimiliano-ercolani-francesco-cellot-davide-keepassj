@@ -108,7 +108,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,11 +121,12 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     @Override
     public void getSceneEntry(final Database db) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddEntry.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            AddEntryController controller = fxmlLoader.<AddEntryController>getController();
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddEntry.fxml"));
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final AddEntryController controller = fxmlLoader.<AddEntryController>getController();
             controller.takeDatabase(db);
-            Stage stage = new Stage();
+            controller.loadGroup();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
 
@@ -142,11 +142,11 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     @Override
     public void getSceneGroup(final Database db) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddGroup.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            AddNewGroupController controller = fxmlLoader.<AddNewGroupController>getController();
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddGroup.fxml"));
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final AddNewGroupController controller = fxmlLoader.<AddNewGroupController>getController();
             controller.takeDatabase(db);
-            Stage stage = new Stage();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
 

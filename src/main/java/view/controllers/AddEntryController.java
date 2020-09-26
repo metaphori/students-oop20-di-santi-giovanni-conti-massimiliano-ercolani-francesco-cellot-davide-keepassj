@@ -1,14 +1,20 @@
 package view.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBException;
 
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -16,7 +22,7 @@ import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
 
-public class AddEntryController {
+public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db;
@@ -45,6 +51,10 @@ public class AddEntryController {
         setter.getStage(event).close();
     }
 
+    @Override
+    public void initialize(final URL location, final ResourceBundle resources) {
+    }
+
     /**
      * Takes database from previous fxml file.
      * @param db is the database
@@ -61,14 +71,39 @@ public class AddEntryController {
 
     @FXML
     final void confirmAdd(final ActionEvent event) {
-        String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
-        db.addEntry(
-                new Entry(title.getText(), 
-                        username.getText(), 
-                        password.getText(), 
-                        db.getGroup(tempGroup), 
-                        url.getText(), 
-                        notes.getText()));
+        if (this.title.getText().isEmpty()) {
+            setter.warningDialog("Choose a Title for your Entry");
+            return;
+        }
+        if (this.username.getText().isEmpty()) {
+            setter.warningDialog("Choose a username");
+            return;
+        }
+        if (this.password.getText().isEmpty()) {
+            setter.warningDialog("Choose a password");
+            return;
+        }
+        if (comboBoxGroup.getSelectionModel().isEmpty()) {
+            setter.warningDialog("Choose a group");
+            return;
+        }
+
+        final String nameAccount = this.title.getText();
+        final String username = this.username.getText();
+        final String password = this.password.getText();
+        final Group group = new Group(comboBoxGroup.getSelectionModel().getSelectedItem());
+        final String url = this.url.getText();
+        final String note = this.notes.getText();
+
+        //String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
+        db.addEntry(new Entry(nameAccount, username, password, group, url, note));
+        
+        try {
+            db.writeXml();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            setter.warningDialog("wrong password or database corrupted, something wrong while encrypte xml");
+        }
         loader.getSceneDb(db);
         setter.getStage(event).close();
     }
@@ -80,9 +115,18 @@ public class AddEntryController {
 
     @FXML
     final void selectGroup(final ActionEvent event) {
-        this.comboBoxGroup.setItems(FXCollections.observableArrayList(db.getAllGroup()
-                                                                        .stream()
-                                                                        .map(Group::getName)
-                                                                        .collect(Collectors.toList())));
+        //System.out.println(this.comboBoxGroup.getSelectionModel().getSelectedItem() + " is the group selected");
+    }
+
+    /**
+     * Method to load the groupList into the comboBox
+     */
+    public final void loadGroup() {
+        final ObservableList<String> listGroup = FXCollections.observableArrayList(db.getAllGroup()
+                                                                                     .stream()
+                                                                                     .map(Group::getName)
+                                                                                     .collect(Collectors.toList()));
+        this.comboBoxGroup.setItems(listGroup);
+        //System.out.println(listGroup);
     }
 }
