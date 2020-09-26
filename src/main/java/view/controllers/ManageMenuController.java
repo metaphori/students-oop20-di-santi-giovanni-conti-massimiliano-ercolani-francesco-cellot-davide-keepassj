@@ -1,22 +1,17 @@
 package view.controllers;
-import javax.crypto.AEADBadTagException;
+
 import javax.xml.bind.JAXBException;
 
-/*
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
-import javax.crypto.AEADBadTagException;
-*/
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+
 import model.db.Database;
 import model.db.Entry;
 
@@ -35,6 +30,9 @@ public class ManageMenuController {
     @FXML
     private TableView<Entry> accountTable;
 
+    @FXML
+    private Label labelNomeDatabase;
+
 
     /**
      * Takes database from previous fxml file.
@@ -47,6 +45,7 @@ public class ManageMenuController {
         //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toCollection(ArrayList::new));
         //ObservableList<Entry> app = FXCollections.<Entry>observableArrayList();
         accountTable.getItems().setAll(db.getAllEntry());
+        this.labelNomeDatabase.setText(this.db.getNomeDatabase());
     }
 
     @FXML
