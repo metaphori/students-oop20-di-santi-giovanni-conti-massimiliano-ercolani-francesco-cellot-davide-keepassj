@@ -97,7 +97,7 @@ public class AddEntryController implements Initializable {
 
         //String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
         db.addEntry(new Entry(nameAccount, username, password, group, url, note));
-        
+
         try {
             db.writeXml();
         } catch (JAXBException e) {
@@ -119,7 +119,7 @@ public class AddEntryController implements Initializable {
     }
 
     /**
-     * Method to load the groupList into the comboBox
+     * Method to load the groupList into the comboBox.
      */
     public final void loadGroup() {
         final ObservableList<String> listGroup = FXCollections.observableArrayList(db.getAllGroup()
@@ -127,6 +127,5 @@ public class AddEntryController implements Initializable {
                                                                                      .map(Group::getName)
                                                                                      .collect(Collectors.toList()));
         this.comboBoxGroup.setItems(listGroup);
-        //System.out.println(listGroup);
     }
 }
