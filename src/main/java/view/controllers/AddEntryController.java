@@ -15,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -129,7 +131,15 @@ public class AddEntryController implements Initializable {
     }
 
     private void createAlert() {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("Look, an Error Dialog");
+        alert.setContentText("Password non valida!\n"
+                            + "La password deve contenere:\n"
+                            + "1) Almeno 8 caratteri\n"
+                            + "2) Almeno un numero");
 
+        alert.showAndWait();
     }
 
 
