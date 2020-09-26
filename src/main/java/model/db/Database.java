@@ -1,6 +1,7 @@
 package model.db;
 
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,9 +64,17 @@ public class Database {
      */
     public final String readCryptoFile() throws AEADBadTagException {
         try {
-            return cryptoDb.read().toString();
+            String app = "";
+            try {
+                app = new String(cryptoDb.read(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                System.out.print("error in StandardCharsets that's not utf-8");
+                e.printStackTrace();
+            }
+            return app;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.out.println("Error in readCryptoFile");
             return null;
         }
     }
@@ -77,6 +86,7 @@ public class Database {
     public final void readXml() throws AEADBadTagException {
         Database app = ConvertXml.fromXml(readCryptoFile());
         if (app == null) {
+            System.out.println("ERRORE 222-------------------");
             return;
         }
         this.entryList = app.entryList;
