@@ -44,6 +44,13 @@ public final class ConvertXml {
     }
 
     public static Database fromXml(final String xmlToOpen) {
+        System.out.println("inizio");
+        System.out.println(xmlToOpen);
+        System.out.println(xmlToOpen.substring(0, 4));
+        if (xmlToOpen.substring(0, 5) != "<?xml") {
+            return null;
+        }
+        
         try {
             final JAXBContext context = JAXBContext.newInstance(Database.class);
             final Unmarshaller un = context.createUnmarshaller();
