@@ -26,6 +26,8 @@ import model.db.Group;
 import util.GeneratePasswordRandom;
 import util.GeneratePasswordRandomImpl;
 import util.PasswordStrengthImpl;
+import util.PasswordValidator;
+import util.PasswordValidatorImpl;
 
 public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
@@ -106,18 +108,30 @@ public class AddEntryController implements Initializable {
         final String url = this.url.getText();
         final String note = this.notes.getText();
 
-        //String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
-        db.addEntry(new Entry(nameAccount, username, password, group, url, note));
+        PasswordValidator validate = new PasswordValidatorImpl();
 
-        try {
-            db.writeXml();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-            setter.warningDialog("wrong password or database corrupted, something wrong while encrypte xml");
+        if (validate.isValid(this.password.getText())) {
+            //String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
+            db.addEntry(new Entry(nameAccount, username, password, group, url, note));
+
+            try {
+                db.writeXml();
+            } catch (JAXBException e) {
+                e.printStackTrace();
+                setter.warningDialog("wrong password or database corrupted, something wrong while encrypte xml");
+            }
+            loader.getSceneDb(db);
+            setter.getStage(event).close();
+        } else {
+            createAlert();
         }
-        loader.getSceneDb(db);
-        setter.getStage(event).close();
+
     }
+
+    private void createAlert() {
+
+    }
+
 
     @FXML
     final void generatePassword(final ActionEvent event) {
