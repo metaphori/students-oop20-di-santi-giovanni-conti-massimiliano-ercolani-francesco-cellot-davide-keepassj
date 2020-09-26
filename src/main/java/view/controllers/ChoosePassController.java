@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
 import controller.DBDataSaver;
 import controller.DBDataSaverImpl;
 import controller.FxmlFilesLoader;
@@ -17,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import model.crypto.KDFBadParameter;
+import model.db.Database;
 import model.kdbx.KDB;
 import model.kdbx.KDBHeader;
 
@@ -55,7 +59,7 @@ public class ChoosePassController {
     }
 
     @FXML
-    private void confirmCreation(final ActionEvent event) {
+    private void confirmCreation(final ActionEvent event) throws JAXBException {
         System.out.println(data.getDBDesc());
         if (passwordRepeat.getText().equals(password.getText())) {
             header.setComment(data.getDBName().getBytes());
@@ -89,7 +93,10 @@ public class ChoosePassController {
                     setter.getStage(event).close();
                     try {
                         database = new KDB(file, creadentials, header);
-                        database.write(new byte[0]);
+                        //database.write(new byte[0]);
+                        Database temp = new Database(database);
+                        temp.setNomeDatabase(data.getDBName());
+                        temp.writeXml();
                     } catch (IOException e) {
                         e.printStackTrace();
                         }

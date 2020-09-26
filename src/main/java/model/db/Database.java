@@ -11,13 +11,16 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import model.export.ConvertXml;
 import model.kdbx.KDB;
 
 @XmlRootElement(namespace = "model.db")
+@XmlType(propOrder = {"nomeDatabase", "groupList", "entryList"})
 public class Database {
 
+    private String nomeDatabase;
     @XmlElementWrapper(name = "entryList")
     @XmlElement(name = "entry")
     private List<Entry> entryList;
@@ -86,11 +89,11 @@ public class Database {
     public final void readXml() throws AEADBadTagException {
         Database app = ConvertXml.fromXml(readCryptoFile());
         if (app == null) {
-            System.out.println("ERRORE 222-------------------");
             return;
         }
         this.entryList = app.entryList;
         this.groupList = app.groupList;
+        this.nomeDatabase = app.nomeDatabase;
     }
 
     /**
@@ -247,5 +250,13 @@ public class Database {
                 .collect(Collectors.toList());
         //.collect(Collectors.toCollection(ArrayList::new));
         //return app;
+    }
+
+    public final String getNomeDatabase() {
+        return nomeDatabase;
+    }
+
+    public final void setNomeDatabase(final String nomeDatabase) {
+        this.nomeDatabase = nomeDatabase;
     }
 }
