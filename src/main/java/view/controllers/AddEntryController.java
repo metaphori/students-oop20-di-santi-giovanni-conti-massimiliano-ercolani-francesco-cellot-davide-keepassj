@@ -16,7 +16,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import model.db.Database;
 import model.db.Entry;
@@ -45,6 +47,12 @@ public class AddEntryController implements Initializable {
 
     @FXML
     private ComboBox<String> comboBoxGroup;
+    
+    @FXML
+    private ProgressBar progressBar;
+    
+    @FXML
+    private Label lblStrength;
 
     @FXML
     final void addNewGroup(final ActionEvent event) {
@@ -113,13 +121,23 @@ public class AddEntryController implements Initializable {
     final void generatePassword(final ActionEvent event) {
            GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
            this.password.setText(generate.generatePassword());
-           System.out.println(password.getText());
+           //System.out.println(password.getText());
     }
 
     @FXML
     final void selectGroup(final ActionEvent event) {
         //System.out.println(this.comboBoxGroup.getSelectionModel().getSelectedItem() + " is the group selected");
     }
+
+    @FXML
+    final void getStrength(final ActionEvent event) {
+        double strength = (double) (PasswordStrengthImpl.getStrength(this.password.getText())) /100;
+        //System.out.println(strength);
+        String str = Double.toString(strength*100);
+        lblStrength.setText(str + "%");
+        progressBar.setProgress(strength);
+    }
+
 
     /**
      * Method to load the groupList into the comboBox.
