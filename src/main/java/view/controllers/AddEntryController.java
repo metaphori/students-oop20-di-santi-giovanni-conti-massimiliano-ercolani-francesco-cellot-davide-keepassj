@@ -23,7 +23,9 @@ import javafx.scene.control.TextField;
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
-import util.*;
+import util.GeneratePasswordRandom;
+import util.GeneratePasswordRandomImpl;
+import util.PasswordStrengthImpl;
 
 public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
@@ -47,10 +49,10 @@ public class AddEntryController implements Initializable {
 
     @FXML
     private ComboBox<String> comboBoxGroup;
-    
+
     @FXML
     private ProgressBar progressBar;
-    
+
     @FXML
     private Label lblStrength;
 
@@ -121,7 +123,6 @@ public class AddEntryController implements Initializable {
     final void generatePassword(final ActionEvent event) {
            GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
            this.password.setText(generate.generatePassword());
-           //System.out.println(password.getText());
     }
 
     @FXML
@@ -131,9 +132,8 @@ public class AddEntryController implements Initializable {
 
     @FXML
     final void getStrength(final ActionEvent event) {
-        double strength = (double) (PasswordStrengthImpl.getStrength(this.password.getText())) /100;
-        //System.out.println(strength);
-        String str = Double.toString(strength*100);
+        double strength = (double) (PasswordStrengthImpl.getStrength(this.password.getText())) / 100;
+        String str = Double.toString(strength * 100);
         lblStrength.setText(str + "%");
         progressBar.setProgress(strength);
     }
