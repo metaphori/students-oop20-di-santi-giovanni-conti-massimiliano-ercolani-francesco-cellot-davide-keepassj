@@ -1,4 +1,7 @@
 package view.controllers;
+import javax.crypto.AEADBadTagException;
+import javax.xml.bind.JAXBException;
+
 /*
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +39,9 @@ public class ManageMenuController {
     /**
      * Takes database from previous fxml file.
      * @param db is the database
+     * @throws JAXBException 
      */
-    public final void takeDatabase(final Database db) {
+    public final void takeDatabase(final Database db) throws JAXBException {
         this.db = db;
         //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toList());
         //List<String> app = db.getAllEntry().stream().map(Entry::getNameAccount).collect(Collectors.toCollection(ArrayList::new));
