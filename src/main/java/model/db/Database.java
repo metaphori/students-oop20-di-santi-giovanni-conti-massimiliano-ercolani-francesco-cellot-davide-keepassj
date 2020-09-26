@@ -57,14 +57,25 @@ public class Database {
         //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
-    public final void readXml() throws AEADBadTagException {
-        Database app = null;
+    /*
+     * use cryptoDB to encrypt the Xml.
+     * @return String xml
+     */
+    public final String readCryptoFile() throws AEADBadTagException {
         try {
-            app = ConvertXml.fromXml(cryptoDb.read().toString());
+            return cryptoDb.read().toString();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
+    }
+
+    /**
+     * fill the Database with the xml file through cryptoDB encryption.
+     * @throws AEADBadTagException
+     */
+    public final void readXml() throws AEADBadTagException {
+        Database app = ConvertXml.fromXml(readCryptoFile());
         if (app == null) {
             return;
         }
