@@ -100,7 +100,7 @@ public class Database {
         }
         this.entryList.remove(temp);
          */
-        return this.entryList.removeIf(e -> e.getNameAccount() == entry.getNameAccount());
+        return this.entryList.removeIf(e -> e.equals(entry));
     }
 
     /*
@@ -143,7 +143,7 @@ public class Database {
         }
          */
         return (entryList.stream()
-                .filter(e -> e.hashCode() == entry.hashCode())
+                .filter(e -> e.equals(entry))
                 .count() == 0) ? false : true;
     }
 
