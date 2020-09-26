@@ -38,10 +38,11 @@ public class TestConvertXml {
 
         final Database recreateDb = ConvertXml.fromXml(app);
         assertNotNull(recreateDb);
-        //System.out.println(app);
 
         assertEquals(2, myDb.getAllEntry().size());
         assertEquals(2, recreateDb.getAllEntry().size());
-        //assertEquals(myDb.getAllEntry().size(), recreateDb.getAllEntry().size());
+        assertEquals(1, myDb.getAllGroup().size());
+        assertEquals(1, recreateDb.getAllGroup().size());
+        assertEquals(group.getName(), recreateDb.getAllGroup().get(0).getName());
     }
 }
