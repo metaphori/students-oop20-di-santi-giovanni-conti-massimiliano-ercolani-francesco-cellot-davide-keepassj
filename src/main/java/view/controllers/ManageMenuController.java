@@ -48,27 +48,27 @@ public class ManageMenuController implements Initializable {
     @SuppressWarnings("unchecked")
     @Override
     public final void initialize(final URL location, final ResourceBundle resources) {
-        TableColumn<Entry, String> title = new TableColumn<Entry, String>("Title");
-        TableColumn<Entry, String> username = new TableColumn<Entry, String>("Username");
-        TableColumn<Entry, String> password = new TableColumn<Entry, String>("Password");
-        TableColumn<Entry, String> group = new TableColumn<Entry, String>("Group"); 
-        TableColumn<Entry, String> url = new TableColumn<Entry, String>("Url");
-        TableColumn<Entry, String> note = new TableColumn<Entry, String>("Note");
+        final TableColumn<Entry, String> title = new TableColumn<>("Title");
+        final TableColumn<Entry, String> username = new TableColumn<>("Username");
+        final TableColumn<Entry, String> password = new TableColumn<>("Password");
+        final TableColumn<Entry, String> group = new TableColumn<>("Group"); 
+        final TableColumn<Entry, String> url = new TableColumn<>("Url");
+        final TableColumn<Entry, String> note = new TableColumn<>("Note");
 
         this.accountTable.getColumns().addAll(title, username, password, group, url, note);
 
-        title.setCellValueFactory(new PropertyValueFactory<Entry, String>("nameAccount"));
-        username.setCellValueFactory(new PropertyValueFactory<Entry, String>("username"));
-        password.setCellValueFactory(new PropertyValueFactory<Entry, String>("password"));
-        group.setCellValueFactory(new PropertyValueFactory<Entry, String>("groupName"));
-        url.setCellValueFactory(new PropertyValueFactory<Entry, String>("url"));
-        note.setCellValueFactory(new PropertyValueFactory<Entry, String>("note"));
+        title.setCellValueFactory(new PropertyValueFactory<>("nameAccount"));
+        username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        password.setCellValueFactory(new PropertyValueFactory<>("password"));
+        group.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+        url.setCellValueFactory(new PropertyValueFactory<>("url"));
+        note.setCellValueFactory(new PropertyValueFactory<>("note"));
 
-        TableColumn<Group, String> nameGroup = new TableColumn<Group, String>("Name");
-        TableColumn<Group, String> descGroup = new TableColumn<Group, String>("Description");
+        final TableColumn<Group, String> nameGroup = new TableColumn<>("Name");
+        final TableColumn<Group, String> descGroup = new TableColumn<>("Description");
         this.groupTable.getColumns().addAll(nameGroup, descGroup);
-        nameGroup.setCellValueFactory(new PropertyValueFactory<Group, String>("name"));
-        descGroup.setCellValueFactory(new PropertyValueFactory<Group, String>("description"));
+        nameGroup.setCellValueFactory(new PropertyValueFactory<>("name"));
+        descGroup.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
     public final void autoResizeColumns() {
@@ -82,7 +82,7 @@ public class ManageMenuController implements Initializable {
                 //cell must not be empty
                 if (column.getCellData(i) != null) {
                     t = new Text(column.getCellData(i).toString());
-                    double calcwidth = t.getLayoutBounds().getWidth();
+                    final double calcwidth = t.getLayoutBounds().getWidth();
                     //remember new max-width
                     if (calcwidth > max) {
                         max = calcwidth;
@@ -109,10 +109,10 @@ public class ManageMenuController implements Initializable {
     }
 
     private void updateTableView() {
-        ObservableList<Entry> entryTemp = FXCollections.observableArrayList(db.getAllEntry());
+        final ObservableList<Entry> entryTemp = FXCollections.observableArrayList(db.getAllEntry());
         accountTable.setItems(entryTemp);
         autoResizeColumns();
-        ObservableList<Group> groupTemp = FXCollections.observableArrayList(db.getAllGroup());
+        final ObservableList<Group> groupTemp = FXCollections.observableArrayList(db.getAllGroup());
         groupTable.setItems(groupTemp);
     }
 
@@ -130,11 +130,17 @@ public class ManageMenuController implements Initializable {
 
     @FXML
     final void deleteSelectedEntry(final ActionEvent event) {
-        ArrayList<Entry> p = new ArrayList<>(this.accountTable.getSelectionModel().getSelectedItems());
+        final ArrayList<Entry> p = new ArrayList<>(this.accountTable.getSelectionModel().getSelectedItems());
         /*for (Entry res : p) {
             this.db.deleteEntry(res);
           }*/
         p.stream().forEach(e -> this.db.deleteEntry(e));
+        try {
+            this.db.writeXml();
+        } catch (JAXBException e1) {
+            e1.printStackTrace();
+            setter.warningDialog("Error while updating db file, Database write");
+        }
         //Entry entryTemp = this.accountTable.getSelectionModel().getSelectedItem();
         //this.db.deleteEntry(entryTemp);
         updateTableView();
