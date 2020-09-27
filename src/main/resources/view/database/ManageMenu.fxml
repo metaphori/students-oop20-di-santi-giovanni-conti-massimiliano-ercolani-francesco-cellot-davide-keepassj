@@ -30,18 +30,34 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="accountTable" layoutX="29.0" layoutY="113.0" prefHeight="595.0" prefWidth="1240.0" />
-      <Button layoutX="29.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
+      <TableView fx:id="accountTable" layoutX="14.0" layoutY="182.0" prefHeight="538.0" prefWidth="835.0" />
+      <Button alignment="CENTER" layoutX="29.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Button>
-      <Button layoutX="325.0" layoutY="47.0" mnemonicParsing="false" onAction="#addGroup" prefHeight="47.0" prefWidth="260.0" text="Add new group">
+      <Button alignment="CENTER" layoutX="989.0" layoutY="47.0" mnemonicParsing="false" onAction="#addGroup" prefHeight="47.0" prefWidth="260.0" text="Add new group">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Button>
-      <Label fx:id="labelNomeDatabase" layoutX="761.0" layoutY="47.0" prefHeight="47.0" prefWidth="508.0" text="nomeDatabase" textAlignment="CENTER">
+      <Label fx:id="labelNomeDatabase" alignment="CENTER" layoutX="650.0" layoutY="47.0" prefHeight="47.0" prefWidth="291.0" text="nomeDatabase">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" layoutX="317.0" layoutY="47.0" mnemonicParsing="false" onAction="#deleteSelectedEntry" prefHeight="47.0" prefWidth="260.0" text="Delete selected Entry">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Button>
+      <TableView fx:id="groupTable" layoutX="894.0" layoutY="182.0" prefHeight="538.0" prefWidth="392.0" />
+      <Label alignment="CENTER" layoutX="286.0" layoutY="123.0" prefHeight="47.0" prefWidth="291.0" text="Entrys">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="945.0" layoutY="123.0" prefHeight="47.0" prefWidth="291.0" text="Groups">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
