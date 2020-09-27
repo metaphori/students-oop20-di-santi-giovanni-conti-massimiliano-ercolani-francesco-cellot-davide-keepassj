@@ -228,6 +228,91 @@ I due metodi pubblici principali di \textbf{KDB} sono:
 \caption{rappresentazione UML di KDB}
 \end{figure}
 
+\section*{Francesco Ercolani}
+Il mio ruolo nel progetto KeePassJ è stato quello di sviluppo e gestione dell'interfaccia grafica del programma.
+L'interfaccia grafica è gestita attraverso controllers situati nel package \textbf{view.controllers}, ciascuno collegato al rispettivo file fxml presente nella directory \textbf{src/main/resources/view}. 
+I controllers utilizzano classi nel package controller per gestire la logica dell'interfaccia.
+
+\subsection*{view.controllers}
+
+Come già citato in precendenza, il package \textbf{view.controllers} contiene tutti i controllers dei rispettivi file fxml; il mio compito è stato quello di creare sia i file fxml che di gestire la logica, con opportuni metodi e campi interni ai rispettivi controllers, di una parte di essi.
+La directory src/main/resources/ è gestita nel seguente modo: all'interno della sottodirectory \textbf{/view}, è presente il file \textbf{MainMenu.fxml} e due ulteriori sottodirectory \textbf{/createnew} e \textbf{/database}.
+All'interno di /createnew sono presenti i file:
+\begin{itemize}
+    \item \textbf{chooseNameDb.fxml}: è l'interfaccia per l'inserimento del nome e della descrizione del database.
+    \item \textbf{chooseEncryptionSet.fxml}: è l'interfaccia per l'impostazione del metodo di encryption del database.
+    \item \textbf{choosePassMenu.fxml}: è l'interfaccia per la scelta della password del database.
+\end{itemize}
+
+All'interno di /database sono presenti i file:
+
+\begin{itemize}
+    \item \textbf{OpenDatabase.fxml}: è l'interfaccia per l'inserimento della password per l'apertura del database.
+    \item \textbf{ManageMenu.fxml}: è l'interfaccia dove vengono visualizzati gli account registrati nel database corrente e dove si può scegliere di aggiungere un account o un gruppo.
+    \item \textbf{AddEntry.fxml}: è l'interfaccia dove si aggiungono gli account che si vogliono gestire.
+    \item \textbf{AddGroup.fxml}: è l'interfaccia dove si aggiungo i gruppi ai quali apparterranno gli account inseriti.
+\end{itemize}
+
+Il file MainMenu.fxml che si trova dentro la directory /view è l'interfaccia principale che viene caricata all'esecuzione del programma e contiene i due pulsanti principali: "Create new database" e "Open database" per appunto rispettivamente creare ed aprire un database. Oltre che della creazione dei file fxml citati, mi sono occupato della creazione di tutti i rispettivi controllers e della gestione della logica interna di essi eccetto per: \textbf{AddEntryController.java}, \textbf{AddNewGroupController.java} e \textbf{ManageMenuController.java} (compito delegato ad altri componenti del gruppo di progetto). \\
+Dal controller di MainMenu.fxml \textbf{MainMenuController.java} partono due "linee" separate in riferimento alla creazione o all'apertura di un database. \\
+Nel caso si clicchi su "Create new database", la linea prosegue verso il controller dell'interfaccia per l'inserimento del nome e della descrizione del database (chooseNameDb.fxml) \textbf{ChooseNameDBController.java}. Dentro quest'ultimo sono di fondamentale importanza i campi per l'acquisizione dei dati inseriti dall'utente. \\
+Cliccando su "Continue" la linea prosegue passando al controller dell'interfaccia adibita al settaggio dell'encryption del database \textbf{ChooseEncrSetController.java}, che a sua volta acquisirà anch'esso i dati inseriti dall'utente.
+Continuando con la creazione si arriva all'ultima interfaccia della linea controllata dal controller \textbf{ChoosePassController.java}, il quale alla pressione del bottone "Confirm", attraverso l'oggetto di tipo KDBHeader, setta tutti i valori inseriti dall'utente. \\
+La seconda linea invece porta all'interfaccia di inserimento della password per l'apertura del database selezionato in precedenza.\\
+\begin{figure}[h]
+\centering{}
+\includegraphics[width=\textwidth]{controllers.png}
+\caption{rappresentazione UML delle due linee che collegano i controllers}
+\end{figure}\\
+
+I controllers al loro interno hanno un metodo per ciascuna azione che l'utente compie nell'interfaccia.\\ Ciascun controller fa uso di classi presenti nel package \textbf{controller}. Per il loading dei file fxml si utilizza la classe \textbf{FxmlFilesLoaderImpl.java} che implementa la relativa interfaccia \textbf{FxmlFilesLoader.java}.\\
+Questa classe ha diversi metodi per fare il caricamento dell'interfaccia in modi differenti: alcuni caricano il file con metodo standard, altri hanno parametri per il passaggio di dati da controller a controller, infatti alcuni controller come da OpenDatabaseController.java in poi, hanno bisogno dei dati inseriti precedentemente.\\
+Per implementare questo passaggio ho creato una classe \textbf{DBDataSaverImpl.java} che salva i dati inseriti e li passa, attraverso metodi di FxmlFilesLoaderImpl, al controller successivo. \\
+È stato scelto questo approccio per due principali motivi:
+\begin{itemize}
+    \item In questo modo la conferma e il settaggio dei dati avviene soltanto alla fine del procedimento di creazione.
+    \item Il passaggio da controller a controller è più semplice in termini di trasferimento.
+\end{itemize}
+
+Ogni controller che richiede dati dal precedente ha quindi un metodo \textbf{takeData()} che prende in ingresso l'oggetto di tipo DBDataSaver.
+I controllers utilizzano inoltre la classe \textbf{FxmlSetterImpl.java} che implementa l'interfaccia \textbf{FxmlSetter.java}, per operazioni come:
+\begin{itemize}
+    \item Settaggio di spinner o warning dialogs.
+    \item Acquisizione dello stage corrente.
+\end{itemize}
+
+Il settaggio effettivo per la creazione avviene in ChoosePassController.java, alla pressione del pulsante "Confirm" dopo aver scelto il nome e la destinazione del file (deve avere necessariamente l'estensione .kdbj), attraverso le classi KDBHeader e KDB.
+
+Se si sceglie di aprire un database esistente, si apre la schermata di inserimento della password controllata da \textbf{OpenDatabaseController.java} e, in caso di inserimento corretto, si apre la schermata di gestione degli account controllata da \textbf{ManageMenuController.java}.\\
+Anche in questo caso il passaggio di dati tra controllers avviene attraverso l'utilizzo della classe \textbf{FxmlFilesLoader}.
+\subsubsection*{Vantaggi di questo approccio per il passaggio dei dati:}
+\begin{itemize}
+    \item Semplicità di utilizzo: è facile passare i dati da un controller all'altro in quanto viene passato soltanto l'oggetto responsabile del raggruppamento di essi.
+    \item Non c'è bisogno di settaggi intermedi sugli oggetti KDBHeader e KDB in quanto viene settato tutto alla conferma finale.
+\end{itemize}
+
+\clearpage
+\begin{figure}[h]
+\centering{}
+\includegraphics[width=\textwidth]{controller-pkg-view.png}
+\caption{rappresentazione UML della relazione tra le classi nel package controller e i controllers in view}
+
+\end{figure}
+\subsubsection*{Svantaggi di questo approccio per il passaggio dei dati:}
+\begin{itemize}
+    \item Ridondanza di codice nella classe FxmlFilesLoaderImpl.
+    \item Necessità di modifiche/aggiunte nella classe FxmlFilesLoaderImpl nel caso di cambi/aggiunte di funzionalità nell'applicazione.
+\end{itemize}
+
+\subsection*{Esecuzione dell'applicazione}
+La classe \textbf{ViewImpl.java} che implementa l'interfaccia \textbf{View.java} nel package view, è incaricata del loading della prima scena del programma.
+La classe \textbf{Main.java}, situata all'interno del package \textbf{application}, estende la classe Application di javafx e implementa quindi il metodo \textbf{start()} che è il main entry point dell'applicazione. All'interno del metodo main il programma viene lanciato con il metodo statico \textbf{launch()}.\\
+\begin{figure}[h]
+\centering{}
+\includegraphics[width=\textwidth]{viewpart.png}
+\caption{rappresentazione UML dell'esecuzione dell'applicazione}
+\end{figure}
+
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
