@@ -145,11 +145,16 @@ public class AddEntryController implements Initializable {
         alert.showAndWait();
     }
 
-
+    /**
+     * Method to generate a random password
+     * and enter it in the passwordField
+     * @param event
+     */
     @FXML
     final void generatePassword(final ActionEvent event) {
            GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
            this.password.setText(generate.generatePassword());
+           updateProgressBar(null);
     }
 
     @FXML
@@ -157,6 +162,11 @@ public class AddEntryController implements Initializable {
         //System.out.println(this.comboBoxGroup.getSelectionModel().getSelectedItem() + " is the group selected");
     }
 
+    /**
+     * Method to update the progressBar status,
+     * and display the strength percentage.
+     * @param event
+     */
     @FXML
     final void updateProgressBar(final KeyEvent event) {
         double strength = (double) (PasswordStrengthImpl.getStrength(password.getText())) / 100;
