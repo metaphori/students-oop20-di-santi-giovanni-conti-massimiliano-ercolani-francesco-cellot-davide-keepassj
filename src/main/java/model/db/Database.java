@@ -87,7 +87,7 @@ public class Database {
      * @throws AEADBadTagException
      */
     public final void readXml() throws AEADBadTagException {
-        Database app = ConvertXml.fromXml(readCryptoFile());
+        final Database app = ConvertXml.fromXml(readCryptoFile());
         if (app == null) {
             return;
         }

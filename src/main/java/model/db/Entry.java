@@ -146,7 +146,7 @@ public class Entry {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Entry other = (Entry) obj;
+        final Entry other = (Entry) obj;
         if (groupName == null) {
             if (other.groupName != null) {
                 return false;

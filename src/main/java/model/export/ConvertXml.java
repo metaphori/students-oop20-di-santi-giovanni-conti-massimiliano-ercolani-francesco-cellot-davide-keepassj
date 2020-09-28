@@ -52,8 +52,8 @@ public final class ConvertXml {
         try {
             final JAXBContext context = JAXBContext.newInstance(Database.class);
             final Unmarshaller un = context.createUnmarshaller();
-            Database app = (Database) un.unmarshal(getTempFile(xmlToOpen));
-            return app;
+            return (Database) un.unmarshal(getTempFile(xmlToOpen));
+            //return appDb;
         } catch (JAXBException e) {
             e.printStackTrace();
         }
