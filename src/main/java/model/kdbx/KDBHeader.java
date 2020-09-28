@@ -381,7 +381,7 @@ public class KDBHeader {
     private ByteBuffer fieldToBytes(final int key, final byte[] data) {
         // Field ID + Length + Payload
         final ByteBuffer buffer = ByteBuffer.allocate(3 + data.length);
-        System.out.println(key + ": " + Hex.encodeHexString(data));
+        // System.out.println(key + ": " + Hex.encodeHexString(data));
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.put((byte) key);
         buffer.putShort((short) data.length);

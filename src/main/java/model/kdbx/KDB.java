@@ -71,7 +71,7 @@ public class KDB {
             offset = this.header.readHeader(data);
             final byte[] ciphertext = Arrays.copyOfRange(data, offset, data.length);
             final byte[] plaintext = decrypt(ciphertext);
-            System.out.println(new String(plaintext));
+            // System.out.println(new String(plaintext));
             return plaintext;
         } catch (IOException e) {
             System.out.println("Error file has invalid header");
