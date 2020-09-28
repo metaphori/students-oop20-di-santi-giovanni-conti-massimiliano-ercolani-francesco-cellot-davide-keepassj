@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import model.db.Database;
@@ -143,7 +144,7 @@ public class ManageMenuController implements Initializable {
             this.db.writeXml();
         } catch (JAXBException e1) {
             e1.printStackTrace();
-            setter.warningDialog("Error while updating db file, Database write");
+            setter.showDialog("Error while updating db file, Database write", AlertType.ERROR);
         }
         //Entry entryTemp = this.accountTable.getSelectionModel().getSelectedItem();
         //this.db.deleteEntry(entryTemp);

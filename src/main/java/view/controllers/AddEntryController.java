@@ -98,19 +98,19 @@ public class AddEntryController implements Initializable {
     @FXML
     final void confirmAdd(final ActionEvent event) {
         if (this.title.getText().isEmpty()) {
-            setter.warningDialog("Choose a Title for your Entry");
+            setter.showDialog("Choose a Title for your Entry", AlertType.ERROR);
             return;
         }
         if (this.username.getText().isEmpty()) {
-            setter.warningDialog("Choose a username");
+            setter.showDialog("Choose a username", AlertType.ERROR);
             return;
         }
         if (this.password.getText().isEmpty()) {
-            setter.warningDialog("Choose a password");
+            setter.showDialog("Choose a password", AlertType.ERROR);
             return;
         }
         if (comboBoxGroup.getSelectionModel().isEmpty()) {
-            setter.warningDialog("Choose a group");
+            setter.showDialog("Choose a group", AlertType.ERROR);
             return;
         }
 
@@ -131,7 +131,7 @@ public class AddEntryController implements Initializable {
                 db.writeXml();
             } catch (JAXBException e) {
                 e.printStackTrace();
-                setter.warningDialog("wrong password or database corrupted, something wrong while encrypte xml");
+                setter.showDialog("wrong password or database corrupted, something wrong while encrypte xml", AlertType.ERROR);
             }
             loader.getSceneDb(db);
             setter.getStage(event).close();

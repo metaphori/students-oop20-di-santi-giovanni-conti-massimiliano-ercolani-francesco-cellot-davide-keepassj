@@ -10,6 +10,7 @@ import controller.FxmlSetter;
 import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -56,7 +57,7 @@ public class MainMenuController {
                 loader.getSceneFile(file);
                 setter.getStage(event).close();
             } else {
-                setter.warningDialog("Impossibile aprire il database");
+                setter.showDialog("Impossibile aprire il database", AlertType.ERROR);
             }
         }
     }
@@ -68,6 +69,10 @@ public class MainMenuController {
     
     @FXML
     void infoApp(ActionEvent event) {
-        setter.infoDiaog();
+        setter.showDialog("KeePassJ was created by:\n\n"
+                + "· Giovanni Di Santi\n"
+                + "· Francesco Ercolani\n"
+                + "· Massimiliano Conti\n"
+                + "· Davide Cellot", AlertType.INFORMATION);
     }
 }

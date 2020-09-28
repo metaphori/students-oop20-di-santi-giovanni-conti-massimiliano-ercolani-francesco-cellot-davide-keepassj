@@ -9,6 +9,7 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * 
@@ -30,6 +31,7 @@ public class ChooseNameDBController {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
+        setter.showDialog("Are you sure you want to abort the creation? Data will be lost.", AlertType.CONFIRMATION);
         loader.getMainMenuScene();
         setter.getStage(event).close();
     }
@@ -37,9 +39,9 @@ public class ChooseNameDBController {
     @FXML
     private void continueCreation(final ActionEvent event) {
         if (this.dbName.getText().trim().isBlank()) {
-            setter.warningDialog("Choose a database name");
+            setter.showDialog("Choose a database name", AlertType.ERROR);
         } else if (this.dbDescription.getText().trim().isBlank()) {
-            setter.warningDialog("Choose a database description");
+            setter.showDialog("Choose a database description", AlertType.ERROR);
         } else {
             this.data.takeDBName(this.dbName.getText().toString());
             this.data.takeDBDesc(this.dbDescription.getText().toString());

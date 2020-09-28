@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
@@ -112,9 +113,9 @@ public class ChooseEncrSetController implements Initializable {
     @FXML
     private void continueCreation(final ActionEvent event) {
         if (this.data.getCipher() == null) {
-            setter.warningDialog("Choose an encryption algorithm");
+            setter.showDialog("Choose an encryption algorithm", AlertType.ERROR);
         } else if (this.data.getKdf() == null) {
-            setter.warningDialog("Choose a key derivation function");
+            setter.showDialog("Choose a key derivation function", AlertType.ERROR);
             } else { 
                 this.data.takeRounds(this.trSpinner.getValue());
                 this.data.takeMemory(this.muSpinner.getValue());

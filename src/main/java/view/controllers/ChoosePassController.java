@@ -16,6 +16,7 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -86,7 +87,7 @@ public class ChoosePassController {
             if (file != null) {
                 String filename = file.getName();
                 if (filename.endsWith(".kdbj") == false) {
-                    setter.warningDialog(".kdbj extension missing");
+                    setter.showDialog(".kdbj extension missing", AlertType.ERROR);
                 } else {
                     creadentials = Arrays.asList(password.getText().getBytes());
                     loader.getMainMenuScene();
@@ -103,7 +104,7 @@ public class ChoosePassController {
                 }
             }
         } else {
-            setter.warningDialog("Passwords are not the same");
+            setter.showDialog("Passwords are not the same", AlertType.ERROR);
         }
     }
 }

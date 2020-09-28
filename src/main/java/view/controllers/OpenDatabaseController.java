@@ -13,6 +13,7 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Alert.AlertType;
 import model.db.Database;
 import model.kdbx.KDB;
 
@@ -59,7 +60,7 @@ public class OpenDatabaseController {
             loader.getSceneDb(db);
             setter.getStage(event).close();
         } catch (AEADBadTagException e) {
-            setter.warningDialog("Wrong password or database corrupted");
+            setter.showDialog("Wrong password or database corrupted", AlertType.ERROR);
         }
     }
 }
