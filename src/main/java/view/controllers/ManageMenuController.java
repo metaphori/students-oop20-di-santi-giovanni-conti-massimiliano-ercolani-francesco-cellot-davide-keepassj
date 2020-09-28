@@ -97,7 +97,7 @@ public class ManageMenuController implements Initializable {
             //set the new max-widht with some extra space
             column.setPrefWidth(max + space);
         }
-        );
+                );
     }
 
     /**
@@ -154,6 +154,9 @@ public class ManageMenuController implements Initializable {
     @FXML
     final void editEntry(final ActionEvent event) {
         final Entry p = this.accountTable.getSelectionModel().getSelectedItem();
+        if (p == null) {
+            return;
+        }
         this.db.deleteEntry(p);
         entryLoader.getSceneEntry(this.db, p);
         setter.getStage(event).close();

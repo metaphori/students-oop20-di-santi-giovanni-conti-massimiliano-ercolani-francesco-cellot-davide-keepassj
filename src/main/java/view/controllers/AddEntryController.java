@@ -142,7 +142,7 @@ public class AddEntryController implements Initializable {
         final String url = this.url.getText();
         final String note = this.notes.getText();
 
-        PasswordValidator validate = new PasswordValidatorImpl();
+        final PasswordValidator validate = new PasswordValidatorImpl();
 
         if (validate.isValid(this.password.getText())) {
             //String tempGroup = comboBoxGroup.getSelectionModel().getSelectedItem();
@@ -164,7 +164,7 @@ public class AddEntryController implements Initializable {
     }
 
     private void createAlert() {
-        Alert alert = new Alert(AlertType.ERROR);
+        final Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setHeaderText("Look, an Error Dialog");
         //Follow the instructions to enter a valid password
@@ -183,7 +183,7 @@ public class AddEntryController implements Initializable {
      */
     @FXML
     final void generatePassword(final ActionEvent event) {
-           GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
+           final GeneratePasswordRandom generate = new GeneratePasswordRandomImpl();
            this.password.setText(generate.generatePassword());
            updateProgressBar(null);
     }
@@ -200,8 +200,8 @@ public class AddEntryController implements Initializable {
      */
     @FXML
     final void updateProgressBar(final KeyEvent event) {
-        double strength = (double) (PasswordStrengthImpl.getStrength(password.getText())) / 100;
-        String str = Double.toString(strength * 100);
+        final double strength = (double) (PasswordStrengthImpl.getStrength(password.getText())) / 100;
+        final String str = Double.toString(strength * 100);
         lblStrength.setText(str + "%");
         progressBar.setProgress(strength);
     }
@@ -212,8 +212,7 @@ public class AddEntryController implements Initializable {
      */
     @FXML
     final void showPassword(final ActionEvent event) {
-        String psw = password.getText();
-        lblPassword.setText(psw);
+        lblPassword.setText(password.getText());
     }
 
 
