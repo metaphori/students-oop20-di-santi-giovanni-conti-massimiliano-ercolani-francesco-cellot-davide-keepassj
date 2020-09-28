@@ -6,42 +6,38 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.MainMenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.MainMenuController">
    <children>
-      <Button layoutX="252.0" layoutY="239.0" mnemonicParsing="false" onAction="#createNewDatabase" prefHeight="40.0" prefWidth="320.0" text="Create new database">
+      <Button layoutX="252.0" layoutY="331.0" mnemonicParsing="false" onAction="#createNewDatabase" prefHeight="40.0" prefWidth="320.0" text="Create new database">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="252.0" layoutY="301.0" mnemonicParsing="false" onAction="#openDatabase" prefHeight="40.0" prefWidth="320.0" text="Open database">
+      <Button layoutX="252.0" layoutY="386.0" mnemonicParsing="false" onAction="#openDatabase" prefHeight="40.0" prefWidth="320.0" text="Open database">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="270.0" layoutY="133.0" prefHeight="86.0" prefWidth="289.0" text="KeePassJ" textAlignment="CENTER" textFill="#ad4017">
+      <Label alignment="CENTER" layoutX="269.0" layoutY="214.0" prefHeight="86.0" prefWidth="289.0" text="KeePassJ" textAlignment="CENTER" textFill="#ad4017">
          <font>
-            <Font size="36.0" />
+            <Font size="50.0" />
          </font>
       </Label>
       <MenuBar prefHeight="29.0" prefWidth="824.0">
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#infoApp" text="About" />
                </items>
             </Menu>
          </menus>
@@ -49,5 +45,10 @@
             <Blend />
          </effect>
       </MenuBar>
+      <ImageView fitHeight="100.0" fitWidth="99.0" layoutX="364.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

@@ -2,6 +2,8 @@ package view.controllers;
 
 import java.io.File;
 
+import com.lambdaworks.jni.Platform;
+
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
@@ -57,5 +59,15 @@ public class MainMenuController {
                 setter.warningDialog("Impossibile aprire il database");
             }
         }
+    }
+    
+    @FXML
+    void closeApp(ActionEvent event) {
+        System.exit(0);
+    }
+    
+    @FXML
+    void infoApp(ActionEvent event) {
+        setter.infoDiaog();
     }
 }
