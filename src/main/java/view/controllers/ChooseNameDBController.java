@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
 /**
  * 
@@ -31,9 +32,11 @@ public class ChooseNameDBController {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
-        setter.showDialog("Are you sure you want to abort the creation? Data will be lost.", AlertType.CONFIRMATION);
-        loader.getMainMenuScene();
-        setter.getStage(event).close();
+        if(setter.showDialog("Are you sure you want to abort the creation?\n"
+                + "Data will be lost.", AlertType.CONFIRMATION)) {
+            loader.getMainMenuScene();
+            setter.getStage(event).close();
+        }
     }
 
     @FXML

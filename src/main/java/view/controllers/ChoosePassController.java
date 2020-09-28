@@ -55,8 +55,11 @@ public class ChoosePassController {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
-        loader.getMainMenuScene();
-        setter.getStage(event).close();
+        if(setter.showDialog("Are you sure you want to abort the creation?\n"
+                + "Data will be lost.", AlertType.CONFIRMATION)) {
+            loader.getMainMenuScene();
+            setter.getStage(event).close();
+        }
     }
 
     @FXML
