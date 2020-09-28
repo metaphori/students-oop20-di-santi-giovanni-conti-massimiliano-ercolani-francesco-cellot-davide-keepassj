@@ -229,7 +229,7 @@ public class Database {
      * @param group
      * @return true if it's done, false if don't contain it of something wrong
      */
-    public final boolean delGroup(final Group group) {
+    public final boolean deleteGroup(final Group group) {
         if (groupList.contains(group)) {
             if (entryList.stream().filter(e -> e.getGroupName() == group.getName()).count() == 0) {
                 this.groupList.remove(group);

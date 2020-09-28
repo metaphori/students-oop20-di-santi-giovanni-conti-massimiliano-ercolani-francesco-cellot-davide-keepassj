@@ -48,14 +48,14 @@ public class TestDatabase {
         //false for a group already added
         assertFalse(myDb.addGroup(group));
         //can't remove from list for 1 item in that group
-        assertFalse(myDb.delGroup(group));
+        assertFalse(myDb.deleteGroup(group));
 
         //remove item used for test
         myDb.deleteEntry(firstEntry);
         //true for correct remove
-        assertTrue(myDb.delGroup(group));
+        assertTrue(myDb.deleteGroup(group));
         //false for nothing to remove
-        assertFalse(myDb.delGroup(group));
+        assertFalse(myDb.deleteGroup(group));
     }
 
     @org.junit.Test
