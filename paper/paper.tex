@@ -392,6 +392,9 @@ testare il corretto funzionamento delle varie classi.
   \item \textit{Crypto Util}: test di varie utility per crittografia, come il PKCS\#7 padding e SHA256.
   \item \textit{KDBHeader}: viene testato il corretto funzionamento del \textbf{KDBHeader}, settando vari parametri e controllando il corretto funzionamento dei getter.
   \item \textit{KDB}: test sulla scrittura e lettura di diverse combinazioni di \texttt{cipher} e \texttt{KDF}.
+  \item \textit{Database}: viene controllato la corretta creazione ed uso delle liste usate e dei relativi getter.
+  \item \textit{Entry}: test sui getter e setter.
+  \item \textit{ConvertXml}: test sulla corretta conversione di un Database sample da e verso xml.
 \end{itemize}
 
 I test vengono eseguiti anche in remoto tramite l'apposita \texttt{bitbucket pipelines} che
