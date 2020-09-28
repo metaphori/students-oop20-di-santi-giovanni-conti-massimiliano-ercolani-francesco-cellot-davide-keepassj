@@ -23,10 +23,10 @@ public class Database {
     private String nomeDatabase;
     @XmlElementWrapper(name = "entryList")
     @XmlElement(name = "entry")
-    private List<Entry> entryList;
+    private final List<Entry> entryList;
     @XmlElementWrapper(name = "groupList")
     @XmlElement(name = "group")
-    private List<Group> groupList;
+    private final List<Group> groupList;
     //@XmlElementWrapper(name = "kdb")
     private KDB cryptoDb;
 
@@ -92,9 +92,9 @@ public class Database {
         if (app == null) {
             return;
         }
-        this.entryList = app.entryList;
-        this.groupList = app.groupList;
-        this.nomeDatabase = app.nomeDatabase;
+        this.entryList.addAll(app.entryList);
+        this.groupList.addAll(app.groupList);
+        setNomeDatabase(app.getNomeDatabase());
     }
 
     /**

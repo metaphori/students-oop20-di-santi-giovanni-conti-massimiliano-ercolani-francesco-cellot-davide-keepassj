@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "entry")
-@XmlType(propOrder = {        "nameAccount",        "username",        "password",        "groupName",        "url",        "note"    })
+@XmlType(propOrder = {        "nameAccount",        "username",        "password",        "groupName",        "url",        "note", "stringNull"})
 public class Entry {
 
     private String nameAccount;
@@ -14,6 +14,7 @@ public class Entry {
     private String groupName;
     private String url;
     private String note;
+    private String stringNull;
 
     //constructor used for test
     public Entry() {
@@ -25,6 +26,7 @@ public class Entry {
         this.url = "www.ciao.it";
         this.note = "questa nota";
         */
+        setStringNull("*****");
     }
 
     public Entry(final String nameAccount, final String username, final String password, final Group group, final String url, final String note) {
@@ -34,6 +36,7 @@ public class Entry {
         this.groupName = group.getName();
         this.url = url;
         this.note = note;
+        setStringNull("*****");
     }
 
     /**
@@ -93,7 +96,6 @@ public class Entry {
     public void setGroupName(final Group group) {
         this.groupName = group.getName();
     }
-    
     /**
      * @param group selected in String format
      */
@@ -197,5 +199,13 @@ public class Entry {
             return false;
         }
         return true;
+    }
+
+    public final String getStringNull() {
+        return stringNull;
+    }
+
+    public final void setStringNull(final String stringNull) {
+        this.stringNull = stringNull;
     }
 }
