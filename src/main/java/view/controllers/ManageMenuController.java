@@ -71,8 +71,12 @@ public class ManageMenuController implements Initializable {
         descGroup.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
+    /**
+     * method to auto adjust width of columns in the TableView.
+     */
     public final void autoResizeColumns() {
         //Set the right policy
+        final Double space = 30d;
         this.accountTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         this.accountTable.getColumns().stream().forEach((column) -> {
             //Minimal width = columnheader
@@ -90,7 +94,7 @@ public class ManageMenuController implements Initializable {
                 }
             }
             //set the new max-widht with some extra space
-            column.setPrefWidth(max + 10.0d);
+            column.setPrefWidth(max + space);
         }
         );
     }
