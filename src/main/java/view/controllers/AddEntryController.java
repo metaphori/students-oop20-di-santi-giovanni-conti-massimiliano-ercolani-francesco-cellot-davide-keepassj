@@ -36,6 +36,7 @@ public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db;
+    private Entry entry = null;
 
     @FXML
     private TextField title;
@@ -82,8 +83,28 @@ public class AddEntryController implements Initializable {
         this.db = db;
     }
 
+    /**
+     * Takes database and Entry to edit from previous fxml file.
+     * @param db is the database
+     * @param entry to edit
+     */
+    public final void takeDatabase(final Database db, final Entry entry) {
+        this.db = db;
+        loadGroup();
+        this.entry = entry;
+        this.title.setText(entry.getNameAccount());
+        this.username.setText(entry.getUsername());
+        this.password.setText(entry.getPassword());
+        this.comboBoxGroup.getSelectionModel().select(entry.getGroupName());
+        this.url.setText(entry.getUrl());
+        this.notes.setText(entry.getNote());
+    }
+
     @FXML
     final void cancel(final ActionEvent event) {
+        if (!(this.entry == null)) {
+            this.db.addEntry(this.entry);
+        }
         loader.getSceneDb(db);
         setter.getStage(event).close();
     }

@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 
 import model.db.Database;
+import model.db.Entry;
 
 /**
  * 
@@ -55,4 +56,11 @@ public interface FxmlFilesLoader {
      * @param db
      */
     void getSceneEntry(Database db);
+
+    /**
+     * getScene that open the view to edit an entry off db.
+     * @param db
+     * @param entry
+     */
+    void getSceneEntry(Database db, Entry entry);
 }

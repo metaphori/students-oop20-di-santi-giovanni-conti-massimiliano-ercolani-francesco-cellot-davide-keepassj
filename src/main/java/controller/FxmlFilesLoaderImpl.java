@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.db.Database;
+import model.db.Entry;
 import view.controllers.AddEntryController;
 import view.controllers.AddNewGroupController;
 import view.controllers.ChooseEncrSetController;
@@ -125,6 +126,26 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Parent root1 = (Parent) fxmlLoader.load();
             final AddEntryController controller = fxmlLoader.<AddEntryController>getController();
             controller.takeDatabase(db);
+            controller.loadGroup();
+            final Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * getScene that open the view to edit an entry off db.
+     * @param db
+     */
+    @Override
+    public void getSceneEntry(final Database db, final Entry entry) {
+        try {
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddEntry.fxml"));
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final AddEntryController controller = fxmlLoader.<AddEntryController>getController();
+            controller.takeDatabase(db, entry);
             controller.loadGroup();
             final Stage stage = new Stage();
             stage.setScene(new Scene(root1));

@@ -144,10 +144,34 @@ public class ManageMenuController implements Initializable {
             this.db.writeXml();
         } catch (JAXBException e1) {
             e1.printStackTrace();
-            setter.showDialog("Error while updating db file, Database write", AlertType.ERROR);
+            setter.showDialog("Error while Database write while deleting Entry", AlertType.ERROR);
         }
         //Entry entryTemp = this.accountTable.getSelectionModel().getSelectedItem();
         //this.db.deleteEntry(entryTemp);
+        updateTableView();
+    }
+
+    @FXML
+    final void editEntry(final ActionEvent event) {
+        final Entry p = this.accountTable.getSelectionModel().getSelectedItem();
+        this.db.deleteEntry(p);
+        entryLoader.getSceneEntry(this.db, p);
+        setter.getStage(event).close();
+    }
+
+    @FXML
+    final void deleteGroup(final ActionEvent event) {
+        final Group p = this.groupTable.getSelectionModel().getSelectedItem();
+        if (this.db.deleteGroup(p)) {
+            try {
+                this.db.writeXml();
+            } catch (JAXBException e1) {
+                e1.printStackTrace();
+                setter.showDialog("Error while Database write while deleting group", AlertType.ERROR);
+            }
+        } else {
+            setter.showDialog("It's impossible to delete a group if 1 or more Entries are in that group", AlertType.ERROR);
+        }
         updateTableView();
     }
 
