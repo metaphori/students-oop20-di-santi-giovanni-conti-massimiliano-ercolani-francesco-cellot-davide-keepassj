@@ -93,6 +93,13 @@ public class Entry {
     public void setGroupName(final Group group) {
         this.groupName = group.getName();
     }
+    
+    /**
+     * @param group selected in String format
+     */
+    public void setGroupName(final String group) {
+        this.groupName = group;
+    }
 
     /**
      * @return the url where to use this entry
