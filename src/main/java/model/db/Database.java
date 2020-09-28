@@ -44,6 +44,7 @@ public class Database {
 
     /**
      * Convert the Database to an Xml String.
+     * @return Xml String
      */
     public final String getXml() throws JAXBException {
         return ConvertXml.toXml(this);
@@ -230,11 +231,11 @@ public class Database {
      * @return true if it's done, false if don't contain it of something wrong
      */
     public final boolean deleteGroup(final Group group) {
-        if (groupList.contains(group)) {
-            if (entryList.stream().filter(e -> e.getGroupName() == group.getName()).count() == 0) {
-                this.groupList.remove(group);
-                return true;
-            }
+        if (groupList.contains(group)
+            &&
+            entryList.stream().filter(e -> e.getGroupName() == group.getName()).count() == 0) {
+            this.groupList.remove(group);
+            return true;
         }
         return false;
     }
