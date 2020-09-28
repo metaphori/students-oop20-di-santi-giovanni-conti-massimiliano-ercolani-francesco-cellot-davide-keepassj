@@ -42,7 +42,7 @@ public class Database {
         //writeXml();
     }
 
-    /*
+    /**
      * Convert the Database to an Xml String.
      */
     public final String getXml() throws JAXBException {
@@ -61,7 +61,7 @@ public class Database {
         //ConvertXml.fromXml(cryptoDb.read().toString());
     }
 
-    /*
+    /**
      * use cryptoDB to encrypt the Xml.
      * @return String xml
      */
@@ -136,17 +136,17 @@ public class Database {
     }
      */
 
-    /*
+    /**
      * get all the Entry entered.
-     * return ArrayList of Entry
+     * @return ArrayList of Entry
      */
     public final List<Entry> getAllEntry() {
         return this.entryList;
     }
 
-    /*
+    /**
      * get all the Group entered.
-     * return ArrayList of Group
+     * @return ArrayList of Group
      */
     public final List<Group> getAllGroup() {
         return this.groupList;
@@ -239,7 +239,7 @@ public class Database {
         return false;
     }
 
-    /*
+    /**
      * Return a list on Entry all under the same group.
      * @param group
      * @return ArrayList<Entry>
@@ -252,10 +252,18 @@ public class Database {
         //return app;
     }
 
+    /**
+     * return the name of Database.
+     * @return nomeDatabase
+     */
     public final String getNomeDatabase() {
         return nomeDatabase;
     }
 
+    /**
+     * set name of Database.
+     * @param nomeDatabase
+     */
     public final void setNomeDatabase(final String nomeDatabase) {
         this.nomeDatabase = nomeDatabase;
     }
