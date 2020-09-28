@@ -92,5 +92,7 @@
          </font></Button>
       <ProgressBar fx:id="progressBar" layoutX="468.0" layoutY="331.0" prefWidth="200.0" progress="0.0" />
       <Label fx:id="lblStrength" layoutX="697.0" layoutY="332.0" text="   " />
+      <Label fx:id="lblPassword" layoutX="163.0" layoutY="293.0" text="       " />
+      <Button layoutX="922.0" layoutY="263.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="25.0" prefWidth="49.0" text="Show" />
    </children>
 </Pane>
