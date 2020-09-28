@@ -159,7 +159,10 @@ public class AddEntryController implements Initializable {
 
     @FXML
     final void updateProgressBar(final KeyEvent event) {
-        
+        double strength = (double) (PasswordStrengthImpl.getStrength(password.getText())) / 100;
+        String str = Double.toString(strength * 100);
+        lblStrength.setText(str + "%");
+        progressBar.setProgress(strength);
     }
 
 
