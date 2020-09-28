@@ -158,7 +158,7 @@ public class Database {
      * @param entry
      * @return true/false
      */
-    public boolean entryAlreadyExist(final Entry entry) {
+    public final boolean entryAlreadyExist(final Entry entry) {
         /*
         for (int i = 0; i < entryList.size(); i++) {
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
@@ -176,7 +176,7 @@ public class Database {
      * @param nameAccount
      * @return the entry or null if not found
      */
-    public Entry getEntry(final String nameAccount) {
+    public final Entry getEntry(final String nameAccount) {
         /*
         for (int i = 0; i < entryList.size(); i++) { 
             if (this.entryList.get(i).getNameAccount() == nameAccount) {
@@ -193,7 +193,7 @@ public class Database {
      * @param groupName
      * @return the group or null if not found
      */
-    public Group getGroup(final String groupName) {
+    public final Group getGroup(final String groupName) {
 
         return this.groupList.stream().filter(e -> e.getName() == groupName).findFirst().get();
     }
@@ -202,7 +202,7 @@ public class Database {
      * Return the statement of entryList.
      * @return true if it's empty, false if not
      */
-    public Boolean isEmpty() {
+    public final Boolean isEmpty() {
         if (entryList.isEmpty()) {
             return true;
         }
