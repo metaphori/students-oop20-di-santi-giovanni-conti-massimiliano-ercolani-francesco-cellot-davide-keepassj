@@ -36,13 +36,13 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboEA" layoutX="285.0" layoutY="138.0" onAction="#selectEA" prefHeight="26.0" prefWidth="279.0" />
+      <ComboBox fx:id="comboEA" layoutX="285.0" layoutY="138.0" onAction="#selectEA" prefHeight="26.0" prefWidth="279.0" promptText="--Select--" />
       <Label layoutX="55.0" layoutY="253.0" prefHeight="21.0" prefWidth="230.0" text="Key Derivation Function:">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboKDF" layoutX="285.0" layoutY="250.0" onAction="#selectKDF" prefHeight="26.0" prefWidth="280.0" />
+      <ComboBox fx:id="comboKDF" layoutX="285.0" layoutY="250.0" onAction="#selectKDF" prefHeight="26.0" prefWidth="280.0" promptText="--Select--" />
       <Button layoutX="651.0" layoutY="548.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="40.0" prefWidth="200.0" text="Continue" />
       <Button layoutX="883.0" layoutY="548.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
       <Label layoutX="55.0" layoutY="489.0" text="Parallelism:">
