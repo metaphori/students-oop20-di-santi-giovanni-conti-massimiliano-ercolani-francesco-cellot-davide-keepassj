@@ -26,22 +26,22 @@
         </menus>
       </MenuBar>
       <TableView fx:id="accountTable" layoutX="14.0" layoutY="182.0" prefHeight="538.0" prefWidth="835.0" />
-      <Button alignment="CENTER" layoutX="29.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
+      <Button alignment="CENTER" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="47.0" prefWidth="260.0" text="Add new entry">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Button>
-      <Button alignment="CENTER" layoutX="989.0" layoutY="47.0" mnemonicParsing="false" onAction="#addGroup" prefHeight="47.0" prefWidth="260.0" text="Add new group">
+      <Button alignment="CENTER" layoutX="894.0" layoutY="47.0" mnemonicParsing="false" onAction="#addGroup" prefHeight="47.0" prefWidth="196.0" text="Add new group">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Button>
-      <Label fx:id="labelNomeDatabase" alignment="CENTER" layoutX="650.0" layoutY="47.0" prefHeight="47.0" prefWidth="291.0" text="nomeDatabase">
+      <Label fx:id="labelNomeDatabase" alignment="CENTER" layoutX="589.0" layoutY="47.0" prefHeight="47.0" prefWidth="291.0" text="nomeDatabase">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" layoutX="317.0" layoutY="47.0" mnemonicParsing="false" onAction="#deleteSelectedEntry" prefHeight="47.0" prefWidth="260.0" text="Delete selected Entry">
+      <Button alignment="CENTER" layoutX="302.0" layoutY="47.0" mnemonicParsing="false" onAction="#deleteSelectedEntry" prefHeight="47.0" prefWidth="260.0" text="Delete selected Entry">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
@@ -57,5 +57,15 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
+      <Button alignment="CENTER" layoutX="1096.0" layoutY="47.0" mnemonicParsing="false" onAction="#deleteGroup" prefHeight="47.0" prefWidth="190.0" text="Delete group">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" layoutX="14.0" layoutY="126.0" mnemonicParsing="false" onAction="#deleteSelectedEntry" prefHeight="30.0" prefWidth="121.0" text="Edit Entry">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
