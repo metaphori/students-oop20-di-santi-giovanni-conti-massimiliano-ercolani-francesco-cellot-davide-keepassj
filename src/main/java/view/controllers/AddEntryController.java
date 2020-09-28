@@ -178,6 +178,10 @@ public class AddEntryController implements Initializable {
         progressBar.setProgress(strength);
     }
 
+    /**
+     * Method to show the password in clear text.
+     * @param event
+     */
     @FXML
     final void showPassword(final ActionEvent event) {
         String psw = password.getText();
