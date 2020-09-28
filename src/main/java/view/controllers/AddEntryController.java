@@ -60,6 +60,9 @@ public class AddEntryController implements Initializable {
 
     @FXML
     private Label lblStrength;
+    
+    @FXML
+    private Label lblPassword;
 
     @FXML
     final void addNewGroup(final ActionEvent event) {
@@ -173,6 +176,12 @@ public class AddEntryController implements Initializable {
         String str = Double.toString(strength * 100);
         lblStrength.setText(str + "%");
         progressBar.setProgress(strength);
+    }
+
+    @FXML
+    final void showPassword(final ActionEvent event) {
+        String psw = password.getText();
+        lblPassword.setText(psw);
     }
 
 
