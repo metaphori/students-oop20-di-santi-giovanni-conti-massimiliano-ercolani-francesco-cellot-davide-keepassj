@@ -28,4 +28,9 @@ public interface FxmlSetter {
      */
     Stage getStage(ActionEvent event);
 
+    /**
+     * Get "about" info.
+     */
+    void infoDiaog();
+
 }

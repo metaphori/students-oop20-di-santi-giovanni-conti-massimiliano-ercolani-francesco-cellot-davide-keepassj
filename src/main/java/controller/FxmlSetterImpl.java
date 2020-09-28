@@ -44,4 +44,19 @@ public class FxmlSetterImpl implements FxmlSetter {
         Stage stage = (Stage) ((Node) ((EventObject) event).getSource()).getScene().getWindow();
         return stage;
     }
+
+    @Override
+    public void infoDiaog() {
+        AlertType type = AlertType.INFORMATION;
+        Alert alert = new Alert(type, "");
+        
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.getDialogPane().setContentText("KeePassJ was created by:\n\n"
+                + "· Giovanni Di Santi\n"
+                + "· Francesco Ercolani\n"
+                + "· Massimiliano Conti\n"
+                + "· Davide Cellot");
+        alert.showAndWait();       
+    }
 }
+
