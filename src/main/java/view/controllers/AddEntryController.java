@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import model.db.Database;
 import model.db.Entry;
 import model.db.Group;
@@ -157,11 +158,8 @@ public class AddEntryController implements Initializable {
     }
 
     @FXML
-    final void getStrength(final ActionEvent event) {
-        double strength = (double) (PasswordStrengthImpl.getStrength(this.password.getText())) / 100;
-        String str = Double.toString(strength * 100);
-        lblStrength.setText(str + "%");
-        progressBar.setProgress(strength);
+    final void updateProgressBar(final KeyEvent event) {
+        
     }
 
 
