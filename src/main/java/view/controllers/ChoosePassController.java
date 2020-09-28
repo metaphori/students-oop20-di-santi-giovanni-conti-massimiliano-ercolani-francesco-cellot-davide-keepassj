@@ -62,7 +62,7 @@ public class ChoosePassController {
     @FXML
     private void confirmCreation(final ActionEvent event) throws JAXBException {
         System.out.println(data.getDBDesc());
-        if (passwordRepeat.getText().equals(password.getText())) {
+        if (passwordRepeat.getText().equals(password.getText()) && password.getText().isBlank() == false) {
             header.setComment(data.getDBName().getBytes());
             header.setPublicCustomData(data.getDBDesc().getBytes());
 
@@ -104,7 +104,11 @@ public class ChoosePassController {
                 }
             }
         } else {
-            setter.showDialog("Passwords are not the same", AlertType.ERROR);
+            if(passwordRepeat.getText().equals(password.getText()) == false) {
+                setter.showDialog("Passwords are not the same", AlertType.ERROR);
+            } else if(password.getText().isBlank()) {
+                setter.showDialog("Insert a password", AlertType.ERROR);
+            }
         }
     }
 }
