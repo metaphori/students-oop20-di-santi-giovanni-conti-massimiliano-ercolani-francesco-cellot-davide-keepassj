@@ -150,5 +150,20 @@ public class ManageMenuController implements Initializable {
         //this.db.deleteEntry(entryTemp);
         updateTableView();
     }
+    
+
+    @FXML
+    void infoApp(ActionEvent event) {
+        setter.showDialog("KeePassJ was created by:\n\n"
+                + "· Giovanni Di Santi\n"
+                + "· Francesco Ercolani\n"
+                + "· Massimiliano Conti\n"
+                + "· Davide Cellot", AlertType.INFORMATION);
+    }
+    
+    @FXML
+    void closeApp(ActionEvent event) {
+        System.exit(0);
+    }
 
 }
