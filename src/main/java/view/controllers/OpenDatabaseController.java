@@ -59,7 +59,7 @@ public class OpenDatabaseController {
             loader.getSceneDb(db);
             setter.getStage(event).close();
         } catch (AEADBadTagException e) {
-            setter.warningDialog("Wrong password");
+            setter.warningDialog("Wrong password or database corrupted");
         }
     }
 }
