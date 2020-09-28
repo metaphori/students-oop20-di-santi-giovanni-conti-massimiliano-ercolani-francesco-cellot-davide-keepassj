@@ -1,12 +1,14 @@
 package controller;
 
 import java.util.EventObject;
+import java.util.Optional;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -30,13 +32,18 @@ public class FxmlSetterImpl implements FxmlSetter {
     }
 
     @Override
-    public void showDialog(final String message, final AlertType type) {
+    public boolean showDialog(final String message, final AlertType type) {
         AlertType alType = type;
         Alert alert = new Alert(alType, "");
         
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.getDialogPane().setContentText(message);
         alert.showAndWait();
+        
+        if(alert.getResult() == ButtonType.OK) {
+            return true;
+        } 
+        return false;
     }
 
     @Override

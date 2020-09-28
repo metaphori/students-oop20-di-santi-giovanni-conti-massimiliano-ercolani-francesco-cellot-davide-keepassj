@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Optional;
+
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
@@ -20,8 +22,9 @@ public interface FxmlSetter {
      * Set a javafx dialog box.
      * @param message is the message shown in the dialog box
      * @param type is the type of alert
+     * @return true is user press ok button, false otherwise
      */
-    void showDialog(String message, AlertType type);
+    boolean showDialog(String message, AlertType type);
 
     /**
      * Get the stage from every controller.
