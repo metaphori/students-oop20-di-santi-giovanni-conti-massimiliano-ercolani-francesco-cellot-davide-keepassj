@@ -20,7 +20,7 @@ public interface FxmlFilesLoader {
      * @param data is the data to be passed
      * @param controllerClass is the class of the controller
      */
-    void getSceneData(DBDataSaver data, Class<?>controllerClass);
+    void getSceneData(DBDataSaver data, Class<?> controllerClass);
 
     /**
      * Get fxml file of mainMenuView.

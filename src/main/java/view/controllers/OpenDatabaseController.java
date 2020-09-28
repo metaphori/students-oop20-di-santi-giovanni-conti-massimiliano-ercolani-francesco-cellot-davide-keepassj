@@ -25,35 +25,37 @@ import model.kdbx.KDB;
 public class OpenDatabaseController {
 
     private File file;
-    private List<byte[]> credentials;
-    private Database db;
-    private KDB database;
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
-    private FxmlSetter setter = new FxmlSetterImpl();
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
+    private final FxmlSetter setter = new FxmlSetterImpl();
 
     @FXML
     private PasswordField password;
 
-    public void takeFile(final File file) {
+    public final void takeFile(final File file) {
         this.file = file;
     }
     @FXML
-    void cancel(final ActionEvent event) {
+    final void cancel(final ActionEvent event) {
         loader.getMainMenuScene();
         setter.getStage(event).close();
     }
 
     @FXML
-    void openDatabase(final ActionEvent event) {
-        this.credentials = Arrays.asList(password.getText().getBytes());
+    final void openDatabase(final ActionEvent event) {
+        List<byte[]> credentials;
+        KDB database = null;
+
+        credentials = Arrays.asList(password.getText().getBytes());
 
         try {
-            database = new KDB(this.file, this.credentials);
+            database = new KDB(this.file, credentials);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            setter.showDialog("File not found or not correctly selected", AlertType.ERROR);
+            return;
         }
 
-        db = new Database(database);
+        final Database db = new Database(database);
 
         try {
             db.readXml();

@@ -31,10 +31,10 @@ import model.kdbx.KDBHeader;
  *
  */
 public class ChoosePassController {
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private DBDataSaver data = new DBDataSaverImpl();
-    private FxmlSetter setter = new FxmlSetterImpl();
-    private KDBHeader header = new KDBHeader();
+    private final FxmlSetter setter = new FxmlSetterImpl();
+    private final KDBHeader header = new KDBHeader();
     private KDB database;
     private FileChooser fileChooser;
     private List<byte[]> creadentials;
@@ -55,7 +55,7 @@ public class ChoosePassController {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
-        if(setter.showDialog("Are you sure you want to abort the creation?\n"
+        if (setter.showDialog("Are you sure you want to abort the creation?\n"
                 + "Data will be lost.", AlertType.CONFIRMATION)) {
             loader.getMainMenuScene();
             setter.getStage(event).close();
@@ -77,7 +77,6 @@ public class ChoosePassController {
                     header.setKDFMemory(data.getMemory());
                     header.setKDFParallelism(data.getParallelism());
                 } catch (KDFBadParameter e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -107,9 +106,9 @@ public class ChoosePassController {
                 }
             }
         } else {
-            if(passwordRepeat.getText().equals(password.getText()) == false) {
+            if (passwordRepeat.getText().equals(password.getText()) == false) {
                 setter.showDialog("Passwords are not the same", AlertType.ERROR);
-            } else if(password.getText().isBlank()) {
+            } else if (password.getText().isBlank()) {
                 setter.showDialog("Insert a password", AlertType.ERROR);
             }
         }

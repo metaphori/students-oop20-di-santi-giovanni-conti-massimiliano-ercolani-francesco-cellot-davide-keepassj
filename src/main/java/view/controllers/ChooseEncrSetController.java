@@ -26,10 +26,10 @@ import model.kdbx.KDBHeader;
  */
 public class ChooseEncrSetController implements Initializable {
 
-    private KDBHeader header = new KDBHeader();
-    private String source = "/view/createnew/choosePassMenu.fxml";
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
-    private FxmlSetter setter = new FxmlSetterImpl();
+    private final KDBHeader header = new KDBHeader();
+    private final String source = "/view/createnew/choosePassMenu.fxml";
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
+    private final FxmlSetter setter = new FxmlSetterImpl();
     private DBDataSaver data = new DBDataSaverImpl();
 
     @FXML
@@ -54,7 +54,7 @@ public class ChooseEncrSetController implements Initializable {
     private Spinner<Integer> pSpinner;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public final void initialize(final URL location, final ResourceBundle resources) {
         ObservableList<String> listEA = FXCollections.observableArrayList(this.header.getCipherDescriptions().keySet());
         ObservableList<String> listKDF = FXCollections.observableArrayList(this.header.getKDFDescriptions().keySet());
 
@@ -77,20 +77,20 @@ public class ChooseEncrSetController implements Initializable {
 
     @FXML
     private void selectEA(final ActionEvent event) {
-        String selection = comboEA.getSelectionModel().getSelectedItem().toString();
+        final String selection = comboEA.getSelectionModel().getSelectedItem().toString();
         this.algDescription.setText(header.getCipherDescriptions().get(selection));
         this.data.takeCipher(selection);
     }
 
     @FXML
     private void selectKDF(final ActionEvent event) {
-        String selection = comboKDF.getSelectionModel().getSelectedItem().toString();
+        final String selection = comboKDF.getSelectionModel().getSelectedItem().toString();
 
         this.kdfDescription.setText(header.getKDFDescriptions().get(selection));
         this.data.takeKdf(selection);
         this.setter.setSpinner(trSpinner, header.getKDFRounds(selection), header.getKDFRounds(selection));
 
-        if(header.isKDFTweakable(selection)) {
+        if (header.isKDFTweakable(selection)) {
             this.muSpinner.setDisable(false);
             this.pSpinner.setDisable(false);
             this.data.isTweakable(true);
@@ -106,7 +106,7 @@ public class ChooseEncrSetController implements Initializable {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
-        if(setter.showDialog("Are you sure you want to abort the creation?\n"
+        if (setter.showDialog("Are you sure you want to abort the creation?\n"
                 + "Data will be lost.", AlertType.CONFIRMATION)) {
             loader.getMainMenuScene();
             setter.getStage(event).close();

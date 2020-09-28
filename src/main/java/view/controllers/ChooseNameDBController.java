@@ -20,9 +20,9 @@ import javafx.scene.control.ButtonType;
 public class ChooseNameDBController {
 
     private final String source = "/view/createnew/chooseEncryptionSet.fxml";
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
-    private DBDataSaver data = new DBDataSaverImpl();
-    private FxmlSetter setter = new FxmlSetterImpl();
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
+    private final DBDataSaver data = new DBDataSaverImpl();
+    private final FxmlSetter setter = new FxmlSetterImpl();
 
     @FXML
     private TextField dbName;
@@ -32,7 +32,7 @@ public class ChooseNameDBController {
 
     @FXML
     private void cancelCreation(final ActionEvent event) {
-        if(setter.showDialog("Are you sure you want to abort the creation?\n"
+        if (setter.showDialog("Are you sure you want to abort the creation?\n"
                 + "Data will be lost.", AlertType.CONFIRMATION)) {
             loader.getMainMenuScene();
             setter.getStage(event).close();

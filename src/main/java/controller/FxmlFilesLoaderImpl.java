@@ -37,11 +37,11 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     }
 
     @Override
-    public void getScene() {
+    public final void getScene() {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
-            Parent root1 = (Parent) fxmlLoader.load();
-            Stage stage = new Stage();
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -50,19 +50,19 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     }
 
     @Override
-    public void getSceneData(final DBDataSaver data, final Class<?>controllerClass) {
+    public final void getSceneData(final DBDataSaver data, final Class<?> controllerClass) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
-            Parent root1 = (Parent) fxmlLoader.load();
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
+            final Parent root1 = (Parent) fxmlLoader.load();
 
             if (controllerClass == ChooseEncrSetController.class) {
-                ChooseEncrSetController encrController = fxmlLoader.<ChooseEncrSetController>getController();
+                final ChooseEncrSetController encrController = fxmlLoader.<ChooseEncrSetController>getController();
                 encrController.takeData(data);
             } else if (controllerClass == ChoosePassController.class) {
-                ChoosePassController passController = fxmlLoader.<ChoosePassController>getController();
+                final ChoosePassController passController = fxmlLoader.<ChoosePassController>getController();
                 passController.takeData(data);
             }
-            Stage stage = new Stage();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -71,25 +71,25 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     }
 
     @Override
-    public void getMainMenuScene() {
+    public final void getMainMenuScene() {
         this.source = "/view/MainMenuView.fxml";
         this.getScene();
     }
 
     @Override
-    public void getManageMenuScene() {
+    public final void getManageMenuScene() {
         this.source = "/view/database/ManageMenu.fxml";
         this.getScene();
     }
 
     @Override
-    public void getSceneFile(File file) {
+    public final void getSceneFile(final File file) {
        try {
-           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/OpenDatabase.fxml"));
-           Parent root1 = (Parent) fxmlLoader.load();
-           OpenDatabaseController controller = fxmlLoader.<OpenDatabaseController>getController();
+           final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/OpenDatabase.fxml"));
+           final Parent root1 = (Parent) fxmlLoader.load();
+           final OpenDatabaseController controller = fxmlLoader.<OpenDatabaseController>getController();
            controller.takeFile(file);
-           Stage stage = new Stage();
+           final Stage stage = new Stage();
            stage.setScene(new Scene(root1));
            stage.show();
 
@@ -99,13 +99,13 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     }
 
     @Override
-    public void getSceneDb(Database db) {
+    public final void getSceneDb(final Database db) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/ManageMenu.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
-            ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/ManageMenu.fxml"));
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
             controller.takeDatabase(db);
-            Stage stage = new Stage();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -129,7 +129,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

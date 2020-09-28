@@ -2,8 +2,6 @@ package view.controllers;
 
 import java.io.File;
 
-import com.lambdaworks.jni.Platform;
-
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
@@ -22,8 +20,8 @@ import javafx.stage.Stage;
 public class MainMenuController {
 
     private final String source = "/view/createnew/chooseNameDb.fxml";
-    private FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
-    private FxmlSetter setter = new FxmlSetterImpl();
+    private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl(this.source);
+    private final FxmlSetter setter = new FxmlSetterImpl();
     private FileChooser fileChooser;
     private String fileExtension;
 
@@ -33,7 +31,7 @@ public class MainMenuController {
      * @throws Exception 
      */
     @FXML
-    public void createNewDatabase(final ActionEvent event) throws Exception {
+    public void createNewDatabase(final ActionEvent event) {
         loader.getScene();
         setter.getStage(event).close();
     }
@@ -45,10 +43,10 @@ public class MainMenuController {
     @FXML
     public void openDatabase(final ActionEvent event) {
         fileChooser = new FileChooser();
-        Stage stage = setter.getStage(event);
+        final Stage stage = setter.getStage(event);
 
         fileChooser.setTitle("Open database ");
-        File file = fileChooser.showOpenDialog(stage);
+        final File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
             fileExtension = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length());
@@ -61,14 +59,14 @@ public class MainMenuController {
             }
         }
     }
-    
+
     @FXML
-    void closeApp(ActionEvent event) {
+    final void closeApp(final ActionEvent event) {
         System.exit(0);
     }
-    
+
     @FXML
-    void infoApp(ActionEvent event) {
+    final void infoApp(final ActionEvent event) {
         setter.showDialog("KeePassJ was created by:\n\n"
                 + "· Giovanni Di Santi\n"
                 + "· Francesco Ercolani\n"
