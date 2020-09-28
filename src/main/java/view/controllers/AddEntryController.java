@@ -60,7 +60,7 @@ public class AddEntryController implements Initializable {
 
     @FXML
     private Label lblStrength;
-    
+
     @FXML
     private Label lblPassword;
 
@@ -88,6 +88,13 @@ public class AddEntryController implements Initializable {
         setter.getStage(event).close();
     }
 
+    /**
+     * Method that checks the presence of fields
+     * saves the data entered by the user
+     * check if the password is valid
+     * and save the new entry in the database.
+     * @param event
+     */
     @FXML
     final void confirmAdd(final ActionEvent event) {
         if (this.title.getText().isEmpty()) {
@@ -150,7 +157,7 @@ public class AddEntryController implements Initializable {
 
     /**
      * Method to generate a random password
-     * and enter it in the passwordField
+     * and enter it in the passwordField.
      * @param event
      */
     @FXML
