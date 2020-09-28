@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.Optional;
-
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;

@@ -20,15 +20,15 @@ public class FxmlSetterImpl implements FxmlSetter {
 
     @Override
     public final void setSpinner(final Spinner<Integer> spinner, final Integer min, final Integer max) {
-        SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max);
+        final SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max);
         spinner.setValueFactory(values);
         spinner.setEditable(true);
     }
 
     @Override
     public final boolean showDialog(final String message, final AlertType type) {
-        AlertType alType = type;
-        Alert alert = new Alert(alType, "");
+        final AlertType alType = type;
+        final Alert alert = new Alert(alType, "");
 
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.getDialogPane().setContentText(message);
@@ -42,7 +42,7 @@ public class FxmlSetterImpl implements FxmlSetter {
 
     @Override
     public final Stage getStage(final ActionEvent event) {
-        Stage stage = (Stage) ((Node) ((EventObject) event).getSource()).getScene().getWindow();
+        final Stage stage = (Stage) ((Node) ((EventObject) event).getSource()).getScene().getWindow();
         return stage;
     }
 }
