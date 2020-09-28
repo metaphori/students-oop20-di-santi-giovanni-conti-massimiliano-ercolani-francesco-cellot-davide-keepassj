@@ -2,7 +2,9 @@ package view.controllers;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
 
@@ -19,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import model.db.Database;
@@ -35,6 +38,7 @@ public class ManageMenuController implements Initializable {
     private final FxmlFilesLoader groupLoader = new FxmlFilesLoaderImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db = new Database();
+    private Boolean isPasswordVisible = false;
 
 
     @FXML
@@ -45,6 +49,9 @@ public class ManageMenuController implements Initializable {
 
     @FXML
     private Label labelNomeDatabase;
+
+    @FXML
+    private Button btnVisibility;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -72,6 +79,17 @@ public class ManageMenuController implements Initializable {
         descGroup.setCellValueFactory(new PropertyValueFactory<>("description"));
     }
 
+    private void setPasswordColumn() {
+        this.accountTable.getColumns().remove(2);
+        final TableColumn<Entry, String> password = new TableColumn<>("Password");
+        this.accountTable.getColumns().add(2, password);
+        if (this.isPasswordVisible) {
+            password.setCellValueFactory(new PropertyValueFactory<>("password"));
+        } else {
+            password.setCellValueFactory(new PropertyValueFactory<>("stringNull"));
+        }
+    }
+
     /**
      * method to auto adjust width of columns in the TableView.
      */
@@ -97,7 +115,7 @@ public class ManageMenuController implements Initializable {
             //set the new max-widht with some extra space
             column.setPrefWidth(max + space);
         }
-                );
+        );
     }
 
     /**
@@ -113,8 +131,27 @@ public class ManageMenuController implements Initializable {
         this.labelNomeDatabase.setText(this.db.getNomeDatabase());
     }
 
+    /**
+     * method to change the boolean addicted to show/hide password in TableView.
+     * @param event
+     */
+    @FXML
+    final void changePasswordVisibility(final ActionEvent event) {
+        this.isPasswordVisible = !isPasswordVisible;
+        if (this.isPasswordVisible) {
+            this.btnVisibility.setText("hide password");
+        } else {
+            this.btnVisibility.setText("show password");
+        }
+        updateTableView();
+    }
+
+    /**
+     * method to adjust the width of column in TableView.
+     */
     private void updateTableView() {
-        final ObservableList<Entry> entryTemp = FXCollections.observableArrayList(db.getAllEntry());
+        setPasswordColumn();
+        final ObservableList<Entry> entryTemp = FXCollections.observableArrayList(this.db.getAllEntry());
         accountTable.setItems(entryTemp);
         autoResizeColumns();
         final ObservableList<Group> groupTemp = FXCollections.observableArrayList(db.getAllGroup());
