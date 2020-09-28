@@ -9,8 +9,8 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 
 /**
  * 
@@ -23,6 +23,7 @@ public class ChooseNameDBController {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl(source);
     private final DBDataSaver data = new DBDataSaverImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();
+    Stage stage = new Stage();
 
     @FXML
     private TextField dbName;
@@ -53,3 +54,4 @@ public class ChooseNameDBController {
         }
     }
 }
+
