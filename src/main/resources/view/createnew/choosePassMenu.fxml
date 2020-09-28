@@ -3,55 +3,33 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="470.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChoosePassController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChoosePassController">
    <children>
-      <MenuBar prefHeight="29.0" prefWidth="807.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <Label layoutX="38.0" layoutY="146.0" text="Choose your database password:">
+      <Label layoutX="38.0" layoutY="115.0" text="Choose your database password:">
          <font>
-            <Font name="System Bold" size="21.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
       </Label>
-      <Label layoutX="53.0" layoutY="221.0" text="Enter password:">
+      <Label layoutX="53.0" layoutY="213.0" text="Enter password:">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="213.0" layoutY="218.0" prefHeight="26.0" prefWidth="555.0" promptText="password" />
-      <Label layoutX="38.0" layoutY="260.0" text="Repeat password:">
+      <PasswordField fx:id="password" layoutX="213.0" layoutY="210.0" prefHeight="26.0" prefWidth="555.0" promptText="Database password" />
+      <Label layoutX="38.0" layoutY="252.0" text="Repeat password:">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <PasswordField fx:id="passwordRepeat" layoutX="213.0" layoutY="258.0" prefHeight="26.0" prefWidth="556.0" promptText="repeat password" />
-      <Button layoutX="423.0" layoutY="404.0" mnemonicParsing="false" onAction="#confirmCreation" prefHeight="32.0" prefWidth="160.0" text="Confirm" />
-      <Button layoutX="637.0" layoutY="404.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
+      <PasswordField fx:id="passwordRepeat" layoutX="213.0" layoutY="250.0" prefHeight="26.0" prefWidth="556.0" promptText="Repeat database password" />
+      <Button layoutX="396.0" layoutY="384.0" mnemonicParsing="false" onAction="#confirmCreation" prefHeight="40.0" prefWidth="200.0" text="Confirm" />
+      <Button layoutX="628.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
    </children>
 </Pane>

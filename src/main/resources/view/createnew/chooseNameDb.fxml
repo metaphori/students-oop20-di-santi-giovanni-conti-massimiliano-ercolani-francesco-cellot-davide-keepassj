@@ -2,49 +2,27 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseNameDBController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.ChooseNameDBController">
    <children>
-      <MenuBar prefHeight="29.0" prefWidth="711.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <TextField fx:id="dbName" layoutX="214.0" layoutY="184.0" prefHeight="26.0" prefWidth="416.0" />
-      <TextField fx:id="dbDescription" layoutX="214.0" layoutY="240.0" prefHeight="26.0" prefWidth="416.0" />
-      <Label layoutX="52.0" layoutY="186.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
+      <TextField fx:id="dbName" layoutX="203.0" layoutY="215.0" prefHeight="26.0" prefWidth="558.0" promptText="Database name" />
+      <TextField fx:id="dbDescription" layoutX="202.0" layoutY="253.0" prefHeight="26.0" prefWidth="558.0" promptText="Database description" />
+      <Label layoutX="41.0" layoutY="217.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="52.0" layoutY="74.0" prefHeight="58.0" prefWidth="499.0" text="Choose a name for your new database:">
+      <Label layoutX="41.0" layoutY="95.0" prefHeight="87.0" prefWidth="577.0" text="Choose a name for your new database:">
          <font>
-            <Font name="System Bold" size="22.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Button layoutX="342.0" layoutY="330.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="32.0" prefWidth="160.0" text="Continue" />
-      <Button layoutX="550.0" layoutY="330.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="32.0" prefWidth="139.0" text="Cancel" />
-      <Label layoutX="52.0" layoutY="242.0" prefHeight="22.0" prefWidth="149.0" text="Description: ">
+      <Button layoutX="393.0" layoutY="384.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="40.0" prefWidth="200.0" text="Continue" />
+      <Button layoutX="621.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
+      <Label layoutX="40.0" layoutY="255.0" prefHeight="22.0" prefWidth="149.0" text="Description: ">
          <font>
             <Font size="17.0" />
          </font>
