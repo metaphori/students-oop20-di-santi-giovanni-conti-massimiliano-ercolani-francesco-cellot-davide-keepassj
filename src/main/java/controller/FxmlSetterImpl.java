@@ -30,12 +30,12 @@ public class FxmlSetterImpl implements FxmlSetter {
     }
 
     @Override
-    public void warningDialog(final String warningMessage) {
-        AlertType type = AlertType.WARNING;
-        Alert alert = new Alert(type, "");
+    public void showDialog(final String message, final AlertType type) {
+        AlertType alType = type;
+        Alert alert = new Alert(alType, "");
         
         alert.initModality(Modality.APPLICATION_MODAL);
-        alert.getDialogPane().setContentText(warningMessage);
+        alert.getDialogPane().setContentText(message);
         alert.showAndWait();
     }
 
@@ -43,20 +43,6 @@ public class FxmlSetterImpl implements FxmlSetter {
     public Stage getStage(final ActionEvent event) {
         Stage stage = (Stage) ((Node) ((EventObject) event).getSource()).getScene().getWindow();
         return stage;
-    }
-
-    @Override
-    public void infoDiaog() {
-        AlertType type = AlertType.INFORMATION;
-        Alert alert = new Alert(type, "");
-        
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.getDialogPane().setContentText("KeePassJ was created by:\n\n"
-                + "· Giovanni Di Santi\n"
-                + "· Francesco Ercolani\n"
-                + "· Massimiliano Conti\n"
-                + "· Davide Cellot");
-        alert.showAndWait();       
     }
 }
 

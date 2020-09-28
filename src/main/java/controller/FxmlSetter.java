@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
 
@@ -8,7 +9,7 @@ public interface FxmlSetter {
 
     /**
      * 
-     * Set javafx component spinner for integer
+     * Set javafx component spinner for integer.
      * @param spinner is the spinner to be set
      * @param min is the minimum limit
      * @param max is the maximum limit
@@ -17,9 +18,10 @@ public interface FxmlSetter {
 
     /**
      * Set a javafx dialog box.
-     * @param warningMessage is the message shown in the dialog box
+     * @param message is the message shown in the dialog box
+     * @param type is the type of alert
      */
-    void warningDialog(String warningMessage);
+    void showDialog(String message, AlertType type);
 
     /**
      * Get the stage from every controller.
@@ -27,10 +29,5 @@ public interface FxmlSetter {
      * @return the stage
      */
     Stage getStage(ActionEvent event);
-
-    /**
-     * Get "about" info.
-     */
-    void infoDiaog();
 
 }
