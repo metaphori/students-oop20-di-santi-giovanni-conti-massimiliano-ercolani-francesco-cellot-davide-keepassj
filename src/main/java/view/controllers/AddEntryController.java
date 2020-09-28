@@ -125,6 +125,7 @@ public class AddEntryController implements Initializable {
             loader.getSceneDb(db);
             setter.getStage(event).close();
         } else {
+            //If password is not valid, a message will display...
             createAlert();
         }
 
@@ -134,6 +135,7 @@ public class AddEntryController implements Initializable {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setHeaderText("Look, an Error Dialog");
+        //Follow the instructions to enter a valid password
         alert.setContentText("Password non valida!\n"
                             + "La password deve contenere:\n"
                             + "1) Almeno 8 caratteri\n"
