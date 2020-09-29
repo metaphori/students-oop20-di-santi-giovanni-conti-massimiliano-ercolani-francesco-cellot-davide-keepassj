@@ -1,10 +1,15 @@
 package controller;
 
 import java.io.File;
+
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import model.db.Database;
 import model.db.Entry;
 import view.controllers.AddEntryController;
@@ -43,6 +48,9 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             final Parent root1 = (Parent) fxmlLoader.load();
             final Stage stage = new Stage();
+            
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -63,7 +71,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
                 final ChoosePassController passController = fxmlLoader.<ChoosePassController>getController();
                 passController.takeData(data);
             }
+
             final Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -74,13 +85,17 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     @Override
     public final void getMainMenuScene() {
         this.source = "/view/MainMenuView.fxml";
-        this.getScene();
-    }
-
-    @Override
-    public final void getManageMenuScene() {
-        this.source = "/view/database/ManageMenu.fxml";
-        this.getScene();
+        try {
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
+            final Parent root1 = (Parent) fxmlLoader.load();
+            final Stage stage = new Stage();
+            
+            stage.setResizable(false);
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,7 +105,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
            final Parent root1 = (Parent) fxmlLoader.load();
            final OpenDatabaseController controller = fxmlLoader.<OpenDatabaseController>getController();
            controller.takeFile(file);
+
            final Stage stage = new Stage();
+           stage.initStyle(StageStyle.UNDECORATED);
+           stage.setResizable(false);
            stage.setScene(new Scene(root1));
            stage.show();
 
@@ -106,7 +124,20 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Parent root1 = (Parent) fxmlLoader.load();
             final ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
             controller.takeDatabase(db);
+            
             final Stage stage = new Stage();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                FxmlSetter setter = new FxmlSetterImpl();
+                @Override
+                public void handle(WindowEvent event) {
+                    if(setter.showDialog("Do you really want to close the database?", AlertType.CONFIRMATION)) {
+                        System.exit(0);
+                    } else {
+                        event.consume();
+                    }
+                }
+            });
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -127,7 +158,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final AddEntryController controller = fxmlLoader.<AddEntryController>getController();
             controller.takeDatabase(db);
             controller.loadGroup();
+
             final Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -147,7 +181,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final AddEntryController controller = fxmlLoader.<AddEntryController>getController();
             controller.takeDatabase(db, entry);
             controller.loadGroup();
+
             final Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -168,7 +205,10 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final AddNewGroupController controller = fxmlLoader.<AddNewGroupController>getController();
             controller.takeDatabase(db);
             controller.setGoToManageMenu(goToManageMenu);
+
             final Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
 

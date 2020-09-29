@@ -29,11 +29,6 @@ public interface FxmlFilesLoader {
     void getMainMenuScene();
 
     /**
-     * Get fxml file of ManageMenu.fxml.
-     */
-    void getManageMenuScene();
-
-    /**
      * Get fxml file passing the file.
      * @param file is the file to be passed
      */

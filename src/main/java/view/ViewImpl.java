@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 /**
@@ -19,7 +20,7 @@ public class ViewImpl implements View {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-            
+
             stage.setResizable(false);
             stage.setX(500);
             stage.setY(200);
