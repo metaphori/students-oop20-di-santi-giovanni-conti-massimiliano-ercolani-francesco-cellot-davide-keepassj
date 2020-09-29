@@ -337,7 +337,7 @@ Gli oggeti gestiti dalla classe Database sono:
 \textbf{Entry} è la classe su cui si basa il Database perchè con i sui campi nomeAccount, username, password, groupName, url e note mantiene ogni dato che l'utente inserisce riguardo l'account che sta salvando sull'applicazione.\\
 
 \textbf{Group} è la classe adibita alle categorie che l'utente crea o può creare. Ho creato una classe apposita per una più corretta gestione in modo da poter attribuire un nome e anche una descrizione oltre che impedire all'utente nel momento di creazione di una Entry l'inserimento di un nome sbagliato fornendo la lista già presente o la possibilità di creare un nuovo Group. 
-
+\clearpage
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{DatabaseUml}
@@ -359,7 +359,7 @@ Il funzionamento si basa su due metodi \textit{static}:
 \textbf{fromXml} invece come paramentro di input prende un documento XML contenuto in una String e tramite gli oggetti \texttt{JAXBContext} e \texttt{Unmarshaller} lo converte e crea una nuova istanza della classe Database e la restituisce in output per riempire l'oggetto che ha chiamato la conversione.\\
 
 La classe ha poi un metodo privato \textbf{getTempFile} a cui il metodo fromXml fa appoggio per la creazione di un file usato dall'oggetto Unmarshaller, ma con il vantaggio di non scriverlo fisicamente su disco.\\
-
+\clearpage
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{ConvertXmlUml}
@@ -390,8 +390,8 @@ Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano a
 
 \textbf{PasswordStrengthImpl} è la classe incaricata di calcolare la robustezza delle password tramite il metodo pubblico \textit{getStrength()}. Tale metodo l’ho impostato statico in modo tale da non dover creare ogni volta un’istanza della classe per invocarlo, evitando un procedimento reputato superfluo.\\
 
-Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.\\
-
+Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.
+\clearpage
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{password-strength}
@@ -411,7 +411,7 @@ Ciò avviene tramite l’uso della classe \textit{Random}.\\
 Tale vettore viene convertito in stringa e viene testata la sua validità. Infatti si è deciso che una password per essere valida deve avere almeno otto caratteri e deve contenere almeno un numero.\\
 
 Generata la password casuale, ci si appoggia alla classe \textbf{PasswordValidatorImpl} che tramite il suo metodo \textit{isValid()} ne testa la validità.
-Se la password risulta valida viene ritornata dal metodo \textbf{generatePassword()}, altrimenti viene rigenerata da zero.\\
+Se la password risulta valida viene ritornata dal metodo \textbf{generatePassword()}, altrimenti viene rigenerata da zero.
 
 \begin{figure}[h]
 \centering{}
@@ -428,7 +428,7 @@ Successivamente mi sono concentrato sulla generazione random, inserendo un botto
 
 Ho gestito tutte le azioni nel controller nel pieno rispetto del pattern MVC.\\
 
-Per ultimo ho impostato dei controlli suppletivi sulla password, ovvero una volta premuto il pulsante per creare la Entry, viene controllato se la password immessa è corretta (controllo effettuato richiamando \textbf{PasswordValidator}), in caso positivo viene creata la “Entry”, altrimenti appare un \textit{AlertDialog} con le istruzioni necessarie per inserire una password corretta.\\
+Per ultimo ho impostato dei controlli suppletivi sulla password, ovvero una volta premuto il pulsante per creare la Entry, viene controllato se la password immessa è corretta (controllo effettuato richiamando \textbf{PasswordValidator}), in caso positivo viene creata la “Entry”, altrimenti appare un \textit{AlertDialog} con le istruzioni necessarie per inserire una password corretta.
 
 
 \chapter{Sviluppo}
