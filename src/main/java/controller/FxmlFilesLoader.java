@@ -42,21 +42,21 @@ public interface FxmlFilesLoader {
 
     /**
      * Get fxml file passing the db (for Group).
-     * @param db
-     * @param goToManageMenu
+     * @param db is the database
+     * @param goToManageMenu is the flag to know what action is to be chosen
      */
     void getSceneGroup(Database db, Boolean goToManageMenu);
 
     /**
      * Get fxml file passing the db (for Entry).
-     * @param db
+     * @param db is the database
      */
     void getSceneEntry(Database db);
 
     /**
      * getScene that open the view to edit an entry off db.
-     * @param db
-     * @param entry
+     * @param db is the database
+     * @param entry is the entry
      */
     void getSceneEntry(Database db, Entry entry);
 }

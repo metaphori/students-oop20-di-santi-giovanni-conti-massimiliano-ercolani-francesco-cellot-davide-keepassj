@@ -65,7 +65,7 @@ public class ChoosePassController {
     @FXML
     private void confirmCreation(final ActionEvent event) throws JAXBException {
         System.out.println(data.getDBDesc());
-        if (passwordRepeat.getText().equals(password.getText()) && password.getText().isBlank() == false) {
+        if (passwordRepeat.getText().equals(password.getText()) && !(password.getText().isBlank())) {
             header.setComment(data.getDBName().getBytes());
             header.setPublicCustomData(data.getDBDesc().getBytes());
 
@@ -88,7 +88,7 @@ public class ChoosePassController {
 
             if (file != null) {
                 String filename = file.getName();
-                if (filename.endsWith(".kdbj") == false) {
+                if (!(filename.endsWith(".kdbj"))) {
                     setter.showDialog(".kdbj extension missing", AlertType.ERROR);
                 } else {
                     creadentials = Arrays.asList(password.getText().getBytes());
@@ -106,7 +106,7 @@ public class ChoosePassController {
                 }
             }
         } else {
-            if (passwordRepeat.getText().equals(password.getText()) == false) {
+            if (!(passwordRepeat.getText().equals(password.getText()))) {
                 setter.showDialog("Passwords are not the same", AlertType.ERROR);
             } else if (password.getText().isBlank()) {
                 setter.showDialog("Insert a password", AlertType.ERROR);

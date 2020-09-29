@@ -5,6 +5,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * A class for doing recurrent actions.
+ *
+ */
 public interface FxmlSetter {
 
     /**

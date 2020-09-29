@@ -67,6 +67,10 @@ public class AddNewGroupController {
         this.db = db;
     }
 
+    /**
+     * Method for specifying if controller has to go to manage menu or not.
+     * @param goToManageMenu is the flag
+     */
     public final void setGoToManageMenu(final Boolean goToManageMenu) {
         this.goToManageMenu = goToManageMenu;
     }

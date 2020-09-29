@@ -31,6 +31,10 @@ public class OpenDatabaseController {
     @FXML
     private PasswordField password;
 
+    /**
+     * Method that takes the file passed by the previous controller.
+     * @param file is the file passed from the previous controller
+     */
     public final void takeFile(final File file) {
         this.file = file;
     }

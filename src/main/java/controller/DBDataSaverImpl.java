@@ -8,7 +8,7 @@ package controller;
  * to set them.
  *
  */
-public class DBDataSaverImpl implements DBDataSaver{
+public class DBDataSaverImpl implements DBDataSaver {
 
     private String dbName;
     private String dbDesc;

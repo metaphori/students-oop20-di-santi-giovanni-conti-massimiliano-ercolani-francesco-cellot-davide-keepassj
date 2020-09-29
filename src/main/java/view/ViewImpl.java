@@ -1,12 +1,9 @@
 package view;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 
 /**
  * 
@@ -14,6 +11,8 @@ import javafx.stage.WindowEvent;
  *
  */
 public class ViewImpl implements View {
+    private static final int STAGEXPOSITION = 500;
+    private static final int STAGEYPOSITION = 200;
 
     @Override
     public final void loadFirstScene(final Stage stage) {
@@ -22,8 +21,8 @@ public class ViewImpl implements View {
             Parent root1 = (Parent) fxmlLoader.load();
 
             stage.setResizable(false);
-            stage.setX(500);
-            stage.setY(200);
+            stage.setX(STAGEXPOSITION);
+            stage.setY(STAGEYPOSITION);
             stage.setTitle("KeePassJ");
             stage.setScene(new Scene(root1));
             stage.show();

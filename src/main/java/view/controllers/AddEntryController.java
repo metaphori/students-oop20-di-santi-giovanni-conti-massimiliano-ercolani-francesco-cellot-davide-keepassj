@@ -32,6 +32,11 @@ import util.PasswordStrengthImpl;
 import util.PasswordValidator;
 import util.PasswordValidatorImpl;
 
+/**
+ * 
+ * Controller for AddEntry.fxml.
+ *
+ */
 public class AddEntryController implements Initializable {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl();
     private final FxmlSetter setter = new FxmlSetterImpl();

@@ -48,7 +48,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             final Parent root1 = (Parent) fxmlLoader.load();
             final Stage stage = new Stage();
-            
+
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setResizable(false);
             stage.setScene(new Scene(root1));
@@ -89,7 +89,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(this.source));
             final Parent root1 = (Parent) fxmlLoader.load();
             final Stage stage = new Stage();
-            
+
             stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
@@ -124,13 +124,13 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Parent root1 = (Parent) fxmlLoader.load();
             final ManageMenuController controller = fxmlLoader.<ManageMenuController>getController();
             controller.takeDatabase(db);
-            
+
             final Stage stage = new Stage();
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                FxmlSetter setter = new FxmlSetterImpl();
+               private FxmlSetter setter = new FxmlSetterImpl();
                 @Override
-                public void handle(WindowEvent event) {
-                    if(setter.showDialog("Do you really want to close the database?", AlertType.CONFIRMATION)) {
+                public void handle(final WindowEvent event) {
+                    if (setter.showDialog("Do you really want to close the database?", AlertType.CONFIRMATION)) {
                         System.exit(0);
                     } else {
                         event.consume();
