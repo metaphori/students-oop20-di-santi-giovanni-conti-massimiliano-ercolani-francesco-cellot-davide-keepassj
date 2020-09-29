@@ -6,15 +6,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.OpenDatabaseController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="331.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.OpenDatabaseController">
    <children>
-      <Label layoutX="27.0" layoutY="86.0" text="Enter database password:">
+      <Label layoutX="35.0" layoutY="140.0" text="Enter database password:">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="272.0" layoutY="84.0" prefHeight="26.0" prefWidth="292.0" />
-      <Button layoutX="215.0" layoutY="173.0" mnemonicParsing="false" onAction="#openDatabase" prefHeight="46.0" prefWidth="182.0" text="Open" />
-      <Button layoutX="433.0" layoutY="173.0" mnemonicParsing="false" onAction="#cancel" prefHeight="46.0" prefWidth="125.0" text="Cancel" />
+      <PasswordField fx:id="password" layoutX="364.0" layoutY="140.0" prefHeight="26.0" prefWidth="402.0" promptText="Database password" />
+      <Button layoutX="395.0" layoutY="262.0" mnemonicParsing="false" onAction="#openDatabase" prefHeight="40.0" prefWidth="200.0" text="Open" />
+      <Button layoutX="626.0" layoutY="262.0" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
    </children>
 </Pane>

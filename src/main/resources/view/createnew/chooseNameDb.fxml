@@ -10,7 +10,7 @@
    <children>
       <TextField fx:id="dbName" layoutX="203.0" layoutY="215.0" prefHeight="26.0" prefWidth="558.0" promptText="Database name" />
       <TextField fx:id="dbDescription" layoutX="202.0" layoutY="253.0" prefHeight="26.0" prefWidth="558.0" promptText="Database description" />
-      <Label layoutX="41.0" layoutY="217.0" prefHeight="22.0" prefWidth="149.0" text="Database name:">
+      <Label alignment="CENTER_RIGHT" layoutX="37.0" layoutY="218.0" prefHeight="20.0" prefWidth="150.0" text="Database name:">
          <font>
             <Font size="17.0" />
          </font>
@@ -22,7 +22,7 @@
       </Label>
       <Button layoutX="393.0" layoutY="384.0" mnemonicParsing="false" onAction="#continueCreation" prefHeight="40.0" prefWidth="200.0" text="Continue" />
       <Button layoutX="621.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelCreation" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
-      <Label layoutX="40.0" layoutY="255.0" prefHeight="22.0" prefWidth="149.0" text="Description: ">
+      <Label alignment="CENTER_RIGHT" layoutX="41.0" layoutY="256.0" prefHeight="20.0" prefWidth="150.0" text="Description: ">
          <font>
             <Font size="17.0" />
          </font>

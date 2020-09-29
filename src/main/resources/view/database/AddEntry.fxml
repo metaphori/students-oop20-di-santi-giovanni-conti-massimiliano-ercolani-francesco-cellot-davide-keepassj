@@ -9,68 +9,63 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="1013.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AddEntryController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.AddEntryController">
    <children>
-      <Label layoutX="47.0" layoutY="68.0" prefHeight="39.0" prefWidth="318.0" text="Add entry:">
+      <Label layoutX="53.0" layoutY="94.0" prefHeight="39.0" prefWidth="318.0" text="Add entry:">
          <font>
-            <Font name="System Bold" size="31.0" />
+            <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="98.0" layoutY="155.0" text="Title:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="40.0" layoutY="211.0" text="Username:">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="47.0" layoutY="263.0" text="Password:">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="101.0" layoutY="407.0" text="URL:">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <TextField fx:id="title" layoutX="163.0" layoutY="154.0" prefHeight="26.0" prefWidth="744.0" />
-      <TextField fx:id="username" layoutX="163.0" layoutY="208.0" prefHeight="26.0" prefWidth="744.0" />
-      <PasswordField fx:id="password" layoutX="163.0" layoutY="262.0" onKeyTyped="#updateProgressBar" prefHeight="26.0" prefWidth="744.0" />
-      <TextField fx:id="url" layoutX="163.0" layoutY="406.0" prefHeight="26.0" prefWidth="744.0" />
-      <Button layoutX="751.0" layoutY="586.0" mnemonicParsing="false" onAction="#cancel" prefHeight="39.0" prefWidth="171.0" text="Cancel">
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="184.0" prefHeight="20.0" prefWidth="120.0" text="Title:">
          <font>
             <Font size="17.0" />
          </font>
-      </Button>
-      <Button layoutX="540.0" layoutY="586.0" mnemonicParsing="false" onAction="#confirmAdd" prefHeight="39.0" prefWidth="171.0" text="Confirm">
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="238.0" prefHeight="20.0" prefWidth="120.0" text="Username:">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="293.0" prefHeight="20.0" prefWidth="120.0" text="Password:">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="436.0" prefHeight="20.0" prefWidth="120.0" text="URL:">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <TextField fx:id="title" layoutX="169.0" layoutY="180.0" prefHeight="26.0" prefWidth="825.0" promptText="Title" />
+      <TextField fx:id="username" layoutX="169.0" layoutY="234.0" prefHeight="26.0" prefWidth="825.0" promptText="Username" />
+      <PasswordField fx:id="password" layoutX="169.0" layoutY="288.0" onKeyTyped="#updateProgressBar" prefHeight="26.0" prefWidth="825.0" promptText="Password" />
+      <TextField fx:id="url" layoutX="169.0" layoutY="432.0" prefHeight="26.0" prefWidth="825.0" promptText="Url" />
+      <Button layoutX="941.0" layoutY="636.0" mnemonicParsing="false" onAction="#cancel" prefHeight="40.0" prefWidth="140.0" text="Cancel" />
+      <Button layoutX="709.0" layoutY="636.0" mnemonicParsing="false" onAction="#confirmAdd" prefHeight="40.0" prefWidth="200.0" text="Confirm" />
+      <ComboBox fx:id="comboBoxGroup" layoutX="169.0" layoutY="544.0" onAction="#selectGroup" prefHeight="26.0" prefWidth="193.0" promptText="--Select--" />
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="548.0" prefHeight="20.0" prefWidth="120.0" text="Group:">
          <font>
             <Font size="17.0" />
          </font>
-      </Button>
-      <ComboBox fx:id="comboBoxGroup" layoutX="163.0" layoutY="518.0" onAction="#selectGroup" prefHeight="26.0" prefWidth="193.0" />
-      <Label layoutX="82.0" layoutY="518.0" text="Group:">
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="38.0" layoutY="491.0" prefHeight="20.0" prefWidth="120.0" text="Notes:">
          <font>
-            <Font size="20.0" />
+            <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="82.0" layoutY="461.0" text="Notes:">
+      <TextField fx:id="notes" layoutX="169.0" layoutY="487.0" prefHeight="26.0" prefWidth="825.0" promptText="Notes" />
+      <Button layoutX="399.0" layoutY="541.0" mnemonicParsing="false" onAction="#addNewGroup" prefHeight="26.0" prefWidth="230.0" text="Add new group">
          <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="notes" layoutX="163.0" layoutY="461.0" prefHeight="26.0" prefWidth="744.0" />
-      <Button layoutX="396.0" layoutY="518.0" mnemonicParsing="false" onAction="#addNewGroup" prefHeight="26.0" prefWidth="144.0" text="Add new group">
-         <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
       </Button>
-      <Button layoutX="163.0" layoutY="317.0" mnemonicParsing="false" onAction="#generatePassword" prefHeight="46.0" prefWidth="230.0" text="Generate password">
+      <Button layoutX="169.0" layoutY="343.0" mnemonicParsing="false" onAction="#generatePassword" prefHeight="46.0" prefWidth="230.0" text="Generate password">
          <font>
             <Font name="System Bold" size="18.0" />
          </font></Button>
-      <ProgressBar fx:id="progressBar" layoutX="468.0" layoutY="331.0" prefWidth="200.0" progress="0.0" />
-      <Label fx:id="lblStrength" layoutX="697.0" layoutY="332.0" text="   " />
-      <Label fx:id="lblPassword" layoutX="163.0" layoutY="293.0" text="       " />
-      <Button layoutX="922.0" layoutY="263.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="25.0" prefWidth="49.0" text="Show" />
+      <ProgressBar fx:id="progressBar" layoutX="474.0" layoutY="357.0" prefHeight="20.0" prefWidth="284.0" progress="0.0" />
+      <Label fx:id="lblStrength" layoutX="703.0" layoutY="358.0" text="   " />
+      <Label fx:id="lblPassword" layoutX="169.0" layoutY="319.0" text="       " />
+      <Button layoutX="1011.0" layoutY="287.0" mnemonicParsing="false" onAction="#showPassword" prefHeight="26.0" prefWidth="75.0" text="SHOW">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
    </children>
 </Pane>
