@@ -51,7 +51,7 @@ TODO: scrivere descrizione più lunga.
   \item Funzioni per generare in modo sicuro password e controllarne la validità.
   \item Possibilità di importare in chiaro un database in formato XML, in modo simile
     alla funzionalità di un keepass originale.
-  \item Sezione Statistics che mostra le statistiche relative al proprio database (Es. il numero di account salvati)
+  
 \end{itemize}
 
 \subsubsection{Requisiti non funzionali}
@@ -59,6 +59,7 @@ TODO: scrivere descrizione più lunga.
   \item Possibilità di cifrare archivi esterni.
   \item Funzioni di sort e find per ordinare e cercare entry specifiche.
   \item Funzione expire che avvisa quando una password è da cambiare (es. 2 anni).
+  \item Sezione Statistics che mostra le statistiche relative al proprio database (Es. il numero di account salvati)
 \end{itemize}
 
 \section{Analisi e modello del dominio}
@@ -379,6 +380,11 @@ In \textbf{AddEntryController} in particolare ho riempito la ComboBox relativa a
 
 In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \textit{TableView} in cui mostro la lista di Entry e la lista di Group.\\Tramite i bottoni è poi possibile eliminare l'Entry selezionata nella tabella e accedere poi alle view di AddEntry e AddGroup.
 
+
+\section*{Davide Cellot}
+\\Il mio compito principale nella realizzazione del progetto è stato quello di gestire la parte legata alle password. Dato che il progetto si basa sul salvataggio di password in database e la loro crittazione, è abbastanza importante gestire in modo ottimale tali password.\\
+
+\\Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano anche l’inserimento di password e da tali ho preso ispirazione per la creazione del controllo di validità. Dopodiché mi sono concentrato sul calcolo della robustezza (strength) ovvero una misura di efficienza contro eventuali attacchi che una password può subire. Tanto questo numero è più alto, tanto è più sicura la password.\\
 
 \chapter{Sviluppo}
 \section{Testing automatizzato}
