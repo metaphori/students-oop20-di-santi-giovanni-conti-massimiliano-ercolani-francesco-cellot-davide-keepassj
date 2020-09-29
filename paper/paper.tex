@@ -39,7 +39,10 @@
 Il gruppo si pone come obiettivo quello di realizzare un keepass per salvare
 in modo sicuro le password. Al momento i keepass desktop più usati sono keepass2
 \cite{keepass2} e keepassxc \cite{keepassxc}.
-TODO: scrivere descrizione più lunga.
+Un problema comune degli utenti di internet è quello della gestione dei propri account.
+La maggior parte delle persone è abituata a segnarsi le proprie password su 
+supporti cartacei, tenerle a mente o ancora peggio a memorizzarle in chiaro sul 
+proprio PC.
 
 \subsubsection{Requisiti funzionali}
 \begin{itemize}
@@ -49,8 +52,11 @@ TODO: scrivere descrizione più lunga.
   \item Gestione delle entry (add, edit, delete) con la possibilità di suddividere
     le entry in vari gruppi.
   \item Funzioni per generare in modo sicuro password e controllarne la validità.
+    (es. Contenere almeno un numero e carattere alfanumerico).
   \item Possibilità di importare in chiaro un database in formato XML, in modo simile
     alla funzionalità di un keepass originale.
+  \item Sezione statistics che mostra le statistiche relative al proprio database,
+    come ad esempio il conteggio delle password deboli e password uguali.
   
 \end{itemize}
 
@@ -59,7 +65,7 @@ TODO: scrivere descrizione più lunga.
   \item Possibilità di cifrare archivi esterni.
   \item Funzioni di sort e find per ordinare e cercare entry specifiche.
   \item Funzione expire che avvisa quando una password è da cambiare (es. 2 anni).
-  \item Sezione Statistics che mostra le statistiche relative al proprio database (Es. il numero di account salvati)
+  \item Import/export del database in diversi formati.
 \end{itemize}
 
 \section{Analisi e modello del dominio}
@@ -92,9 +98,9 @@ che permette di manipolare le entry e i gruppi.
 \section{Architettura}
 
 Per la realizzazione di KeePassJ abbiamo scelto di utilizzare il pattern architetturale
-Model-View-Controller (MVC).
-
-TODO: Inserire schema UML MVC.
+Model-View-Controller (MVC). In questo modo è possibile separare logicamente le
+varie parti del programma. Un altro vantaggio è che ogni componente del progetto
+può essere implementata senza avere dipendenze con altre componenti.
 
 \section{Design dettagliato}
 
@@ -420,7 +426,6 @@ Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano a
 \textbf{PasswordStrengthImpl} è la classe incaricata di calcolare la robustezza delle password tramite il metodo pubblico \textit{getStrength()}. Tale metodo l’ho impostato statico in modo tale da non dover creare ogni volta un’istanza della classe per invocarlo, evitando un procedimento reputato superfluo.\\
 
 Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.
-\clearpage
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{password-strength}
@@ -475,10 +480,13 @@ testare il corretto funzionamento delle varie classi.
   \item \textit{Database}: viene controllato la corretta creazione ed uso delle liste usate e dei relativi getter.
   \item \textit{Entry}: test sui getter e setter.
   \item \textit{ConvertXml}: test sulla corretta conversione di un Database sample da e verso xml.
+  \item \textit{Password Generator e Password Strength}: test sulla generazione e robustezza della password.
 \end{itemize}
 
-I test vengono eseguiti anche in remoto tramite l'apposita \texttt{bitbucket pipelines} che
-esegue la build del progetto e lancia i vari test.
+Tutti i test con \texttt{Junit} vengono eseguiti anche in remoto tramite 
+l'apposita \texttt{bitbucket pipelines} che esegue la build del progetto e lancia i vari test.
+
+I test della \textit{GUI} sono stati eseguiti manualmente.
 
 \section{Metodologia di lavoro}
 
@@ -486,19 +494,23 @@ Nel complesso, le parti inizialmente concordate sono state rispettate ma con qua
 La "\textbf{gestione import/export dei dati su database locale}" inizialmente assegnata a Davide Cellot, 
 è stata svolta da Massimiliano Conti che, in un primo momento, aveva la "\textbf{gestione generazione password random e 
 controllo robustezza password tramite apposita GUI}", parte svolta appunto da Davide. La "\textbf{gestione suddivisione 
-account per categoria}" assegnata a Francesco Ercolani, è stata assegnata a Massimiliano Conti per motivi equità delle parti. 
+account per categoria}" assegnata a Francesco Ercolani, è stata assegnata a Massimiliano Conti per fare equivalere le ore di lavoro sul progetto.
 La "\textbf{gestione sezione Statistics}" non è stata implementata per valutazioni successive effettuate sulla base della sua complessità di implementazione. 
-Per la comunicazione tra i componenti del gruppo sono stati utilizzati: un gruppo \textbf{Telegram} 
-e un canale \textbf{Discord} per riunioni a voce con eventuale condivisioni di schermo.\\
+Per la comunicazione tra i componenti del gruppo sono stati utilizzati:
+\begin{itemize}
+  \item \textbf{Telegram}: per comunicare testualmente.
+  \item \textbf{Discord} : per riunioni a voce con eventuale condivisioni di schermo.
+\end{itemize}
+
 Dopo questi chiarimenti, elenchiamo le parti definitive di ciascun membro del gruppo:
 \begin{itemize}
-    \item \texttt{Giovanni Di santi}: gestione aspetti crittografici che riguardano l'encryption/decryption
- del database e gestione dei parametri disponibili per eseguire la cifratura.
+    \item \texttt{Giovanni Di Santi}: gestione degli aspetti crittografici che riguardano l'encryption/decryption
+ del database, gestione dei parametri disponibili per eseguire l'encryption/decryption.
     \item \texttt{Francesco Ercolani}: gestione degli aspetti grafici dell'applicazione con creazione dei 
 rispettivi file FXML e dei relativi controller. Gestione della logica dei controller legati alla fase di creazione del database e della prima schermata di apertura dello stesso.
-    \item \texttt{Massimiliano Conti}: gestione del Database \textbf{in chiaro} e della sua conversione in documento Xml. 
-Implementazione dei controller per aggiunta ed eliminazione Entry, Group e del Menu di visualizzazione.
-    \item \texttt{Davide Cellot}: gestione generazione casuale password in fase di inserimento di una nuova 
+    \item \texttt{Massimiliano Conti}: gestione del database \textbf{in chiaro} e della sua conversione in formato XML. 
+Implementazione dei controller per aggiunta ed eliminazione Entry, Group e del menu di visualizzazione.
+    \item \texttt{Davide Cellot}: generazione casuale password in fase di inserimento di una nuova 
 Entry con controllo sulla sua robustezza e la relativa implementazione grafica e logica nel rispettivo controller.
 \end{itemize}
 Durante la fase di sviluppo ci sono stati momenti in cui più elementi del gruppo hanno lavorato su file comuni, 
@@ -590,6 +602,20 @@ responsabilità nel mantenimento in sicurezza dei propri dati personali, ed è p
 Lo sviluppo di questo processo, nonostante i problemi riscontrati, mi ha fatto trovato la voglia di progettare un'applicazione da zero
  e, allo stesso tempo, come già detto, spero in futuro di ritagliarmi uno spazio per proseguire lo sviluppo di KeePassJ.
 
+\subsection*{Massimiliano Conti}
+La mia parte di progettzione in questo progetto mi è piacita particolarmente perchè mi
+sono sempre trovato bene con la gestione di dati in dei precedenti applicativi.
+So di non aver usato il miglior design e lo si nota anche nell'uso delle mie classi,
+perchè potevano avere una logica ancora più intuitiva.
+Ho dovuto anche studiare una base di \textbf{FXML} per la scrittura della parte grafica
+e della libreria \textbf{JAXB} che sono state utili per capire come il proprio codice
+influenza anche la scrittura di altro codice che poi ne fa uso, e grazie al quale nel
+corso della creaizone ha aiutato a correggere diversi errori.
+In futuro per un nuovo progetto o per migliorare questo inizierei dal creare le interfacce
+che non ho sfruttato al meglio fin ora e di sicuro posso migliorare la gestione dei dati e con
+più conoscenza migliorare i controller per evitare una certa ridondanza e
+migliorare il riuso di codice.
+
 \subsection*{Davide Cellot}
 Per il progetto sono stato contattato da Francesco Ercolani e Giovanni di Santi, dato che ero alla ricerca di un gruppo di lavoro. Ho accettato subito la loro proposta perché mi sembrava un progetto diverso dal solito, non si trattava di un gioco ma di un gestionale e avevo molta curiosità di vedere come si sviluppava un simile tipo di progetto.\\
 
@@ -635,6 +661,21 @@ Mi prendo le mie responsabilità per il ritardo di consegna della mia parte, ma 
 parte dei problemi siano nati da situazioni che non dipendono da me o dagli altri componenti del gruppo.
 Tuttavia nel complesso reputo che il lavoro svolto sia comunque molto buono data 
 l'inesperienza progettuale e di linguaggio comune a tutti e 4.
+
+\subsection*{Massimiliano Conti}
+L'intenzione iniziale era di gestire meglio la mia parte nei primi mesi in cui con il gruppo
+abbiamo deciso le funzioni dell'applicativo. Abbiamo passato un discreto tempo sull'analisi,
+il che è stato utile per una buona divisione dei compiti. Ammetto che non essendo abituato ad
+una analisi approfondita mi ha rallentato un pò ma credo che in futuro sarà sempre più necessaria
+quindi dovro imparare a gestirla meglio. Ho iniziato ad implementare la mia parte ad inizio
+settembre prima con dei test in un project separato poi iniziando nel projet di gruppo.
+Nei mesi estivi non sono stato capace di allocare il giusto tempo libero che avevo nei momenti
+in cui ero a casa invece che sul posto di lavoro.
+Ho avuto un buon gruppo di lavoro vista la molta collaborazione e aiuto reciproco.
+So di avere una buona parte di colpa nel ritardo di consegna visto che se veniva effettutate
+prima di settembre il mio codice scritto comprendeva davvero poche righe.
+Di sicuro un lavoro di gruppo come questo ci avvicina leggermente a quelli che potrebbero
+essere i problemi nel mondo del lavoro e anche grazie a questo ho trovato bello eseguirlo.
 
 \subsection*{Davide Cellot}
 Ho incontrato alcune difficoltà nello sviluppo del progetto, dovute principalmente alla mancanza di esperienza. Ho sbagliato la programmazione del lavoro ritrovandomi all’ultimo con molto lavoro da svolgere. La vicinanza della deadline con la sessione di esami non ha certamente aiutato e il progetto si è dilungato nel tempo.
