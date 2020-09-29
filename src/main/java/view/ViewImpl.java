@@ -18,7 +18,6 @@ public class ViewImpl implements View {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
 
-            stage.setResizable(false);
             stage.setTitle("KeePassJ");
             stage.setScene(new Scene(root1));
             stage.show();

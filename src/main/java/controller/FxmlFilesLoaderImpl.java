@@ -50,7 +50,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Stage stage = new Stage();
 
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -74,7 +73,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
             final Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -90,7 +88,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
             final Parent root1 = (Parent) fxmlLoader.load();
             final Stage stage = new Stage();
 
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -108,7 +105,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
            final Stage stage = new Stage();
            stage.initStyle(StageStyle.UNDECORATED);
-           stage.setResizable(false);
            stage.setScene(new Scene(root1));
            stage.show();
 
@@ -138,7 +134,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
                 }
             });
             stage.setTitle("KeePassJ  -  " + db.getNomeDatabase());
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -162,7 +157,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
             final Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -185,7 +179,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
             final Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
         } catch (Exception e) {
@@ -209,7 +202,6 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
 
             final Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-            stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
 
