@@ -226,7 +226,9 @@ public class ManageMenuController implements Initializable {
 
     @FXML
     final void closeApp(final ActionEvent event) {
-        System.exit(0);
+        if (setter.showDialog("Are you sure you want to close the database?", AlertType.CONFIRMATION)) {
+            System.exit(0);
+        }
     }
 
 }

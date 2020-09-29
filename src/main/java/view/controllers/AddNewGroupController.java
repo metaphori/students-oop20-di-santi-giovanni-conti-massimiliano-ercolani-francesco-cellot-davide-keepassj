@@ -7,6 +7,7 @@ import controller.FxmlSetterImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import model.db.Database;
 import model.db.Group;
 
@@ -28,8 +29,10 @@ public class AddNewGroupController {
 
     @FXML
     final void cancel(final ActionEvent event) {
-        loader.getSceneEntry(db);
-        setter.getStage(event).close();
+        if (setter.showDialog("Are you sure you want to cancel? Data will be lost.", AlertType.CONFIRMATION)) {
+            loader.getSceneEntry(db);
+            setter.getStage(event).close();
+        }
     }
 
     @FXML

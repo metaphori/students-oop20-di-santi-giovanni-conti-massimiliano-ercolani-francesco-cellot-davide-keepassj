@@ -102,11 +102,13 @@ public class AddEntryController implements Initializable {
 
     @FXML
     final void cancel(final ActionEvent event) {
-        if (!(this.entry == null)) {
-            this.db.addEntry(this.entry);
+        if (setter.showDialog("Are you sure you want to cancel? Data will be lost.", AlertType.CONFIRMATION)) {
+            if (!(this.entry == null)) {
+                this.db.addEntry(this.entry);
+            }
+            loader.getSceneDb(db);
+            setter.getStage(event).close();
         }
-        loader.getSceneDb(db);
-        setter.getStage(event).close();
     }
 
     /**

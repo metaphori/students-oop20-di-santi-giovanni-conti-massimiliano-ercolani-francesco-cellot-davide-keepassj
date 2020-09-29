@@ -36,8 +36,10 @@ public class OpenDatabaseController {
     }
     @FXML
     final void cancel(final ActionEvent event) {
-        loader.getMainMenuScene();
-        setter.getStage(event).close();
+        if (setter.showDialog("Do you want to go back to the main menu?", AlertType.CONFIRMATION)) {
+            loader.getMainMenuScene();
+            setter.getStage(event).close();
+        }
     }
 
     @FXML
