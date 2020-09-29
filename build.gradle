@@ -60,7 +60,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = 'application.Main'
 
-version = '0.9'
+version = '1.0'
 
 manifest {
 	attributes 'Main-Class': 'application.Main'
