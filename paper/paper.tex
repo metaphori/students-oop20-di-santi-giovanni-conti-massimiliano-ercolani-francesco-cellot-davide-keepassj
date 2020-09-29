@@ -386,6 +386,15 @@ In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \text
 
 \\Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano anche l’inserimento di password e da tali ho preso ispirazione per la creazione del controllo di validità. Dopodiché mi sono concentrato sul calcolo della robustezza (strength) ovvero una misura di efficienza contro eventuali attacchi che una password può subire. Tanto questo numero è più alto, tanto è più sicura la password.\\
 
+\subsection*{PasswordStrength}
+\\\textbf{PasswordStrengthImpl} è la classe incaricata di calcolare la robustezza delle password tramite il metodo pubblico \textit{getStrength()}. Tale metodo l’ho impostato statico in modo tale da non dover creare ogni volta un’istanza della classe per invocarlo, evitando un procedimento reputato superfluo.\\
+
+\\Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.\\
+
+
+
+
+
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
