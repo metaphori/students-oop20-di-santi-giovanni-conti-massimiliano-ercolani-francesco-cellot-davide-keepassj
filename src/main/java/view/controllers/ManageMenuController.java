@@ -166,7 +166,7 @@ public class ManageMenuController implements Initializable {
 
     @FXML
     final void addGroup(final ActionEvent event) {
-        groupLoader.getSceneGroup(db);
+        groupLoader.getSceneGroup(db, true);
         setter.getStage(event).close();
     }
 

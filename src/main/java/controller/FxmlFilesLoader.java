@@ -48,8 +48,9 @@ public interface FxmlFilesLoader {
     /**
      * Get fxml file passing the db (for Group).
      * @param db
+     * @param goToManageMenu
      */
-    void getSceneGroup(Database db);
+    void getSceneGroup(Database db, Boolean goToManageMenu);
 
     /**
      * Get fxml file passing the db (for Entry).

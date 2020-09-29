@@ -20,6 +20,7 @@ public class AddNewGroupController {
     private final FxmlFilesLoader loader = new FxmlFilesLoaderImpl("/view/database/AddEntry.fxml");
     private final FxmlSetter setter = new FxmlSetterImpl();
     private Database db;
+    private Boolean goToManageMenu = true;
 
     @FXML
     private TextField groupName;
@@ -30,7 +31,11 @@ public class AddNewGroupController {
     @FXML
     final void cancel(final ActionEvent event) {
         if (setter.showDialog("Are you sure you want to cancel? Data will be lost.", AlertType.CONFIRMATION)) {
-            loader.getSceneEntry(db);
+            if (goToManageMenu) {
+                loader.getSceneDb(db);
+            } else {
+                loader.getSceneEntry(db);
+            }
             setter.getStage(event).close();
         }
     }
@@ -38,7 +43,11 @@ public class AddNewGroupController {
     @FXML
     final void confirmAdd(final ActionEvent event) {
         db.addGroup(new Group(groupName.getText(), groupDesc.getText()));
-        loader.getSceneEntry(db);
+        if (goToManageMenu) {
+            loader.getSceneDb(db);
+        } else {
+            loader.getSceneEntry(db);
+        }
         setter.getStage(event).close();
     }
 
@@ -48,5 +57,9 @@ public class AddNewGroupController {
      */
     public final void takeDatabase(final Database db) {
         this.db = db;
+    }
+
+    public final void setGoToManageMenu(final Boolean goToManageMenu) {
+        this.goToManageMenu = goToManageMenu;
     }
 }

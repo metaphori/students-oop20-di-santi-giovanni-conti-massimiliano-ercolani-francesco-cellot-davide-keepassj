@@ -67,7 +67,7 @@ public class AddEntryController implements Initializable {
 
     @FXML
     final void addNewGroup(final ActionEvent event) {
-        loader.getSceneGroup(db);
+        loader.getSceneGroup(db, false);
         setter.getStage(event).close();
     }
 

@@ -158,14 +158,16 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
     /**
      * getScene that open the view to add new Group to db.
      * @param db
+     * @param goToManageMenu
      */
     @Override
-    public void getSceneGroup(final Database db) {
+    public void getSceneGroup(final Database db, final Boolean goToManageMenu) {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/database/AddGroup.fxml"));
             final Parent root1 = (Parent) fxmlLoader.load();
             final AddNewGroupController controller = fxmlLoader.<AddNewGroupController>getController();
             controller.takeDatabase(db);
+            controller.setGoToManageMenu(goToManageMenu);
             final Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.show();
