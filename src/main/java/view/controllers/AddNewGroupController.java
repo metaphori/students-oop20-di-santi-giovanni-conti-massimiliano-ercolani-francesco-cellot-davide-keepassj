@@ -1,5 +1,7 @@
 package view.controllers;
 
+import javax.xml.bind.JAXBException;
+
 import controller.FxmlFilesLoader;
 import controller.FxmlFilesLoaderImpl;
 import controller.FxmlSetter;
@@ -43,6 +45,12 @@ public class AddNewGroupController {
     @FXML
     final void confirmAdd(final ActionEvent event) {
         db.addGroup(new Group(groupName.getText(), groupDesc.getText()));
+        try {
+            db.writeXml();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            setter.showDialog("wrong password or database corrupted, something wrong while encrypte xml", AlertType.ERROR);
+        }
         if (goToManageMenu) {
             loader.getSceneDb(db);
         } else {
