@@ -23,19 +23,34 @@ public class Group {
         this.setDescription(description);
     }
 
-
+    /**
+     * getter Name.
+     * @return name
+     */
     public final String getName() {
         return name;
     }
 
+    /**
+     * setter name.
+     * @param name
+     */
     public final void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * getter description.
+     * @return description
+     */
     public final String getDescription() {
         return description;
     }
 
+    /**
+     * setter description.
+     * @param description
+     */
     public final void setDescription(final String description) {
         this.description = description;
     }
