@@ -11,8 +11,6 @@ import javafx.stage.Stage;
  *
  */
 public class ViewImpl implements View {
-    private static final int STAGEXPOSITION = 500;
-    private static final int STAGEYPOSITION = 200;
 
     @Override
     public final void loadFirstScene(final Stage stage) {
@@ -21,8 +19,6 @@ public class ViewImpl implements View {
             Parent root1 = (Parent) fxmlLoader.load();
 
             stage.setResizable(false);
-            stage.setX(STAGEXPOSITION);
-            stage.setY(STAGEYPOSITION);
             stage.setTitle("KeePassJ");
             stage.setScene(new Scene(root1));
             stage.show();
