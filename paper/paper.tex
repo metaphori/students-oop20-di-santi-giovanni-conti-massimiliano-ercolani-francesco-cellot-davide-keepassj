@@ -398,13 +398,19 @@ In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \text
 \end{figure}
 
 \subsection*{GeneratePasswordRandom}
-Tale interfaccia viene implementata nella classe \textbf{GeneratePasswordRandomImpl} che crea un vettore di lunghezza prefissata e lo riempie in modo casuale con: lettere Maiuscole, lettere minuscole, numeri, caratteri speciali, specificati dal programmatore.
+Tale interfaccia viene implementata nella classe \textbf{GeneratePasswordRandomImpl} che crea un vettore di lunghezza prefissata e lo riempie in modo casuale con:
 \\Ciò avviene tramite l’uso della classe \textit{Random}.\\
 
 \\Tale vettore viene convertito in stringa e viene testata la sua validità. Infatti si è deciso che una password per essere valida deve avere almeno otto caratteri e deve contenere almeno un numero.\\
 
 \\Generata la password casuale, ci si appoggia alla classe \textbf{PasswordValidatorImpl} che tramite il suo metodo \textit{isValid()} ne testa la validità.
 Se la password risulta valida viene ritornata dal metodo \textbf{generatePassword()}, altrimenti viene rigenerata da zero.\\
+
+\begin{figure}[h]
+\centering{}
+\includegraphics[width=\textwidth]{password-generate}
+\caption{rappresentazione UML sezione Generate Random}
+\end{figure}
 
 
 \subsection*{AddEntryController}
