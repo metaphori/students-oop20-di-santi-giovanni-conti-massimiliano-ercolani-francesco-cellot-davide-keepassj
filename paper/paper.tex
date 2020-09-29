@@ -399,6 +399,12 @@ In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \text
 
 \subsection*{GeneratePasswordRandom}
 Tale interfaccia viene implementata nella classe \textbf{GeneratePasswordRandomImpl} che crea un vettore di lunghezza prefissata e lo riempie in modo casuale con:
+\begin{itemize}
+  \item Lettere Maiuscole.
+  \item Lettere minuscole.
+  \item Numeri
+  \item Caratteri speciali, specificati dal programmatore
+\end{itemize}
 \\Ciò avviene tramite l’uso della classe \textit{Random}.\\
 
 \\Tale vettore viene convertito in stringa e viene testata la sua validità. Infatti si è deciso che una password per essere valida deve avere almeno otto caratteri e deve contenere almeno un numero.\\
