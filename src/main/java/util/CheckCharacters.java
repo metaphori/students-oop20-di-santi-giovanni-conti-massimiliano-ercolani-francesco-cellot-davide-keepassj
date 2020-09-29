@@ -2,7 +2,11 @@ package util;
 
 public class CheckCharacters extends ConsecutiveCharacters {
 
-    /*Return the number of Uppercase letters*/
+    /**
+     * Return the number of Uppercase letters.
+     * @param password
+     * @return int
+     */
     public static int countUpper(final char[] password) {
         int count = 0;
 
@@ -14,7 +18,11 @@ public class CheckCharacters extends ConsecutiveCharacters {
         return count;
     }
 
-    /*Return the number of lowercase letters*/
+    /**
+     * Return the number of lowercase letters.
+     * @param password
+     * @return int
+     */
     public static int countLower(final char[] password) {
         int count = 0;
 
@@ -26,7 +34,11 @@ public class CheckCharacters extends ConsecutiveCharacters {
         return count;
     }
 
-    /*Return the number of digit*/
+    /**
+     * Return the number of digit.
+     * @param password
+     * @return int
+     */
     public static int countNumbers(final char[] password) {
         int count = 0;
 
@@ -38,7 +50,11 @@ public class CheckCharacters extends ConsecutiveCharacters {
         return count;
     }
 
-    /*Return the number of special characters*/
+    /**
+     * Return the number of special characters.
+     * @param password
+     * @return int
+     */
     public static int countSpecial(final char[] password) {
         int count = 0;
         String symbols = "!@#$%^&*_=+-/.?";

@@ -24,10 +24,10 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
      */
      public final String generatePassword() {
 
-        /*Generate different random password until find a valid one*/
+        //Generate different random password until find a valid one
         while (true) {
             psw = randomPassword(8);
-            /*Use isValid() function of the class: "PasswordValidatoImpl"*/
+            //Use isValid() function of the class: "PasswordValidatoImpl"
             if (isValid(psw)) {
                return psw;
             }
@@ -48,12 +48,12 @@ public class GeneratePasswordRandomImpl extends PasswordValidatorImpl implements
         String symbols = "!@#$%^&*_=+-/.?";
         String values = upperLetters + lowerLetters + numbers + symbols;
 
-        /*Insert randomly chosen character in the vector*/
+        //Insert randomly chosen character in the vector
         for (int i = 0; i < len; i++) {
             password[i] = values.charAt(random.nextInt(values.length()));
         }
 
-        /*Convert the char vector to string*/
+        //Convert the char vector to string
         String a = new String(password);
 
         return a;

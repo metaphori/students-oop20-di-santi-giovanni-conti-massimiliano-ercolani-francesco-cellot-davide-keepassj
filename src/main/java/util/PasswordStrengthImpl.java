@@ -4,6 +4,11 @@ public class PasswordStrengthImpl extends CheckCharacters {
 
 private static char[] password;
 
+    /**
+     * Method that return the strength of the password passed by param.
+     * @param p
+     * @return int
+     */
     public static int getStrength(final String p) {
         password = p.toCharArray();
 
