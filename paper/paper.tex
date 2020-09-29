@@ -318,15 +318,20 @@ La classe \textbf{Main.java}, situata all'interno del package \textbf{applicatio
 \section*{Massimiliano Conti}
 
 Il mio compito invece è stato di creare e gestire il \textbf{database} e gli elementi contenuti in esso,
-tra cui \textbf{Entry} e \textbf{Group} (package \textbf{model.db}), e di convertire il database stesso in un file di tipo XML (package \textbf{model.export}).\\
-Per progettare questa parte non ho usato interfacce perchè non erano utili ai fini dell'applicazione implementazioni aggiuntive.\\
+tra cui \textbf{Entry} e \textbf{Group} (package \textbf{model.db}), e di convertire il database stesso
+in un file di tipo XML (package \textbf{model.export}).
+Per progettare questa parte non ho usato interfacce perchè non erano utili ai fini dell'applicazione
+implementazioni aggiuntive.
 In fine ho gestito i \textbf{Controllers} relativi alla visualizzazione del database e relativa
 creazione di Entry e Group presenti nel package \textbf{view.controllers}.
 
 \subsection*{Database}
 
-\textbf{Database} è la classe che si occupa di gestire e mantenere i dati inseriti inseriti dall'utente. Contiene i metodi necessari per l'uso e la modifica degli \texttt{ArrayList} usati con relativa creazione ed eliminazione degli oggetti.\\
-Oltre a contenere un oggetto String per il mantenimento del nome assegnato e un oggetto KDB (creato da Giovanni).\\
+\textbf{Database} è la classe che si occupa di gestire e mantenere i dati inseriti inseriti dall'utente.
+Contiene i metodi necessari per l'uso e la modifica degli \texttt{ArrayList} usati con relativa creazione
+ed eliminazione degli oggetti.
+Oltre a contenere un oggetto String per il mantenimento del nome assegnato e un oggetto KDB (creato da
+Giovanni).
 
 Gli oggeti gestiti dalla classe Database sono:
 \begin{itemize}
@@ -334,19 +339,28 @@ Gli oggeti gestiti dalla classe Database sono:
   \item Group
 \end{itemize}
 
-\textbf{Entry} è la classe su cui si basa il Database perchè con i sui campi nomeAccount, username, password, groupName, url e note mantiene ogni dato che l'utente inserisce riguardo l'account che sta salvando sull'applicazione.\\
+\textbf{Entry} è la classe su cui si basa il Database perchè con i sui campi nomeAccount, username,
+password, groupName, url e note mantiene ogni dato che l'utente inserisce riguardo l'account che sta
+salvando sull'applicazione.\\
 
-\textbf{Group} è la classe adibita alle categorie che l'utente crea o può creare. Ho creato una classe apposita per una più corretta gestione in modo da poter attribuire un nome e anche una descrizione oltre che impedire all'utente nel momento di creazione di una Entry l'inserimento di un nome sbagliato fornendo la lista già presente o la possibilità di creare un nuovo Group. 
-\clearpage
+\textbf{Group} è la classe adibita alle categorie che l'utente crea o può creare. Ho creato una classe
+apposita per una più corretta gestione in modo da poter attribuire un nome e anche una descrizione oltre
+che impedire all'utente nel momento di creazione di una Entry l'inserimento di un nome sbagliato fornendo
+la lista già presente o la possibilità di creare un nuovo Group.
+
+
 \begin{figure}[h]
 \centering{}
 \includegraphics[width=\textwidth]{DatabaseUml}
 \caption{rappresentazione UML del Database con Entry e Group}
 \end{figure}
+\clearpage
 
 \subsection*{ConvertXML}
 
-\textbf{ConvertXML} fa uso della libreria JAXB, architettura per mappare Java objects e documenti XML (\href{https://javaee.github.io/jaxb-v2/}{link to project homepage}.). Questa classe viene usata da due metodi della classe Database, tramite cui creare o recupera dati da un domumento XML.\\
+\textbf{ConvertXML} fa uso della libreria JAXB, architettura per mappare Java objects e documenti XML
+(\href{https://javaee.github.io/jaxb-v2/}{link to project homepage}.). Questa classe viene usata da due
+metodi della classe Database, tramite cui creare o recupera dati da un domumento XML.\\
 
 Il funzionamento si basa su due metodi \textit{static}:
 \begin{itemize}
@@ -354,21 +368,31 @@ Il funzionamento si basa su due metodi \textit{static}:
   \item fromXml
 \end{itemize}
 
-\textbf{toXml} prende come parametri di input una istanza di Database e con l'uso degli oggetti \texttt{JAXBContext} e \texttt{Marshaller} restituisce in ouput una String contenente un documento XML propriamente riempito con Entries, Groups e il nome del Database.\\
+\textbf{toXml} prende come parametri di input una istanza di Database e con l'uso degli oggetti
+\texttt{JAXBContext} e \texttt{Marshaller} restituisce in ouput una String contenente un documento
+XML propriamente riempito con Entries, Groups e il nome del Database.\\
 
-\textbf{fromXml} invece come paramentro di input prende un documento XML contenuto in una String e tramite gli oggetti \texttt{JAXBContext} e \texttt{Unmarshaller} lo converte e crea una nuova istanza della classe Database e la restituisce in output per riempire l'oggetto che ha chiamato la conversione.\\
+\textbf{fromXml} invece come paramentro di input prende un documento XML contenuto in una String
+e tramite gli oggetti \texttt{JAXBContext} e \texttt{Unmarshaller} lo converte e crea una nuova
+istanza della classe Database e la restituisce in output per riempire l'oggetto che ha chiamato
+la conversione.\\
 
-La classe ha poi un metodo privato \textbf{getTempFile} a cui il metodo fromXml fa appoggio per la creazione di un file usato dall'oggetto Unmarshaller, ma con il vantaggio di non scriverlo fisicamente su disco.\\
-\clearpage
+La classe ha poi un metodo privato \textbf{getTempFile} a cui il metodo fromXml fa appoggio per
+la creazione di un file usato dall'oggetto Unmarshaller, ma con il vantaggio di non scriverlo
+fisicamente su disco.\\
+
 \begin{figure}[h]
 \centering{}
-\includegraphics[width=\textwidth]{ConvertXmlUml}
+\includegraphics[scale=0.7]{ConvertXmlUml}
 \caption{rappresentazione UML di ConvertXml}
 \end{figure}
+\clearpage
 
 \subsection*{Controllers}
 
-Mi sono poi occupato di gestire i \textbf{controller} che si occupano di inserire Entry e Group dentro la classe Database e visualizzare i dati.\\
+Mi sono poi occupato di gestire i \textbf{controller} che si occupano di inserire Entry e Group
+dentro la classe Database e visualizzare i dati.\\
+
 Tra cui:
 \begin{itemize}
   \item AddEntryController
@@ -376,9 +400,14 @@ Tra cui:
   \item ManageMenuController
 \end{itemize}
 
-In \textbf{AddEntryController} in particolare ho riempito la ComboBox relativa ai Groups (inseriti tramite \textbf{AddNewGroupController}) e controllato se i campi necessari come Title, username e password non sono vuoti prima di creare una nuova Entry che poi viene inserita nella list dentro Database e poi salvato il file aggiornato.\\(inserimento e controllo della password sono parte di Davide).\\
+In \textbf{AddEntryController} in particolare ho riempito la ComboBox relativa ai Groups (inseriti
+tramite \textbf{AddNewGroupController}) e controllato se i campi necessari come Title, username e
+password non sono vuoti prima di creare una nuova Entry che poi viene inserita nella list dentro Database
+e poi salvato il file aggiornato.\\(inserimento e controllo della password sono parte di Davide).\\
 
-In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \textit{TableView} in cui mostro la lista di Entry e la lista di Group.\\Tramite i bottoni è poi possibile eliminare l'Entry selezionata nella tabella e accedere poi alle view di AddEntry e AddGroup.
+In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \textit{TableView} in cui
+mostro la lista di Entry e la lista di Group.\\Tramite i bottoni è poi possibile eliminare l'Entry
+selezionata nella tabella e accedere poi alle view di AddEntry e AddGroup.
 
 
 \section*{Davide Cellot}
