@@ -400,8 +400,18 @@ Tale interfaccia viene implementata nella classe \textbf{GeneratePasswordRandomI
 
 \\Generata la password casuale, ci si appoggia alla classe \textbf{PasswordValidatorImpl} che tramite il suo metodo \textit{isValid()} ne testa la validità.
 Se la password risulta valida viene ritornata dal metodo \textbf{generatePassword()}, altrimenti viene rigenerata da zero.\\
-\end{itemize}
 
+
+\subsection*{AddEntryController}
+\\Per ultimo mi sono occupato della GUI riferente all’aggiunta della “Entry” inserendo una \textit{ProgressBar} per visualizzare la robustezza della password immessa, ho fatto in modo che tale barra si settasse in automatico all’inserimento di una nuova password. Per settare la \textit{ProgressBar} viene richiamata la funzione \textbf{PasswordStrengthImpl}.
+
+Ho inserito poi un bottone con una semplice \textit{label} associata per vedere la password in chiaro.\\
+
+\\Successivamente mi sono concentrato sulla generazione random, inserendo un bottone che se premuto riempie in automatico la \textit{passwordField} con una password causale, richiamando la funzione precedentemente descritta (\textbf{GeneratePasswordRandom}).
+
+Ho gestito tutte le azioni nel controller nel pieno rispetto del pattern MVC.\\
+
+\\Per ultimo ho impostato dei controlli suppletivi sulla password, ovvero una volta premuto il pulsante per creare la Entry, viene controllato se la password immessa è corretta (controllo effettuato richiamando \textbf{PasswordValidator}), in caso positivo viene creata la “Entry”, altrimenti appare un \textit{AlertDialog} con le istruzioni necessarie per inserire una password corretta.\\
 
 
 \chapter{Sviluppo}
