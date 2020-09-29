@@ -482,7 +482,35 @@ esegue la build del progetto e lancia i vari test.
 
 \section{Metodologia di lavoro}
 
-TODO.
+Nel complesso, le parti inizialmente concordate sono state rispettate ma con qualche modifica rispetto agli assegnamenti iniziali. 
+La "\textbf{gestione import/export dei dati su database locale}" inizialmente assegnata a Davide Cellot, 
+è stata svolta da Massimiliano Conti che, in un primo momento, aveva la "\textbf{gestione generazione password random e 
+controllo robustezza password tramite apposita GUI}", parte svolta appunto da Davide. La "\textbf{gestione suddivisione 
+account per categoria}" assegnata a Francesco Ercolani, è stata assegnata a Massimiliano Conti per motivi equità delle parti. 
+La "\textbf{gestione sezione Statistics}" non è stata implementata per valutazioni successive effettuate sulla base della sua complessità di implementazione. 
+Per la comunicazione tra i componenti del gruppo sono stati utilizzati: un gruppo \textbf{Telegram} 
+e un canale \textbf{Discord} per riunioni a voce con eventuale condivisioni di schermo.\\
+Dopo questi chiarimenti, elenchiamo le parti definitive di ciascun membro del gruppo:
+\begin{itemize}
+    \item \texttt{Giovanni Di santi}: gestione aspetti crittografici che riguardano l'encryption/decryption
+ del database e gestione dei parametri disponibili per eseguire la cifratura.
+    \item \texttt{Francesco Ercolani}: gestione degli aspetti grafici dell'applicazione con creazione dei 
+rispettivi file FXML e dei relativi controller. Gestione della logica dei controller legati alla fase di creazione del database e della prima schermata di apertura dello stesso.
+    \item \texttt{Massimiliano Conti}: gestione del Database \textbf{in chiaro} e della sua conversione in documento Xml. 
+Implementazione dei controller per aggiunta ed eliminazione Entry, Group e del Menu di visualizzazione.
+    \item \textttt{Davide Cellot}: gestione generazione casuale password in fase di inserimento di una nuova 
+Entry con controllo sulla sua robustezza e la relativa implementazione grafica e logica nel rispettivo controller.
+\end{itemize}
+Durante la fase di sviluppo ci sono stati momenti in cui più elementi del gruppo hanno lavorato su file comuni, 
+in particolare su: \textbf{ManageMenu.fxml}, \textbf{AddEntry.fxml}, \textbf{AddGroup.fxml}, e suoi relativi controllers \textbf{ManageMenuController.java}, \textbf{AddEntryController.fxml} e \textbf{AddNewGroupController.fxml}. Si è lavorato in comune inoltre sul file \textbf{FxmlFilesLoaderImpl.java} del package \textbf{controller}.\\\\
+Durante la fase di sviluppo è stato utilizzato \textit{Distributed version control systems (DVCS)} \textbf{Git}. 
+Ciascun del gruppo ha clonato la repository remota precedentemente creata su BitBucket in modo da poter lavorare 
+autonomamente in locale. È stato impostato da tutti il comando \textttt{git config --global pull.rebase true} 
+in modo che ad ogni \textttt{pull} venisse effettuato il \textttt{rebase} in automatico.
+Sono stati creati due branch principali: \textbf{develop} e \textbf{main}. L'applicazione è stata sviluppata
+ interamente sul primo, mentre sul secondo è stato fatto il merge finale. 
+In fase di terminazione è stato creato anche il branch \textbf{paper} riguardante la stesura della relazione finale.
+
 
 \section{Note di sviluppo}
 
