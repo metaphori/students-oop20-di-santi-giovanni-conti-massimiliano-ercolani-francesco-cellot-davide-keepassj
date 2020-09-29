@@ -137,6 +137,7 @@ public class FxmlFilesLoaderImpl implements FxmlFilesLoader {
                     }
                 }
             });
+            stage.setTitle("KeePassJ  -  " + db.getNomeDatabase());
             stage.setResizable(false);
             stage.setScene(new Scene(root1));
             stage.show();
