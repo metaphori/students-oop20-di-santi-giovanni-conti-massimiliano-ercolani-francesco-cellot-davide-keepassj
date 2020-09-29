@@ -382,14 +382,15 @@ In \textbf{ManageMenuController} ho creato e riempito le colonne dentro la \text
 
 
 \section*{Davide Cellot}
-\\Il mio compito principale nella realizzazione del progetto è stato quello di gestire la parte legata alle password. Dato che il progetto si basa sul salvataggio di password in database e la loro crittazione, è abbastanza importante gestire in modo ottimale tali password.\\
+Il mio compito principale nella realizzazione del progetto è stato quello di gestire la parte legata alle password. Dato che il progetto si basa sul salvataggio di password in database e la loro crittazione, è abbastanza importante gestire in modo ottimale tali password.\\
 
-\\Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano anche l’inserimento di password e da tali ho preso ispirazione per la creazione del controllo di validità. Dopodiché mi sono concentrato sul calcolo della robustezza (strength) ovvero una misura di efficienza contro eventuali attacchi che una password può subire. Tanto questo numero è più alto, tanto è più sicura la password.\\
+Per prima cosa ho cercato su internet vari siti e applicazioni che inglobavano anche l’inserimento di password e da tali ho preso ispirazione per la creazione del controllo di validità. Dopodiché mi sono concentrato sul calcolo della robustezza (strength) ovvero una misura di efficienza contro eventuali attacchi che una password può subire. Tanto questo numero è più alto, tanto è più sicura la password.\\
 
 \subsection*{PasswordStrength}
-\\\textbf{PasswordStrengthImpl} è la classe incaricata di calcolare la robustezza delle password tramite il metodo pubblico \textit{getStrength()}. Tale metodo l’ho impostato statico in modo tale da non dover creare ogni volta un’istanza della classe per invocarlo, evitando un procedimento reputato superfluo.\\
 
-\\Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.\\
+\textbf{PasswordStrengthImpl} è la classe incaricata di calcolare la robustezza delle password tramite il metodo pubblico \textit{getStrength()}. Tale metodo l’ho impostato statico in modo tale da non dover creare ogni volta un’istanza della classe per invocarlo, evitando un procedimento reputato superfluo.\\
+
+Inoltre per analizzare il vettore di caratteri nel quale è salvata la password presa in esame, ho utilizzato altre due classi: \textbf{CheckCharacters} e \textbf{ConsecutiveCharacters}. Il motivo è puramente pratico in quanto queste due classi le avevo già implementate per un progetto extrauniversitario e riutilizzando lo stesso codice, con minime modifiche, ho potuto risparmiare tempo.\\
 
 \begin{figure}[h]
 \centering{}
@@ -405,11 +406,11 @@ Tale interfaccia viene implementata nella classe \textbf{GeneratePasswordRandomI
   \item Numeri
   \item Caratteri speciali, specificati dal programmatore
 \end{itemize}
-\\Ciò avviene tramite l’uso della classe \textit{Random}.\\
+Ciò avviene tramite l’uso della classe \textit{Random}.\\
 
-\\Tale vettore viene convertito in stringa e viene testata la sua validità. Infatti si è deciso che una password per essere valida deve avere almeno otto caratteri e deve contenere almeno un numero.\\
+Tale vettore viene convertito in stringa e viene testata la sua validità. Infatti si è deciso che una password per essere valida deve avere almeno otto caratteri e deve contenere almeno un numero.\\
 
-\\Generata la password casuale, ci si appoggia alla classe \textbf{PasswordValidatorImpl} che tramite il suo metodo \textit{isValid()} ne testa la validità.
+Generata la password casuale, ci si appoggia alla classe \textbf{PasswordValidatorImpl} che tramite il suo metodo \textit{isValid()} ne testa la validità.
 Se la password risulta valida viene ritornata dal metodo \textbf{generatePassword()}, altrimenti viene rigenerata da zero.\\
 
 \begin{figure}[h]
@@ -418,17 +419,16 @@ Se la password risulta valida viene ritornata dal metodo \textbf{generatePasswor
 \caption{rappresentazione UML sezione Generate Random}
 \end{figure}
 
-
 \subsection*{AddEntryController}
-\\Per ultimo mi sono occupato della GUI riferente all’aggiunta della “Entry” inserendo una \textit{ProgressBar} per visualizzare la robustezza della password immessa, ho fatto in modo che tale barra si settasse in automatico all’inserimento di una nuova password. Per settare la \textit{ProgressBar} viene richiamata la funzione \textbf{PasswordStrengthImpl}.
+Infine mi sono occupato della GUI riferente all’aggiunta della “Entry” inserendo una \textit{ProgressBar} per visualizzare la robustezza della password immessa, ho fatto in modo che tale barra si settasse in automatico all’inserimento di una nuova password. Per settare la \textit{ProgressBar} viene richiamata la funzione \textbf{PasswordStrengthImpl}.
 
 Ho inserito poi un bottone con una semplice \textit{label} associata per vedere la password in chiaro.\\
 
-\\Successivamente mi sono concentrato sulla generazione random, inserendo un bottone che se premuto riempie in automatico la \textit{passwordField} con una password causale, richiamando la funzione precedentemente descritta (\textbf{GeneratePasswordRandom}).
+Successivamente mi sono concentrato sulla generazione random, inserendo un bottone che se premuto riempie in automatico la \textit{passwordField} con una password causale, richiamando la funzione precedentemente descritta (\textbf{GeneratePasswordRandom}).
 
 Ho gestito tutte le azioni nel controller nel pieno rispetto del pattern MVC.\\
 
-\\Per ultimo ho impostato dei controlli suppletivi sulla password, ovvero una volta premuto il pulsante per creare la Entry, viene controllato se la password immessa è corretta (controllo effettuato richiamando \textbf{PasswordValidator}), in caso positivo viene creata la “Entry”, altrimenti appare un \textit{AlertDialog} con le istruzioni necessarie per inserire una password corretta.\\
+Per ultimo ho impostato dei controlli suppletivi sulla password, ovvero una volta premuto il pulsante per creare la Entry, viene controllato se la password immessa è corretta (controllo effettuato richiamando \textbf{PasswordValidator}), in caso positivo viene creata la “Entry”, altrimenti appare un \textit{AlertDialog} con le istruzioni necessarie per inserire una password corretta.\\
 
 
 \chapter{Sviluppo}
@@ -598,4 +598,5 @@ Completare con la Guida Utente.
 \bibliography{paper}
 
 \end{document}
+
 
