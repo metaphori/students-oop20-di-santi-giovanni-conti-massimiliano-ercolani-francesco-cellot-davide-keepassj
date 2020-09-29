@@ -42,6 +42,3 @@ Suddivisione del lavoro (non definitiva):
 *    Giovanni Di Santi: gestione della parte crittografica
 *    Davide Cellot: gestione sezione Statistics; gestione import/export dei dati su database locale
 *    Massimiliano Conti: gestione generazione password random e controllo robustezza password tramite apposita GUI
-
-test_master
-test
